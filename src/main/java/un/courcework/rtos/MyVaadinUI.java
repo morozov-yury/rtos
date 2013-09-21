@@ -11,8 +11,7 @@ import com.vaadin.ui.VerticalLayout;
  * The Application's "main" class
  */
 @SuppressWarnings("serial")
-public class MyVaadinUI extends UI
-{
+public class MyVaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
@@ -23,7 +22,7 @@ public class MyVaadinUI extends UI
         Button button = new Button("Click Me");
         button.addClickListener(new Button.ClickListener() {
             public void buttonClick(ClickEvent event) {
-                layout.addComponent(new Label("Thank you for clicking"));
+                layout.addComponent(new Label("Thanks"));
             }
         });
         layout.addComponent(button);
