@@ -11,6 +11,9 @@
     <target name="fast-deploy" depends="clear-target-folder">
         <delete dir="${tomcat-server-home}/webapps/${war-name}"/>
         <exec executable="mvn.bat">
+            <arg line="jrebel:generate"/>
+        </exec>
+        <exec executable="mvn.bat">
             <arg line="-f ${project-dir}/pom.xml compile war:exploded"/>
         </exec>
     </target>

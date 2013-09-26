@@ -76,6 +76,11 @@
             <version>${vaadin.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.vaadin.addon</groupId>
+            <artifactId>vaadin-charts</artifactId>
+            <version>1.1.2</version>
+        </dependency>
     </dependencies>
 
 	<build>
@@ -110,6 +115,19 @@
                         </archive> -->
                     <webappDirectory>${tomcat-webapp-dir}</webappDirectory>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.zeroturnaround</groupId>
+                <artifactId>jrebel-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-rebel-xml</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 			<plugin>
 				<groupId>com.vaadin</groupId>
