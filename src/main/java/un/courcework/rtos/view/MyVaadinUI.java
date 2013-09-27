@@ -1,4 +1,4 @@
-package un.courcework.rtos;
+package un.courcework.rtos.view;
 
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
