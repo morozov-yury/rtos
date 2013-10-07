@@ -12,6 +12,15 @@ import com.vaadin.ui.VerticalLayout;
  */
 public class LabOne extends VerticalLayout {
 
+    public static Double deltaFPercent = 5.0;
+    public static Double deltaFMax = 100.0;
+    public static Double deltaFMin = 0.01;
+
+    private Double fMax;
+    private Double vMax;
+    private Double deltaTSampling;
+    private Double deltaTFperiod;
+
     public LabOne() {
         addComponent(getContent());
     }
@@ -22,5 +31,9 @@ public class LabOne extends VerticalLayout {
 
 
         return contentLayout;
+    }
+
+    private void doStepOne () {
+
     }
 }
