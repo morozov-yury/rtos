@@ -1,78 +1,39 @@
 package un.courcework.rtos.view;
 
-import com.vaadin.addon.charts.Chart;
-import com.vaadin.addon.charts.model.*;
+import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import un.courcework.rtos.view.component.layout.ContentLayout;
 
 /**
  * The Application's "main" class
  */
 @SuppressWarnings("serial")
+//@Theme("rtosTheme")
+//@Push
 public class MyVaadinUI extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        final VerticalLayout layout = new VerticalLayout();
-        layout.setMargin(true);
-        setContent(layout);
-        Button button = new Button("Click Me");
-        button.addClickListener(new Button.ClickListener() {
-            public void buttonClick(ClickEvent event) {
+        GridLayout mainLayout = new GridLayout(3, 1);
+        mainLayout.setSizeFull();
 
-            }
-        });
-        layout.addComponent(button);
+        mainLayout.addComponent(new VerticalLayout(), 0, 0);
+        mainLayout.addComponent(new ContentLayout(), 1, 0);
+        mainLayout.addComponent(new VerticalLayout(), 2, 0);
 
-        Chart chart = new Chart(ChartType.SPLINE);
-        chart.setWidth("100%");
-        chart.setHeight("300px");
-        // Modify the default configuration a bit
-        Configuration conf = chart.getConfiguration();
-        conf.setTitle("cos(2t+1)");
-        // The data
-
-        DataSeries series = new DataSeries();
-        series.setName("cos(2t+1)");
-        for (double i = 0; i < 50; i += 0.1) {
-            series.add(new DataSeriesItem(i, Math.cos(i * 2 + 1)));
-        }
+        mainLayout.setColumnExpandRatio(0, 1);
+        mainLayout.setColumnExpandRatio(1, 0);
+        mainLayout.setColumnExpandRatio(2, 1);
 
 
-// Modify the color of one point
-        //series.get(1960).getMarker().setFillColor(SolidColor.RED);
-        conf.addSeries(series);
+        setContent(mainLayout);
 
-
-        XAxis xaxis;
-        xaxis = new XAxis();
-        xaxis.setTitle("t");
-        conf.addxAxis(xaxis);
-        // Set the Y axis title
-        YAxis yaxis = new YAxis();
-        yaxis.setTitle("x");
-        conf.addyAxis(yaxis);
-
-
-        //conf.getTooltip().setEnabled(false);
-        conf.getLegend().setEnabled(false);
-
-        PlotOptionsSpline plotOptions = new PlotOptionsSpline();
-        plotOptions.setMarker(new Marker(false));
-
-        plotOptions.setAnimation(false);
-        plotOptions.setEnableMouseTracking(true);
-
-
-
-        plotOptions.setLineWidth(1);
-        conf.setPlotOptions(plotOptions);
-
-        layout.addComponent(chart);
-
+//        getPushConfiguration().setPushMode(PushMode.AUTOMATIC);
+//        setPollInterval(1000);
     }
 
 }
