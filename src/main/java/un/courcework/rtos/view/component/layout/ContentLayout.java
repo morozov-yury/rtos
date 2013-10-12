@@ -2,7 +2,9 @@ package un.courcework.rtos.view.component.layout;
 
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.server.Sizeable;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+import un.courcework.rtos.view.component.LabOne;
 import un.courcework.rtos.view.component.chart.FunctionChart;
 
 /**
@@ -20,6 +22,7 @@ public class ContentLayout extends VerticalLayout {
 
         Chart chart = new FunctionChart();
         addComponent(chart);
+        addComponent(new LabOne());
     }
 }
 
