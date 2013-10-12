@@ -3,7 +3,9 @@ package un.courcework.rtos.view.component.layout;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import un.courcework.rtos.view.MyVaadinUI;
 import un.courcework.rtos.view.component.LabOne;
 import un.courcework.rtos.view.component.chart.FunctionChart;
 
@@ -20,9 +22,9 @@ public class ContentLayout extends VerticalLayout {
         setMargin(true);
         setWidth(1000, Sizeable.Unit.PIXELS);
 
-        Chart chart = new FunctionChart();
+        Chart chart = new FunctionChart(MyVaadinUI.getCurrent().getMathFunction());
         addComponent(chart);
-        addComponent(new LabOne());
+        addComponent(new LabOne(MyVaadinUI.getCurrent().getMathFunction()));
     }
 }
 

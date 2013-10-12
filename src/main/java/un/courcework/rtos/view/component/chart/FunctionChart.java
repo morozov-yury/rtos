@@ -2,6 +2,7 @@ package un.courcework.rtos.view.component.chart;
 
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
+import un.courcework.rtos.model.MathFunction;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,8 +13,13 @@ import com.vaadin.addon.charts.model.*;
  */
 public class FunctionChart extends Chart {
 
-    public FunctionChart() {
+    private MathFunction mathFunction;
+
+    public FunctionChart(MathFunction mathFunction) {
         super(ChartType.SPLINE);
+
+        this.mathFunction = mathFunction;
+
         setWidth("100%");
         setHeight("300px");
         // Modify the default configuration a bit
@@ -24,7 +30,7 @@ public class FunctionChart extends Chart {
         DataSeries series = new DataSeries();
         series.setName("cos(2t+1)");
         for (double i = 0; i < 50; i += 0.1) {
-            series.add(new DataSeriesItem(i, Math.cos(i * 2 + 1)));
+            series.add(new DataSeriesItem(i, mathFunction.getValue(i)));
         }
 
         conf.addSeries(series);
