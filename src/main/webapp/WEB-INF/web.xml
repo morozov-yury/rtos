@@ -16,14 +16,46 @@
             <param-name>UI</param-name>
             <param-value>un.courcework.rtos.view.MyVaadinUI</param-value>
         </init-param>
-                <init-param>
+        <init-param>
             <description>Application widgetset</description>
             <param-name>widgetset</param-name>
             <param-value>un.courcework.rtos.AppWidgetSet</param-value>
         </init-param>
     </servlet>
+    <servlet>
+        <servlet-name>VaadinApplicationServlet</servlet-name>
+        <servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VaadinApplicationServlet</servlet-name>
+        <servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VaadinApplicationServlet</servlet-name>
+        <servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>VaadinApplicationServlet</servlet-name>
+        <servlet-class>com.vaadin.terminal.gwt.server.ApplicationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Vaadin Application Servlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VaadinApplicationServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VaadinApplicationServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VaadinApplicationServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VaadinApplicationServlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 </web-app>

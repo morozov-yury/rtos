@@ -1,6 +1,7 @@
 package un.courcework.rtos.view.component;
 
 import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 import un.courcework.rtos.model.MathFunction;
@@ -36,33 +37,50 @@ public class LabOne extends VerticalLayout {
 
     private Component getContent () {
         VerticalLayout contentLayout = new VerticalLayout();
-        doStepOne();
+        contentLayout.addComponent(getMaxMathFunctionValueLayout(this.mathFunction));
         return contentLayout;
     }
 
-    private void doStepOne () {
+    private Component getMaxMathFunctionValueLayout(MathFunction mathFunction) {
+
+        VerticalLayout content = new VerticalLayout();
+        content.setSpacing(true);
+
         Double tStart = 0.0;
-        Double[] f = new Double[] {0.0, 0.0, 0.0};
-        Double[] t = new Double[] {0.0, 0.0, 0.0};
+        MathFunctionValue[] f = new MathFunctionValue[3];
         Double tStep = LabOne.tMax / 10;
-        System.out.println("---------------------------------------------------");
+
+        HorizontalLayout  tMinTMaxLayout = new HorizontalLayout();
+        tMinTMaxLayout.setSpacing(true);
+        tMinTMaxLayout.addComponent(new Label("tMin = " + tStart + ";"));
+        tMinTMaxLayout.addComponent(new Label("tMax = " + LabOne.tMax + ";"));
+
+        HorizontalLayout tablesLayout = new HorizontalLayout();
+
         for (int k = 0; k < 3; k++) {
-            for(Double i = tStart; i < LabOne.tMax; i += tStep / (k + 1)) {
-                if (f[k] < this.mathFunction.getValue(i)) {
-                    f[k] =  this.mathFunction.getValue(i);
-                    t[k] = i;
-                }
-            }
+            f[k] = getMaxFunctionOnPeriod(mathFunction, tStart, LabOne.tMax, tStep / (k + 1));
         }
-        System.out.println("f = [" + f[0] + ", " + f[1] + ", " + f[2] + "]");
-        System.out.println("t = [" + t[0] + ", " + t[1] + ", " + t[2] + "]");
+        //System.out.println("f = [" + f[0].getF() + ", " + f[1].getF() + ", " + f[2].getF() + "]");
+        //System.out.println("t = [" + f[0].getT() + ", " + f[1].getT() + ", " + f[2].getT() + "]");
+        if (Math.abs(f[0].getF() - f[1].getF()) < LabOne.deltaFMin) {
+            //System.out.println("Math.abs(f[0].getF() - f[1].getF()) = " + Math.abs(f[0].getF() - f[1].getF()));
+            //return  f[0];
+        } else if (Math.abs(f[1].getF() - f[2].getF()) < LabOne.deltaFMin) {
+            //System.out.println("Math.abs(f[1].getF() - f[2].getF()) = " + Math.abs(f[1].getF() - f[2].getF()));
+            //return  f[1];
+        } else {
+            //return getMaxFunctionOnPeriod(mathFunction, tStart, LabOne.tMax, tStep / 5);
+        }
+
+        content.addComponent(tMinTMaxLayout);
+        return content;
     }
 
-    private MathFunctionValue getMaxFunctionOnPeriod (Double tStart, Double tMax, Double tStep) {
+    private MathFunctionValue getMaxFunctionOnPeriod (MathFunction mathFunction, Double tStart, Double tMax, Double tStep) {
         MathFunctionValue mathFunctionValue = new MathFunctionValue(0.0, 0.0);
         for(Double i = tStart; i < tMax; i += tStep) {
-            if (mathFunctionValue.getF() < this.mathFunction.getValue(i)) {
-                mathFunctionValue.setF(this.mathFunction.getValue(i));
+            if (mathFunctionValue.getF() < mathFunction.getValue(i)) {
+                mathFunctionValue.setF(mathFunction.getValue(i));
                 mathFunctionValue.setT(i);
             }
         }
