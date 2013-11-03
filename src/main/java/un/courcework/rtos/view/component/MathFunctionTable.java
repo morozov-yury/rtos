@@ -21,7 +21,6 @@ public class MathFunctionTable extends Table {
         setCaption("Step = " + Utils.round(tStep, 3) );
         setWidth(200, Unit.PIXELS);
         setSelectable(true);
-        setImmediate(true);
 
         addContainerProperty("t", Double.class, 0.0);
         addContainerProperty("f(t)", Double.class, 0.0);

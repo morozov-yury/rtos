@@ -1,11 +1,19 @@
 package un.courcework.rtos.view.component.layout;
 
 import com.vaadin.addon.charts.Chart;
+import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
+import un.courcework.rtos.core.Utils;
 import un.courcework.rtos.view.MyVaadinUI;
 import un.courcework.rtos.view.component.LabOne;
 import un.courcework.rtos.view.component.chart.FunctionChart;
+import un.courcework.rtos.view.component.chart.TaskChart;
+
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,33 +24,60 @@ import un.courcework.rtos.view.component.chart.FunctionChart;
  */
 public class ContentLayout extends HorizontalLayout {
 
+    private TaskChart taskChart1;
+    private TaskChart taskChart2;
+    private TaskChart taskChart3;
+    private FunctionChart functionChart;
+    private int count = 0;
+    final Label timeLebel;
+
     public ContentLayout() {
         setMargin(true);
-        setWidth(1200, Sizeable.Unit.PIXELS);
+        setWidth(Page.getCurrent().getBrowserWindowWidth(), Sizeable.Unit.PIXELS);
         setSpacing(true);
 
         VerticalLayout leftContentLayout = new VerticalLayout();
-        leftContentLayout.setSpacing(true);
-
         VerticalLayout rightContentLayout = new VerticalLayout();
         rightContentLayout.setSpacing(true);
 
-        Chart chartOne = new FunctionChart(MyVaadinUI.getCurrent().getMathFunction());
-        Chart chartTwo = new FunctionChart(MyVaadinUI.getCurrent().getMathFunction());
-        leftContentLayout.addComponent(chartOne);
-        leftContentLayout.addComponent(chartTwo);
+        float browserWindowHeight = Page.getCurrent().getBrowserWindowHeight() - 50;
+
+        this.functionChart = new FunctionChart(MyVaadinUI.getCurrent().getMathFunction(), 73.0, Math.PI / 12);
+        this.functionChart.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+        this.functionChart.setPerLine(Utils.round(72.0 / 6, 2));
+
+        this.taskChart1 = new TaskChart("Task 1");
+        this.taskChart1.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+        this.taskChart2 = new TaskChart("Task 2");
+        this.taskChart2.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+        this.taskChart3 = new TaskChart("Task 3");
+        this. taskChart3.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+
+        leftContentLayout.addComponent(this.taskChart1);
+        leftContentLayout.addComponent(this.taskChart2);
+        leftContentLayout.addComponent(this.taskChart3);
+        leftContentLayout.addComponent(this.functionChart);
+
 
         HorizontalLayout buttonsPanel = new HorizontalLayout();
+        timeLebel = new Label("<strong>" + (new Date().toLocaleString()) + "<strong>");
+        timeLebel.setImmediate(true);
+        timeLebel.setContentMode(ContentMode.HTML);
+        buttonsPanel.addComponent(timeLebel);
         buttonsPanel.addComponent(getLabOneButton ());
-        buttonsPanel.addComponent(new Button("Start"));
+        buttonsPanel.addComponent(getStartButton());
         buttonsPanel.addComponent(new Button("Stop"));
         buttonsPanel.addComponent(new Button("Pause"));
+
+
+
+
 
         rightContentLayout.addComponent(buttonsPanel);
         rightContentLayout.addComponent(getPatamsPanel());
 
         addComponent(leftContentLayout);
-        setExpandRatio(leftContentLayout, 3);
+        setExpandRatio(leftContentLayout, 3.5f);
         addComponent(rightContentLayout);
         setExpandRatio(rightContentLayout, 1);
 
@@ -59,6 +94,28 @@ public class ContentLayout extends HorizontalLayout {
                 window.center();
                 window.setContent(new LabOne(MyVaadinUI.getCurrent().getMathFunction()));
                 UI.getCurrent().addWindow(window);
+            }
+        });
+        return button;
+    }
+
+    private Button getStartButton () {
+        Button button = new Button("Start");
+        button.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                Timer timer = new Timer();
+                TimerTask task = new TimerTask() {
+                    public void run() {
+                        timeLebel.setValue("<strong>" + (new Date().toLocaleString()) + "<strong>");
+                        MyVaadinUI.getCurrent().push();
+                taskChart1.addPoint(1);
+                taskChart3.addPoint(1);
+                    }
+                };
+                taskChart1.removePoints();
+                taskChart3.removePoints();
+                timer.schedule(task, 0, 1000);
             }
         });
         return button;
