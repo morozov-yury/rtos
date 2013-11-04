@@ -3,6 +3,7 @@ package un.courcework.rtos.view.component.layout;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import un.courcework.rtos.core.Utils;
@@ -71,12 +72,8 @@ public class ContentLayout extends HorizontalLayout {
         buttonsPanel.addComponent(timeLebel);
         buttonsPanel.addComponent(getLabOneButton());
         buttonsPanel.addComponent(getStartButton());
-        buttonsPanel.addComponent(getStopButton());
         buttonsPanel.addComponent(getPauseButton());
-
-
-
-
+        buttonsPanel.addComponent(getStopButton());
 
         rightContentLayout.addComponent(buttonsPanel);
         rightContentLayout.addComponent(getPatamsPanel());
@@ -89,7 +86,9 @@ public class ContentLayout extends HorizontalLayout {
     }
 
     private Button getLabOneButton () {
-        NativeButton button = new NativeButton("Lab 1");
+        NativeButton button = new NativeButton("L1");
+        button.setIcon(new ThemeResource("images/16x16/lab1.png"), "lab1");
+        button.setDescription("Show report on the first lab");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -105,7 +104,9 @@ public class ContentLayout extends HorizontalLayout {
     }
 
     private Button getStartButton () {
-        NativeButton button = new NativeButton("Start");
+        NativeButton button = new NativeButton();
+        button.setIcon(new ThemeResource("images/16x16/start.png"), "Start");
+        button.setDescription("Run the simulation");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -128,7 +129,9 @@ public class ContentLayout extends HorizontalLayout {
     }
 
     private Button getPauseButton () {
-        NativeButton button = new NativeButton("Pause");
+        NativeButton button = new NativeButton();
+        button.setIcon(new ThemeResource("images/16x16/pause.png"), "Pause");
+        button.setDescription("Pause the simulation");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -141,7 +144,9 @@ public class ContentLayout extends HorizontalLayout {
     }
 
     private Button getStopButton () {
-        NativeButton button = new NativeButton("Stop");
+        NativeButton button = new NativeButton();
+        button.setIcon(new ThemeResource("images/16x16/stop.png"), "Stop");
+        button.setDescription("Stop the simulation");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {

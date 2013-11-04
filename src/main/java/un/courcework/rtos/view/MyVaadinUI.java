@@ -20,7 +20,7 @@ import java.util.Timer;
  * The Application's "main" class
  */
 @SuppressWarnings("serial")
-//@Theme("rtosTheme")
+@Theme("rtos")
 @Push
 public class MyVaadinUI extends UI {
 
