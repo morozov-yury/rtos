@@ -55,8 +55,10 @@ public class LabOne extends VerticalLayout {
             public void buttonClick(Button.ClickEvent event) {
                 FunctionChart chartOne = new FunctionChart(
                         MyVaadinUI.getCurrent().getMathFunction(), Math.PI * 6, null);
+                chartOne.setHeight(200, Unit.PIXELS);
                 FunctionChart chartTwo = new FunctionChart(
                         MyVaadinUI.getCurrent().getMathFunction(), 72.0,  Math.PI / 12);
+                chartTwo.setHeight(200, Unit.PIXELS);
                 chartTwo.setPerLine( Utils.round(72.0 / 6, 2));
                 Window window = new Window();
                 window.setCaption("Charts");

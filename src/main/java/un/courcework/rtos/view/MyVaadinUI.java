@@ -14,6 +14,7 @@ import un.courcework.rtos.view.component.layout.ContentLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 /**
  * The Application's "main" class
@@ -26,6 +27,8 @@ public class MyVaadinUI extends UI {
     private MathFunction mathFunction;
 
     private List<Task> tasks = new ArrayList<Task>();
+
+    private Timer secondTimer;
 
     @Override
     protected void init(VaadinRequest request) {
@@ -70,5 +73,13 @@ public class MyVaadinUI extends UI {
 
     public List<Task> getTasks() {
         return tasks;
+    }
+
+    public Timer getSecondTimer() {
+        return secondTimer;
+    }
+
+    public void setSecondTimer(Timer secondTimer) {
+        this.secondTimer = secondTimer;
     }
 }

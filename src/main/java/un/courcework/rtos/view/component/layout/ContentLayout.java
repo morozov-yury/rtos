@@ -6,6 +6,7 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import un.courcework.rtos.core.Utils;
+import un.courcework.rtos.model.FunctionChartType;
 import un.courcework.rtos.view.MyVaadinUI;
 import un.courcework.rtos.view.component.LabOne;
 import un.courcework.rtos.view.component.chart.FunctionChart;
@@ -31,18 +32,22 @@ public class ContentLayout extends HorizontalLayout {
     private int count = 0;
     final Label timeLebel;
 
+    VerticalLayout leftContentLayout;
+    VerticalLayout rightContentLayout;
+
     public ContentLayout() {
         setMargin(true);
         setWidth(Page.getCurrent().getBrowserWindowWidth(), Sizeable.Unit.PIXELS);
         setSpacing(true);
 
-        VerticalLayout leftContentLayout = new VerticalLayout();
-        VerticalLayout rightContentLayout = new VerticalLayout();
+        leftContentLayout = new VerticalLayout();
+        rightContentLayout = new VerticalLayout();
         rightContentLayout.setSpacing(true);
 
         float browserWindowHeight = Page.getCurrent().getBrowserWindowHeight() - 50;
 
-        this.functionChart = new FunctionChart(MyVaadinUI.getCurrent().getMathFunction(), 73.0, Math.PI / 12);
+        this.functionChart = new FunctionChart(MyVaadinUI.getCurrent().getMathFunction(), 73.0, Math.PI / 12,
+                FunctionChartType.DISCRETE);
         this.functionChart.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
         this.functionChart.setPerLine(Utils.round(72.0 / 6, 2));
 
@@ -64,10 +69,10 @@ public class ContentLayout extends HorizontalLayout {
         timeLebel.setImmediate(true);
         timeLebel.setContentMode(ContentMode.HTML);
         buttonsPanel.addComponent(timeLebel);
-        buttonsPanel.addComponent(getLabOneButton ());
+        buttonsPanel.addComponent(getLabOneButton());
         buttonsPanel.addComponent(getStartButton());
-        buttonsPanel.addComponent(new Button("Stop"));
-        buttonsPanel.addComponent(new Button("Pause"));
+        buttonsPanel.addComponent(getStopButton());
+        buttonsPanel.addComponent(getPauseButton());
 
 
 
@@ -84,7 +89,7 @@ public class ContentLayout extends HorizontalLayout {
     }
 
     private Button getLabOneButton () {
-        Button button = new Button("Lab 1");
+        NativeButton button = new NativeButton("Lab 1");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -100,22 +105,65 @@ public class ContentLayout extends HorizontalLayout {
     }
 
     private Button getStartButton () {
-        Button button = new Button("Start");
+        NativeButton button = new NativeButton("Start");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 Timer timer = new Timer();
+                MyVaadinUI.getCurrent().setSecondTimer(timer);
                 TimerTask task = new TimerTask() {
                     public void run() {
                         timeLebel.setValue("<strong>" + (new Date().toLocaleString()) + "<strong>");
                         MyVaadinUI.getCurrent().push();
-                taskChart1.addPoint(1);
-                taskChart3.addPoint(1);
+                        taskChart1.addPoint(1);
+                        taskChart3.addPoint(1);
                     }
                 };
                 taskChart1.removePoints();
                 taskChart3.removePoints();
                 timer.schedule(task, 0, 1000);
+            }
+        });
+        return button;
+    }
+
+    private Button getPauseButton () {
+        NativeButton button = new NativeButton("Pause");
+        button.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                Timer timer = MyVaadinUI.getCurrent().getSecondTimer();
+                timer.cancel();
+
+            }
+        });
+        return button;
+    }
+
+    private Button getStopButton () {
+        NativeButton button = new NativeButton("Stop");
+        button.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                Timer timer = MyVaadinUI.getCurrent().getSecondTimer();
+                timer.cancel();
+
+                float browserWindowHeight = Page.getCurrent().getBrowserWindowHeight() - 50;
+
+                TaskChart taskChart1new = new TaskChart("Task 1");
+                taskChart1new.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+                TaskChart taskChart2new = new TaskChart("Task 2");
+                taskChart2new.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+                TaskChart taskChart3new = new TaskChart("Task 3");
+                taskChart3new.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+
+                leftContentLayout.replaceComponent(taskChart1, taskChart1new);
+                leftContentLayout.replaceComponent(taskChart2, taskChart2new);
+                leftContentLayout.replaceComponent(taskChart3, taskChart3new);
+
+                taskChart1 =  taskChart1new;
+                taskChart2 =  taskChart2new;
+                taskChart3 =  taskChart3new;
             }
         });
         return button;
