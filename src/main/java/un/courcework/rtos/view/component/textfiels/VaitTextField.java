@@ -14,5 +14,7 @@ public class VaitTextField extends  ParamTextField {
     public VaitTextField(Task task) {
         super(task);
         setValue(Integer.toString(task.gettVaitMax()));
+        //setDescription("");
+
     }
 }

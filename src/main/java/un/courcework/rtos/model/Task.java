@@ -8,29 +8,38 @@ public class Task {
 
     private int tEndIntActive;
 
+    private int tPlanCall;
+
     private int tPeriodCall;
 
     private int tVaitMax;
 
     private int tExecMax;
 
-    private int tCrit;
-
     private int priority;
 
     private int tSession;
 
-    public Task(String name, int tStartIntActive, int tEndIntActive, int tPeriodCall, int tVaitMax, int tExecMax,
-                int tCrit, int priority, int tSession) {
+    private int nSession;
+
+    private TaskState taskState;
+
+    private TaskStatus taskStatus;
+
+    public Task(String name, int tStartIntActive, int tEndIntActive, int tPlanCall, int tPeriodCall, int tVaitMax,
+                int tExecMax, int priority, int tSession, int nSession, TaskState taskState, TaskStatus taskStatus) {
         this.name = name;
         this.tStartIntActive = tStartIntActive;
         this.tEndIntActive = tEndIntActive;
+        this.tPlanCall = tPlanCall;
         this.tPeriodCall = tPeriodCall;
         this.tVaitMax = tVaitMax;
         this.tExecMax = tExecMax;
-        this.tCrit = tCrit;
         this.priority = priority;
         this.tSession = tSession;
+        this.nSession = nSession;
+        this.taskState = taskState;
+        this.taskStatus = taskStatus;
     }
 
     public int gettStartIntActive() {
@@ -73,14 +82,6 @@ public class Task {
         this.tExecMax = tExecMax;
     }
 
-    public int gettCrit() {
-        return tCrit;
-    }
-
-    public void settCrit(int tCrit) {
-        this.tCrit = tCrit;
-    }
-
     public int getPriority() {
         return priority;
     }
@@ -103,5 +104,37 @@ public class Task {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int gettPlanCall() {
+        return tPlanCall;
+    }
+
+    public void settPlanCall(int tPlanCall) {
+        this.tPlanCall = tPlanCall;
+    }
+
+    public TaskState getTaskState() {
+        return taskState;
+    }
+
+    public void setTaskState(TaskState taskState) {
+        this.taskState = taskState;
+    }
+
+    public TaskStatus getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(TaskStatus taskStatus) {
+        this.taskStatus = taskStatus;
+    }
+
+    public int getnSession() {
+        return nSession;
+    }
+
+    public void setnSession(int nSession) {
+        this.nSession = nSession;
     }
 }

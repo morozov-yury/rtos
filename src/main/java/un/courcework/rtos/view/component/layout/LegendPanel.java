@@ -24,7 +24,7 @@ public class LegendPanel extends VerticalLayout {
         legendTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
         //legendTeble.setRowHeaderMode(Table.RowHeaderMode.ICON_ONLY);
         legendTeble.setFooterVisible(false);
-        legendTeble.setPageLength(6);
+        legendTeble.setPageLength(12);
         legendTeble.setWidth(100, Unit.PERCENTAGE);
         legendTeble.addContainerProperty("image", Image.class, null);
         legendTeble.setColumnWidth("image", 18);
@@ -55,6 +55,32 @@ public class LegendPanel extends VerticalLayout {
         image = new Image("Задача по времени", new ThemeResource("images/16x16/37.png"));
         label = new Label("Задача по времени");
         legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Задача ожидает", new ThemeResource("images/16x16/timeRed.png"));
+        label = new Label("Задача ожидает");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Задача активна", new ThemeResource("images/16x16/43_.png"));
+        label = new Label("Задача активна");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Задача не активна", new ThemeResource("images/16x16/44.png"));
+        label = new Label("Задача не активна");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Информация", new ThemeResource("images/16x16/01.png"));
+        label = new Label("Информация");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Информация", new ThemeResource("images/16x16/02.png"));
+        label = new Label("Информация");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Информация", new ThemeResource("images/16x16/03.png"));
+        label = new Label("Информация");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        addComponent(legendTeble);
 
         addComponent(legendTeble);
     }

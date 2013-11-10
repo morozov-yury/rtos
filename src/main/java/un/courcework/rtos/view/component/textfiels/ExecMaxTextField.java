@@ -9,12 +9,12 @@ import un.courcework.rtos.model.Task;
  * Time: 21:16
  * To change this template use File | Settings | File Templates.
  */
-public class CritTextField extends  ParamTextField {
+public class ExecMaxTextField extends  ParamTextField {
 
 
-    public CritTextField(Task task) {
+    public ExecMaxTextField(Task task) {
         super(task);
-        setValue(Integer.toString(task.gettCrit()));
-        setDescription("");
+        setValue(Integer.toString(task.gettExecMax()));
+        //setDescription("");
     }
 }

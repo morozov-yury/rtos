@@ -14,7 +14,6 @@ public class EndIntTextField extends  ParamTextField {
     public EndIntTextField(Task task) {
         super(task);
         setValue(Integer.toString(task.gettEndIntActive()));
-        setDescription("Т конца - время, когда задача после старта ПО перестает быть активной " +
-                "(конец интервала активности задачи). <b> Тн < Тк < 72</b>");
+        setDescription("<b> Тн < Тк < 72</b>");
     }
 }

@@ -21,12 +21,12 @@ public class LogLayout extends TextArea {
         setWordwrap(true);
         //setReadOnly(true);
 
-        setHeight(Page.getCurrent().getBrowserWindowHeight() - 450, Sizeable.Unit.PIXELS);
+        //setHeight(Page.getCurrent().getBrowserWindowHeight() - 645, Sizeable.Unit.PIXELS);
 
         Page.getCurrent().addBrowserWindowResizeListener(new Page.BrowserWindowResizeListener() {
             @Override
             public void browserWindowResized(Page.BrowserWindowResizeEvent event) {
-                setHeight(Page.getCurrent().getBrowserWindowHeight() - 450, Sizeable.Unit.PIXELS);
+                //setHeight(Page.getCurrent().getBrowserWindowHeight() - 650, Sizeable.Unit.PIXELS);
             }
         });
 

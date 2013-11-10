@@ -9,11 +9,11 @@ import un.courcework.rtos.model.Task;
  * Time: 21:17
  * To change this template use File | Settings | File Templates.
  */
-public class SessionTextField extends  ParamTextField {
+public class TSessionTextField extends  ParamTextField {
 
-    public SessionTextField(Task task) {
+    public TSessionTextField(Task task) {
         super(task);
         setValue(Integer.toString(task.gettSession()));
-        setDescription("Т сеанса - время фактического выполнения задачи <b>Tc < 72</b>");
+        setDescription("<b>Tc < 72</b>");
     }
 }

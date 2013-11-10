@@ -14,7 +14,6 @@ public class StartIntValidator extends  ParamTextField {
     public StartIntValidator(Task task) {
         super(task);
         setValue(Integer.toString(task.gettStartIntActive()));
-        setDescription("Т начала - время, когда задача после старта По может получить управление первый раз" +
-                " (начала интервала активности) <b> 0 < Тн < 72</b>");
+        setDescription(" <b> 0 < Тн < 72</b>");
     }
 }

@@ -14,7 +14,6 @@ public class PeriodTextField extends  ParamTextField {
     public PeriodTextField(Task task) {
         super(task);
         setValue(Integer.toString(task.gettPeriodCall()));
-        setDescription("Т периода - переодизация вызова задачи. Позволяет планировщику расчитывать" +
-                "очередной плановый вызов задачи <b>Тп < Tc</b>");
+        setDescription("<b>Тп < Tc</b>");
     }
 }

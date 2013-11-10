@@ -9,6 +9,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import un.courcework.rtos.model.MathFunction;
 import un.courcework.rtos.model.Task;
+import un.courcework.rtos.model.TaskState;
+import un.courcework.rtos.model.TaskStatus;
 import un.courcework.rtos.view.component.layout.ContentLayout;
 
 import java.util.ArrayList;
@@ -83,8 +85,8 @@ public class RtosUI extends UI {
     }
 
     private void createTestTasks () {
-        this.tasks.add(new Task("1", 1, 40, 5, 3, 9, 9, 0, 5));
-        this.tasks.add(new Task("2", 10, 60, 4, 3, 8, 9, 0, 5));
-        this.tasks.add(new Task("3", 5, 20, 6, 3, 10, 9, 0, 5));
+        this.tasks.add(new Task("1", 1, 40, 3, 5, 3, 9, 0, 5, 0,TaskState.ACTIVE, TaskStatus.WAIT));
+        this.tasks.add(new Task("2", 10, 60, 3, 4, 3, 9, 0, 5, 0, TaskState.ACTIVE, TaskStatus.WAIT));
+        this.tasks.add(new Task("3", 5, 20, 3, 6, 3, 9, 0, 5, 0, TaskState.NOT_ACTIVE, TaskStatus.WAIT));
     }
 }

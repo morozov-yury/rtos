@@ -75,8 +75,15 @@ public class ContentLayout extends GridLayout {
 
         rightContentLayout.addComponent(getButtonsPanel());
         rightContentLayout.addComponent(getPatamsPanel());
-        rightContentLayout.addComponent(new LegendPanel());
-        rightContentLayout.addComponent(new LogLayout());
+
+        TabSheet tsh  =  new TabSheet();
+        tsh.addStyleName("tros-tabsheet");
+        tsh.setWidth(100, Unit.PERCENTAGE);
+        tsh.addTab(new LegendPanel(), "Ообозначения");
+        tsh.addTab(new LogLayout(), "Управление");
+//        rightContentLayout.addComponent(new LegendPanel());
+//        rightContentLayout.addComponent(new LogLayout());
+        rightContentLayout.addComponent(tsh);
         rightContentLayout.setWidth(185, Unit.PIXELS);
 
         addComponent(leftContentLayout, 0, 0);
@@ -112,7 +119,7 @@ public class ContentLayout extends GridLayout {
     }
 
     private Button getLabOneButton () {
-        NativeButton button = new NativeButton("");
+        NativeButton button = new NativeButton();
         button.setSizeFull();
         button.setIcon(new ThemeResource("images/16x16/lab1.png"), "lab1");
         button.setDescription("Show report on the first lab");
@@ -131,7 +138,7 @@ public class ContentLayout extends GridLayout {
     }
 
     private Button getSpecificationButton () {
-        NativeButton button = new NativeButton("");
+        NativeButton button = new NativeButton();
         button.setSizeFull();
         button.setIcon(new ThemeResource("images/16x16/49.png"), "lab1");
         button.setDescription("Show specification");

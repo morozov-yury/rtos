@@ -22,11 +22,11 @@ public class ParametersPanel extends VerticalLayout {
         paramTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
         //paramTeble.setRowHeaderMode(Table.RowHeaderMode.ICON_ONLY);
         paramTeble.setFooterVisible(false);
-        paramTeble.setPageLength(10);
+        paramTeble.setPageLength(13);
         paramTeble.setWidth(100, Unit.PERCENTAGE);
 
         paramTeble.addContainerProperty("", Component.class, null);
-        paramTeble.setColumnWidth("", 65);
+        paramTeble.setColumnWidth("", 40);
 
         List<Object> tasksNames = new ArrayList<Object>();
         tasksNames.add(new Label(""));
@@ -39,82 +39,89 @@ public class ParametersPanel extends VerticalLayout {
             paramTeble.setColumnAlignment(task.getName(), Table.Align.CENTER);
         }
 
+        Label label;
         List<Object> tStartIntActiveList = new ArrayList<Object>();
-        tStartIntActiveList.add(new Label("Tн"));
+        label =  new Label("Tн");
+        label.setDescription("Т начала - время, когда задача после старта По может получить управление первый раз" +
+                "(начала интервала активности)");
+        tStartIntActiveList.add(label);
         List<Object> tEndIntActiveList = new ArrayList<Object>();
-        tEndIntActiveList.add(new Label("Tк"));
+        label  = new Label("Tк") ;
+        label.setDescription("Т конца - время, когда задача после старта ПО перестает быть активной " +
+                "(конец интервала активности задачи). ");
+        tEndIntActiveList.add(label);
+        List<Object> tPlanCallList = new ArrayList<Object>();
+        label =  new Label("Tпл");
+        label.setDescription("Т плановое");
+        tPlanCallList.add(label);
         List<Object> tPeriodCallList = new ArrayList<Object>();
-        tPeriodCallList.add(new Label("Tп"));
+        label  =  new Label("Tп");
+        label.setDescription("Т периода - переодизация вызова задачи. Позволяет планировщику расчитывать " +
+                "очередной плановый вызов задачи ");
+        tPeriodCallList.add(label);
         List<Object> tVaitMaxList = new ArrayList<Object>();
-        tVaitMaxList.add(new Label("Tож.max."));
+        label =  new Label("Tо.m.");
+        label.setDescription("Т ожидания максимальное. При превышении в интерфейс пользователя выдается запрос " +
+                "\"Пропуск вызова на данном таете\" или \"Снять задачу\".");
+        tVaitMaxList.add(label);
         List<Object> tExecMaxList = new ArrayList<Object>();
-        tExecMaxList.add(new Label("Tвып.max."));
-        List<Object> tCritList = new ArrayList<Object>();
-        tCritList.add(new Label("Tк"));
+        label  =  new Label("Tв.m.");
+        label.setDescription("Т выполнения максимальное, при превышении происходит пропуск следующего вызова.");
+        tExecMaxList.add(label);
         List<Object> priorityList = new ArrayList<Object>();
-        priorityList.add(new Label("П"));
+        label =  new Label("П");
+        label.setDescription("Приоритет задачи");
+        priorityList.add(label);
         List<Object> tSessionList = new ArrayList<Object>();
-        tSessionList.add(new Label("Tс"));
+        label =  new Label("Tс");
+        label.setDescription("Т сеанса - время фактического выполнения задачи");
+        tSessionList.add(label);
+        List<Object> nSessionList = new ArrayList<Object>();
+        label =  new Label("Nс");
+        label.setDescription("Номер сессии");
+        nSessionList.add(label);
+        List<Object> statusList = new ArrayList<Object>();
+        label  =  new Label("Status");
+        label.setDescription("Статус задачи");
+        statusList.add(label);
+        List<Object> stateList = new ArrayList<Object>();
+        label  =  new Label("State");
+        label.setDescription("Состояние задачи");
+        stateList.add(label);
 
         for (Task task : tasks) {
             tStartIntActiveList.add(new StartIntValidator(task));
             tEndIntActiveList.add(new EndIntTextField(task));
+            tPlanCallList.add(new PlanTextField(task));
             tPeriodCallList.add(new PeriodTextField(task));
             tVaitMaxList.add(new VaitTextField(task));
-            tExecMaxList.add(new ExecTextField(task));
-            tCritList.add(new CritTextField(task));
+            tExecMaxList.add(new ExecMaxTextField(task));
             priorityList.add(new PriorityTextField(task));
-            tSessionList.add(new SessionTextField(task));
+            tSessionList.add(new TSessionTextField(task));
+            nSessionList.add(new NSessionTextField(task));
+            statusList.add(new TaskStatusWiev(task));
+            stateList.add(new TaskStateWiev(task));
         }
 
         List<List<Object>> rowsArray = new ArrayList<List<Object>>();
         rowsArray.add(tasksNames);
         rowsArray.add(tStartIntActiveList);
         rowsArray.add(tEndIntActiveList);
+        rowsArray.add(tPlanCallList);
         rowsArray.add(tPeriodCallList);
         rowsArray.add(tVaitMaxList);
         rowsArray.add(tExecMaxList);
-        rowsArray.add(tCritList);
         rowsArray.add(priorityList);
         rowsArray.add(tSessionList);
+        rowsArray.add(nSessionList);
+        rowsArray.add(statusList);
+        rowsArray.add(stateList);
 
         for (List<Object> row : rowsArray) {
             paramTeble.addItem(row.toArray(), row.hashCode());
         }
 
-
-
-
-//        paramTeble.addItem(new Object[] {
-//                new Label(""),
-//                new Label("Task 1"),
-//                new Label("Task 2"),
-//                new Label("Task 3")
-//        }, 1);
-//
-//        paramTeble.addItem(new Object[] {
-//                new Label("Tн"),
-//                getParamTextField(),
-//                getParamTextField(),
-//                getParamTextField()
-//            }, 1);
-//
-//        paramTeble.addItem(new Object[] {
-//                new Label("Tк"),
-//                getParamTextField(),
-//                getParamTextField(),
-//                getParamTextField()
-//        }, 2);
-//
-//        paramTeble.addItem(new Object[]{
-//                new Label("Tn"),
-//                getParamTextField(),
-//                getParamTextField(),
-//                getParamTextField()
-//        }, 3);
-
         addComponent(paramTeble);
-
     }
 
     private TextField getParamTextField () {
