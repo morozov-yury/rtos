@@ -10,9 +10,104 @@
 
   /* Insert your theme rules here */
 
-  .test {
-    margin: 100px;
+  .lab-one-layout {
+    padding: 13px;
   }
 
+  .rtos-table  .v-table-cell-content {
+      padding: 0px;
+  }
+
+  .rtos-table  .v-scrollable {
+    border: none;
+  }
+
+  .rtos-table  .v-table-body-wrapper {
+    padding: none;
+  }
+
+  .rtos-table  .v-table-body {
+    padding: none;
+  }
+
+  .rtos-table .v-table-table {
+    width: 100px;
+  }
+
+  .rtos-table .v-table-row {
+    width: 100px;
+  }
+
+  .content-layout {
+
+  }
+
+  .rtos-table .v-label {
+    padding-right: 5px;
+  }
+
+  .rtos-table .v-textfield {
+    border-radius: 0px;
+  }
+
+  .rtos-table img {
+    padding-right: 5px;
+    margin-bottom: -3px;
+  }
+
+  .rtos-table .v-label {
+    text-align: right;
+  }
+
+  .rtos-table .v-textfield {
+    text-align: right;
+  }
+
+  .legend-panel {
+    background: #ffffff;
+    padding: 5px;
+  }
+
+  .legend-table  .v-table-cell-content {
+    padding: 0px;
+  }
+
+  .legend-table  .v-scrollable {
+    border: none;
+  }
+
+  .legend-table  .v-table-body-wrapper {
+    padding: none;
+  }
+
+  .legend-table  .v-table-body {
+    padding: none;
+  }
+
+  .legend-table .v-table-table {
+    width: 100px;
+  }
+
+  .legend-table .v-table-row {
+    width: 100px;
+  }
+
+  .legend-table .v-label {
+    width: 155px !important;
+  }
+
+  .log-text-area {
+    border-radius: 0px;
+    font-size: 10px !important;
+    background: #ffffff !important;
+    opacity: 1 !important;
+    border: none;
+  }
+
+  .log-text-area .v-textarea {
+    background: #ffffff !important;
+    padding: 5px;
+    border: none;
+  }
 
 }

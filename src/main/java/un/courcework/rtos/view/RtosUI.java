@@ -5,7 +5,6 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import un.courcework.rtos.model.MathFunction;
@@ -22,7 +21,7 @@ import java.util.Timer;
 @SuppressWarnings("serial")
 @Theme("rtos")
 @Push
-public class MyVaadinUI extends UI {
+public class RtosUI extends UI {
 
     private MathFunction mathFunction;
 
@@ -43,7 +42,7 @@ public class MyVaadinUI extends UI {
                 return Math.cos(2 * t + 1);
             }
         };
-
+        createTestTasks();
         createContetnView();
 
     }
@@ -67,8 +66,8 @@ public class MyVaadinUI extends UI {
         return this.mathFunction;
     }
 
-    public static MyVaadinUI getCurrent() {
-        return (MyVaadinUI) UI.getCurrent();
+    public static RtosUI getCurrent() {
+        return (RtosUI) UI.getCurrent();
     }
 
     public List<Task> getTasks() {
@@ -81,5 +80,11 @@ public class MyVaadinUI extends UI {
 
     public void setSecondTimer(Timer secondTimer) {
         this.secondTimer = secondTimer;
+    }
+
+    private void createTestTasks () {
+        this.tasks.add(new Task("1", 1, 40, 5, 3, 9, 9, 0, 5));
+        this.tasks.add(new Task("2", 10, 60, 4, 3, 8, 9, 0, 5));
+        this.tasks.add(new Task("3", 5, 20, 6, 3, 10, 9, 0, 5));
     }
 }

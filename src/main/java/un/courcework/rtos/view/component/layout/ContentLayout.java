@@ -1,6 +1,5 @@
 package un.courcework.rtos.view.component.layout;
 
-import com.vaadin.addon.charts.Chart;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
@@ -8,8 +7,8 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import un.courcework.rtos.core.Utils;
 import un.courcework.rtos.model.FunctionChartType;
-import un.courcework.rtos.view.MyVaadinUI;
-import un.courcework.rtos.view.component.LabOne;
+import un.courcework.rtos.view.RtosUI;
+import un.courcework.rtos.view.component.ParametersPanel;
 import un.courcework.rtos.view.component.chart.FunctionChart;
 import un.courcework.rtos.view.component.chart.TaskChart;
 
@@ -24,7 +23,7 @@ import java.util.TimerTask;
  * Time: 15:10
  * To change this template use File | Settings | File Templates.
  */
-public class ContentLayout extends HorizontalLayout {
+public class ContentLayout extends GridLayout {
 
     private TaskChart taskChart1;
     private TaskChart taskChart2;
@@ -37,6 +36,8 @@ public class ContentLayout extends HorizontalLayout {
     VerticalLayout rightContentLayout;
 
     public ContentLayout() {
+        super(2, 1);
+        addStyleName("content-layout");
         setMargin(true);
         setWidth(Page.getCurrent().getBrowserWindowWidth(), Sizeable.Unit.PIXELS);
         setSpacing(true);
@@ -47,46 +48,72 @@ public class ContentLayout extends HorizontalLayout {
 
         float browserWindowHeight = Page.getCurrent().getBrowserWindowHeight() - 50;
 
-        this.functionChart = new FunctionChart(MyVaadinUI.getCurrent().getMathFunction(), 73.0, Math.PI / 12,
+        this.functionChart = new FunctionChart(RtosUI.getCurrent().getMathFunction(), 73.0, Math.PI / 12,
                 FunctionChartType.DISCRETE);
         this.functionChart.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
         this.functionChart.setPerLine(Utils.round(72.0 / 6, 2));
 
-        this.taskChart1 = new TaskChart("Task 1");
+        this.taskChart1 = new TaskChart("Задача 1");
         this.taskChart1.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
-        this.taskChart2 = new TaskChart("Task 2");
+        this.taskChart2 = new TaskChart("Задача 2");
         this.taskChart2.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
-        this.taskChart3 = new TaskChart("Task 3");
-        this. taskChart3.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+        this.taskChart3 = new TaskChart("Задача 3");
+        this.taskChart3.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
+
+
 
         leftContentLayout.addComponent(this.taskChart1);
         leftContentLayout.addComponent(this.taskChart2);
         leftContentLayout.addComponent(this.taskChart3);
         leftContentLayout.addComponent(this.functionChart);
+        leftContentLayout.setWidth(Page.getCurrent().getBrowserWindowWidth() - 200 - 20, Sizeable.Unit.PIXELS);
 
 
-        HorizontalLayout buttonsPanel = new HorizontalLayout();
         timeLebel = new Label("<strong>" + (new Date().toLocaleString()) + "<strong>");
         timeLebel.setImmediate(true);
         timeLebel.setContentMode(ContentMode.HTML);
-        buttonsPanel.addComponent(timeLebel);
-        buttonsPanel.addComponent(getLabOneButton());
-        buttonsPanel.addComponent(getStartButton());
-        buttonsPanel.addComponent(getPauseButton());
-        buttonsPanel.addComponent(getStopButton());
 
-        rightContentLayout.addComponent(buttonsPanel);
+        rightContentLayout.addComponent(getButtonsPanel());
         rightContentLayout.addComponent(getPatamsPanel());
+        rightContentLayout.addComponent(new LegendPanel());
+        rightContentLayout.addComponent(new LogLayout());
+        rightContentLayout.setWidth(185, Unit.PIXELS);
 
-        addComponent(leftContentLayout);
-        setExpandRatio(leftContentLayout, 3.5f);
-        addComponent(rightContentLayout);
-        setExpandRatio(rightContentLayout, 1);
+        addComponent(leftContentLayout, 0, 0);
+        //setExpandRatio(leftContentLayout, 99f);
+        addComponent(rightContentLayout, 1, 0);
+        //setExpandRatio(rightContentLayout, 1);
+
+        Page.getCurrent().addBrowserWindowResizeListener(new Page.BrowserWindowResizeListener() {
+            @Override
+            public void browserWindowResized(Page.BrowserWindowResizeEvent event) {
+                float height = Page.getCurrent().getBrowserWindowHeight() - 50;
+                taskChart1.setHeight(height / 4, Sizeable.Unit.PIXELS);
+                taskChart2.setHeight(height / 4, Sizeable.Unit.PIXELS);
+                taskChart3.setHeight(height / 4, Sizeable.Unit.PIXELS);
+                functionChart.setHeight(height / 4, Sizeable.Unit.PIXELS);
+                setWidth(Page.getCurrent().getBrowserWindowWidth(), Sizeable.Unit.PIXELS);
+                leftContentLayout.setWidth(Page.getCurrent().getBrowserWindowWidth() - 200 - 20, Sizeable.Unit.PIXELS);
+            }
+        });
 
     }
 
+    private Component getButtonsPanel () {
+        HorizontalLayout buttonsPanel = new HorizontalLayout();
+        buttonsPanel.setWidth(100, Unit.PERCENTAGE);
+        //buttonsPanel.addComponent(timeLebel);
+        buttonsPanel.addComponent(getStartButton());
+        buttonsPanel.addComponent(getPauseButton());
+        buttonsPanel.addComponent(getStopButton());
+        buttonsPanel.addComponent(getLabOneButton());
+        buttonsPanel.addComponent(getSpecificationButton());
+        return buttonsPanel;
+    }
+
     private Button getLabOneButton () {
-        NativeButton button = new NativeButton("L1");
+        NativeButton button = new NativeButton("");
+        button.setSizeFull();
         button.setIcon(new ThemeResource("images/16x16/lab1.png"), "lab1");
         button.setDescription("Show report on the first lab");
         button.addClickListener(new Button.ClickListener() {
@@ -96,7 +123,26 @@ public class ContentLayout extends HorizontalLayout {
                 window.setCaption("Lab 1");
                 window.setWidth(1000, Sizeable.Unit.PIXELS);
                 window.center();
-                window.setContent(new LabOne(MyVaadinUI.getCurrent().getMathFunction()));
+                window.setContent(new LabOneLayout(RtosUI.getCurrent().getMathFunction()));
+                UI.getCurrent().addWindow(window);
+            }
+        });
+        return button;
+    }
+
+    private Button getSpecificationButton () {
+        NativeButton button = new NativeButton("");
+        button.setSizeFull();
+        button.setIcon(new ThemeResource("images/16x16/49.png"), "lab1");
+        button.setDescription("Show specification");
+        button.addClickListener(new Button.ClickListener() {
+            @Override
+            public void buttonClick(Button.ClickEvent event) {
+                Window window = new Window();
+                window.setCaption("Specification");
+                window.setWidth(1000, Sizeable.Unit.PIXELS);
+                window.center();
+                //window.setContent();
                 UI.getCurrent().addWindow(window);
             }
         });
@@ -105,17 +151,18 @@ public class ContentLayout extends HorizontalLayout {
 
     private Button getStartButton () {
         NativeButton button = new NativeButton();
+        button.setSizeFull();
         button.setIcon(new ThemeResource("images/16x16/start.png"), "Start");
         button.setDescription("Run the simulation");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 Timer timer = new Timer();
-                MyVaadinUI.getCurrent().setSecondTimer(timer);
+                RtosUI.getCurrent().setSecondTimer(timer);
                 TimerTask task = new TimerTask() {
                     public void run() {
                         timeLebel.setValue("<strong>" + (new Date().toLocaleString()) + "<strong>");
-                        MyVaadinUI.getCurrent().push();
+                        RtosUI.getCurrent().push();
                         taskChart1.addPoint(1);
                         taskChart3.addPoint(1);
                     }
@@ -130,12 +177,13 @@ public class ContentLayout extends HorizontalLayout {
 
     private Button getPauseButton () {
         NativeButton button = new NativeButton();
+        button.setSizeFull();
         button.setIcon(new ThemeResource("images/16x16/pause.png"), "Pause");
         button.setDescription("Pause the simulation");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                Timer timer = MyVaadinUI.getCurrent().getSecondTimer();
+                Timer timer = RtosUI.getCurrent().getSecondTimer();
                 timer.cancel();
 
             }
@@ -145,12 +193,13 @@ public class ContentLayout extends HorizontalLayout {
 
     private Button getStopButton () {
         NativeButton button = new NativeButton();
+        button.setSizeFull();
         button.setIcon(new ThemeResource("images/16x16/stop.png"), "Stop");
         button.setDescription("Stop the simulation");
         button.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
-                Timer timer = MyVaadinUI.getCurrent().getSecondTimer();
+                Timer timer = RtosUI.getCurrent().getSecondTimer();
                 timer.cancel();
 
                 float browserWindowHeight = Page.getCurrent().getBrowserWindowHeight() - 50;
@@ -175,95 +224,8 @@ public class ContentLayout extends HorizontalLayout {
     }
 
     private Component getPatamsPanel () {
-        VerticalLayout mainLayout = new VerticalLayout();
-        mainLayout.setSpacing(true);
-        mainLayout.addComponent(new Label("Параметры задач"));
-
-        GridLayout grid = new GridLayout(5, 13);
-        grid.setSpacing(true);
-        //grid.setWidth(280, Sizeable.Unit.PIXELS);
-
-        grid.addComponent(new Label("№"), 0, 0);
-        grid.addComponent(new Label("1"), 1, 0);
-        grid.addComponent(new Label("2"), 2, 0);
-        grid.addComponent(new Label("3"), 3, 0);
-        grid.addComponent(new Label("4"), 4, 0);
-
-        grid.addComponent(new Label("Тип"), 0, 1);
-        grid.addComponent(new Label("Вр"), 1, 1);
-        grid.addComponent(new Label("Вр"), 2, 1);
-        grid.addComponent(new Label("Пр"), 3, 1);
-        grid.addComponent(new Label("Пр"), 4, 1);
-
-        grid.addComponent(new Label("Приоритет"), 0, 2);
-        grid.addComponent(new Label("1"), 1, 2);
-        grid.addComponent(new Label("1"), 2, 2);
-        grid.addComponent(new Label("0"), 3, 2);
-        grid.addComponent(new Label("2"), 4, 2);
-
-        grid.addComponent(new Label("Ткрит"), 0, 3);
-        grid.addComponent(getTextField ("5"), 1, 3);
-        grid.addComponent(getTextField ("6"), 2, 3);
-        grid.addComponent(getTextField ("5"), 3, 3);
-        grid.addComponent(getTextField ("4"), 4, 3);
-
-        grid.addComponent(new Label("Тc"), 0, 4);
-        grid.addComponent(getTextField ("5"), 1, 4);
-        grid.addComponent(getTextField ("4"), 2, 4);
-        grid.addComponent(getTextField ("3"), 3, 4);
-        grid.addComponent(getTextField ("3"), 4, 4);
-
-        grid.addComponent(new Label("Тз.доп."), 0, 5);
-        grid.addComponent(getTextField ("1"), 1, 5);
-        grid.addComponent(getTextField("2"), 2, 5);
-        grid.addComponent(getNTextField(""), 3, 5);
-        grid.addComponent(getNTextField(""), 4, 5);
-
-        grid.addComponent(new Label("Тз"), 0, 6);
-        grid.addComponent(new Label("0"), 1, 6);
-        grid.addComponent(new Label("0"), 2, 6);
-        grid.addComponent(new Label(""), 3, 6);
-        grid.addComponent(new Label(""), 4, 6);
-
-        grid.addComponent(new Label("Тнач"), 0, 7);
-        grid.addComponent(getTextField ("0"), 1, 7);
-        grid.addComponent(getTextField (""), 2, 7);
-        grid.addComponent(getNTextField(""), 3, 7);
-        grid.addComponent(getNTextField(""), 4, 7);
-
-        grid.addComponent(new Label("Тп"), 0, 8);
-        grid.addComponent(getTextField ("10"), 1, 8);
-        grid.addComponent(getTextField ("10"), 2, 8);
-        grid.addComponent(getNTextField(""), 3, 8);
-        grid.addComponent(getNTextField(""), 4, 8);
-
-        grid.addComponent(new Label("Ткон"), 0, 9);
-        grid.addComponent(getTextField (""), 1, 9);
-        grid.addComponent(getTextField ("70"), 2, 9);
-        grid.addComponent(getNTextField(""), 3, 9);
-        grid.addComponent(getNTextField(""), 4, 9);
-
-        grid.addComponent(new Label("Тсоб"), 0, 10);
-        grid.addComponent(getTextField ("3"), 1, 10);
-        grid.addComponent(getTextField (""), 2, 10);
-        grid.addComponent(getNTextField(""), 3, 10);
-        grid.addComponent(getNTextField(""), 4, 10);
-
-        grid.addComponent(new Label("Сост"), 0, 11);
-        grid.addComponent(new Label("Активная"), 1, 11);
-        grid.addComponent(new Label("Активная"), 2, 11);
-        grid.addComponent(new Label("Не активная"), 3, 11);
-        grid.addComponent(new Label("Активная"), 4, 11);
-
-        grid.addComponent(new Label("Режим"), 0, 12);
-        grid.addComponent(new Label("Ожидание"), 1, 12);
-        grid.addComponent(new Label("Ожидание"), 2, 12);
-        grid.addComponent(new Label("Ожидание"), 3, 12);
-        grid.addComponent(new Label("Выполнение"), 4, 12);
-
-
-        mainLayout.addComponent(grid);
-        return mainLayout;
+        ParametersPanel paramPanel = new ParametersPanel(RtosUI.getCurrent().getTasks());
+        return paramPanel;
     }
 
     private TextField getTextField (String value) {

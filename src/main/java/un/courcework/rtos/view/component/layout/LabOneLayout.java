@@ -1,11 +1,12 @@
-package un.courcework.rtos.view.component;
+package un.courcework.rtos.view.component.layout;
 
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
 import un.courcework.rtos.core.Utils;
 import un.courcework.rtos.model.MathFunction;
 import un.courcework.rtos.model.MathFunctionValue;
-import un.courcework.rtos.view.MyVaadinUI;
+import un.courcework.rtos.view.RtosUI;
+import un.courcework.rtos.view.component.MathFunctionTable;
 import un.courcework.rtos.view.component.chart.FunctionChart;
 
 /**
@@ -15,7 +16,7 @@ import un.courcework.rtos.view.component.chart.FunctionChart;
  * Time: 15:04
  * To change this template use File | Settings | File Templates.
  */
-public class LabOne extends VerticalLayout {
+public class LabOneLayout extends VerticalLayout {
 
     HorizontalLayout tablesLayout = new HorizontalLayout();
 
@@ -32,15 +33,15 @@ public class LabOne extends VerticalLayout {
     private Double deltaTSampling;
     private Double deltaTFperiod;
 
-    public LabOne(MathFunction mathFunction) {
+    public LabOneLayout(MathFunction mathFunction) {
         this.mathFunction = mathFunction;
-
+        this.addStyleName("lab-one-layout");
     }
 
     @Override
     public void attach() {
         super.attach();
-        System.out.println("### LabOne ########################################");
+        System.out.println("### LabOneLayout ########################################");
         addComponent(getContent());
     }
 
@@ -54,10 +55,10 @@ public class LabOne extends VerticalLayout {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 FunctionChart chartOne = new FunctionChart(
-                        MyVaadinUI.getCurrent().getMathFunction(), Math.PI * 6, null);
+                        RtosUI.getCurrent().getMathFunction(), Math.PI * 6, null);
                 chartOne.setHeight(200, Unit.PIXELS);
                 FunctionChart chartTwo = new FunctionChart(
-                        MyVaadinUI.getCurrent().getMathFunction(), 72.0,  Math.PI / 12);
+                        RtosUI.getCurrent().getMathFunction(), 72.0,  Math.PI / 12);
                 chartTwo.setHeight(200, Unit.PIXELS);
                 chartTwo.setPerLine( Utils.round(72.0 / 6, 2));
                 Window window = new Window();
@@ -83,7 +84,7 @@ public class LabOne extends VerticalLayout {
 
         Double tStart = 0.0;
         MathFunctionValue[] f = new MathFunctionValue[3];
-        Double tStep = LabOne.tMax / 10;
+        Double tStep = LabOneLayout.tMax / 10;
 
         VerticalLayout  tMinTMaxLayout = new VerticalLayout();
         tMinTMaxLayout.setSpacing(true);
@@ -94,17 +95,17 @@ public class LabOne extends VerticalLayout {
 
         for (int k = 0; k < 3; k++) {
             MathFunctionTable table = new MathFunctionTable(
-                    mathFunction, tStart, LabOne.tMax, tStep / (k + 1));
+                    mathFunction, tStart, LabOneLayout.tMax, tStep / (k + 1));
             tablesLayout.addComponent(table);
             f[k] = table.getMathFunctionValue();
         }
 
-        if (Math.abs(f[1].getF() - f[2].getF()) < LabOne.deltaFMin) {
+        if (Math.abs(f[1].getF() - f[2].getF()) < LabOneLayout.deltaFMin) {
             this.fMax = f[2];
             this.fMaxStep = tStep / 3;
         } else {
             MathFunctionTable table = new MathFunctionTable(
-                    mathFunction, tStart, LabOne.tMax, tStep / 5);
+                    mathFunction, tStart, LabOneLayout.tMax, tStep / 5);
             tablesLayout.addComponent(table);
             MathFunctionValue value = table.getMathFunctionValue();
             this.fMax = value;
@@ -159,7 +160,7 @@ public class LabOne extends VerticalLayout {
             table.removeAllItems();
             v = 0.0;
             tv = 0.0;
-            for (double i = 0; i < LabOne.tMax; i += h2step) {
+            for (double i = 0; i < LabOneLayout.tMax; i += h2step) {
                 System.out.println("//////////// h2step = " + h2step);
 
                 double df1 = Math.abs(

@@ -67,6 +67,7 @@ public class TaskChart  extends Chart {
         YAxis y = new YAxis();
         y.setMin(0);
         y.setMax(2);
+        y.setTitle("Активность");
         conf.addyAxis(y);
 
         Legend legend = new Legend();

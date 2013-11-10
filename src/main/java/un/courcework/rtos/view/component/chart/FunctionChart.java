@@ -53,7 +53,7 @@ public class FunctionChart extends Chart {
         // Modify the default configuration a bit
         Configuration conf = getConfiguration();
         conf.getChart().setMargin(30, 10, 30, 40);
-        conf.setTitle("cos(2t+1)");
+        conf.setTitle("Задача объекта");
         // The data
 
         DataSeries series = new DataSeries();
@@ -96,7 +96,7 @@ public class FunctionChart extends Chart {
         YAxis yaxis = new YAxis();
         yaxis.setTitle("f");
         if (functionChartType == FunctionChartType.DISCRETE) {
-            yaxis.setMin(0.0);
+            yaxis.setMin(-0.1);
         } else {
             yaxis.setMin(-1.1);
         }
