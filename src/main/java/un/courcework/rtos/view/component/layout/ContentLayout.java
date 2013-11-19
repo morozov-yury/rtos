@@ -5,7 +5,7 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
-import un.courcework.rtos.core.Utils;
+import un.courcework.rtos.utils.MathUtils;
 import un.courcework.rtos.model.FunctionChartType;
 import un.courcework.rtos.view.RtosUI;
 import un.courcework.rtos.view.component.ParametersPanel;
@@ -16,13 +16,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created with IntelliJ IDEA.
- * User: yri_kun
- * Date: 06.10.13
- * Time: 15:10
- * To change this template use File | Settings | File Templates.
- */
 public class ContentLayout extends GridLayout {
 
     private TaskChart taskChart1;
@@ -51,7 +44,7 @@ public class ContentLayout extends GridLayout {
         this.functionChart = new FunctionChart(RtosUI.getCurrent().getMathFunction(), 73.0, Math.PI / 12,
                 FunctionChartType.DISCRETE);
         this.functionChart.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
-        this.functionChart.setPerLine(Utils.round(72.0 / 6, 2));
+        this.functionChart.setPerLine(MathUtils.round(72.0 / 6, 2));
 
         this.taskChart1 = new TaskChart("Задача 1");
         this.taskChart1.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);

@@ -2,20 +2,13 @@ package un.courcework.rtos.view.component.layout;
 
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
-import un.courcework.rtos.core.Utils;
+import un.courcework.rtos.utils.MathUtils;
 import un.courcework.rtos.model.MathFunction;
 import un.courcework.rtos.model.MathFunctionValue;
 import un.courcework.rtos.view.RtosUI;
 import un.courcework.rtos.view.component.MathFunctionTable;
 import un.courcework.rtos.view.component.chart.FunctionChart;
 
-/**
- * Created with IntelliJ IDEA.
- * User: yri_kun
- * Date: 06.10.13
- * Time: 15:04
- * To change this template use File | Settings | File Templates.
- */
 public class LabOneLayout extends VerticalLayout {
 
     HorizontalLayout tablesLayout = new HorizontalLayout();
@@ -60,7 +53,7 @@ public class LabOneLayout extends VerticalLayout {
                 FunctionChart chartTwo = new FunctionChart(
                         RtosUI.getCurrent().getMathFunction(), 72.0,  Math.PI / 12);
                 chartTwo.setHeight(200, Unit.PIXELS);
-                chartTwo.setPerLine( Utils.round(72.0 / 6, 2));
+                chartTwo.setPerLine( MathUtils.round(72.0 / 6, 2));
                 Window window = new Window();
                 window.setCaption("Charts");
                 window.setWidth(900, Sizeable.Unit.PIXELS);
@@ -112,11 +105,11 @@ public class LabOneLayout extends VerticalLayout {
         }
 
         tMinTMaxLayout.addComponent(new Label("tMax = "
-                + Utils.round(this.fMax.getT(), 3) ));
+                + MathUtils.round(this.fMax.getT(), 3) ));
         tMinTMaxLayout.addComponent(new Label("fMax = "
-                + Utils.round(this.fMax.getF(), 3) ));
+                + MathUtils.round(this.fMax.getF(), 3) ));
         tMinTMaxLayout.addComponent(new Label("fMaxStep = "
-                + Utils.round(this.fMaxStep, 3) ));
+                + MathUtils.round(this.fMaxStep, 3) ));
 
         content.addComponent(tMinTMaxLayout);
         return content;

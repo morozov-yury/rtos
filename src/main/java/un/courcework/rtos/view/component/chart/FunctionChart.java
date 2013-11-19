@@ -3,17 +3,10 @@ package un.courcework.rtos.view.component.chart;
 
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
-import un.courcework.rtos.core.Utils;
+import un.courcework.rtos.utils.MathUtils;
 import un.courcework.rtos.model.FunctionChartType;
 import un.courcework.rtos.model.MathFunction;
 
-/**
- * Created with IntelliJ IDEA.
- * User: yri_kun
- * Date: 27.09.13
- * Time: 13:18
- * To change this template use File | Settings | File Templates.
- */
 public class FunctionChart extends Chart {
 
     private MathFunction mathFunction;
@@ -21,7 +14,7 @@ public class FunctionChart extends Chart {
     private Double length;
     private Double koef;
 
-    private Double perLine = Utils.round(Math.PI, 3);
+    private Double perLine = MathUtils.round(Math.PI, 3);
 
     public FunctionChart() {
         super(ChartType.SPLINE);

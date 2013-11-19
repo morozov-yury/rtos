@@ -8,13 +8,6 @@ import com.vaadin.server.ThemeResource;
 
 import java.util.ArrayList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: yri_kun
- * Date: 21.10.13
- * Time: 10:30
- * To change this template use File | Settings | File Templates.
- */
 public class TaskChart  extends Chart {
 
     private Configuration conf;

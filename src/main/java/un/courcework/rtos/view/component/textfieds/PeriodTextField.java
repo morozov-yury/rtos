@@ -1,6 +1,7 @@
-package un.courcework.rtos.view.component.textfiels;
+package un.courcework.rtos.view.component.textfieds;
 
 import un.courcework.rtos.model.Task;
+import un.courcework.rtos.utils.StringUtils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -9,11 +10,11 @@ import un.courcework.rtos.model.Task;
  * Time: 21:13
  * To change this template use File | Settings | File Templates.
  */
-public class PeriodTextField extends  ParamTextField {
+public class PeriodTextField extends AbstractParamTextField {
 
     public PeriodTextField(Task task) {
         super(task);
         setValue(Integer.toString(task.gettPeriodCall()));
-        setDescription("<b>Тп < Tc</b>");
+        setDescription(StringUtils.makeBoldString("Тп < Tc"));
     }
 }

@@ -1,12 +1,5 @@
 package un.courcework.rtos.model;
 
-/**
- * Created with IntelliJ IDEA.
- * User: yri_kun
- * Date: 13.10.13
- * Time: 0:31
- * To change this template use File | Settings | File Templates.
- */
 public class MathFunctionValue {
 
     private Double t;

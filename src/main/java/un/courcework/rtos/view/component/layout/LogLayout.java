@@ -8,13 +8,6 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 
-/**
- * Created with IntelliJ IDEA.
- * User: yri_kun
- * Date: 10.11.13
- * Time: 1:20
- * To change this template use File | Settings | File Templates.
- */
 public class LogLayout extends VerticalLayout {
 
     public LogLayout () {

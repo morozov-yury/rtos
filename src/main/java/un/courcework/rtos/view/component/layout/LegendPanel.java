@@ -3,13 +3,6 @@ package un.courcework.rtos.view.component.layout;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: yri_kun
- * Date: 10.11.13
- * Time: 0:50
- * To change this template use File | Settings | File Templates.
- */
 public class LegendPanel extends VerticalLayout {
 
     public LegendPanel() {

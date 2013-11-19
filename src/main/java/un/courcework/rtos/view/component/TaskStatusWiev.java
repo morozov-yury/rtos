@@ -6,13 +6,6 @@ import com.vaadin.ui.Label;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.model.TaskStatus;
 
-/**
- * Created with IntelliJ IDEA.
- * User: yri_kun
- * Date: 10.11.13
- * Time: 22:24
- * To change this template use File | Settings | File Templates.
- */
 public class TaskStatusWiev extends Image {
 
     private Task task;

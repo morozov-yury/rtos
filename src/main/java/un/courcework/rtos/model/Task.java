@@ -3,27 +3,16 @@ package un.courcework.rtos.model;
 public class Task {
 
     private String name;
-
     private int tStartIntActive;
-
     private int tEndIntActive;
-
     private int tPlanCall;
-
     private int tPeriodCall;
-
     private int tVaitMax;
-
     private int tExecMax;
-
     private int priority;
-
     private int tSession;
-
     private int nSession;
-
     private TaskState taskState;
-
     private TaskStatus taskStatus;
 
     public Task(String name, int tStartIntActive, int tEndIntActive, int tPlanCall, int tPeriodCall, int tVaitMax,
