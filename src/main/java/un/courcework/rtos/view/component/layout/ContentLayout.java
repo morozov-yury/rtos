@@ -79,6 +79,7 @@ public class ContentLayout extends GridLayout {
         TabSheet tsh  =  new TabSheet();
         tsh.addStyleName("tros-tabsheet");
         tsh.setWidth(100, Unit.PERCENTAGE);
+        tsh.setHeight(328, Unit.PIXELS);
         tsh.addTab(new LegendPanel(), "Ообозначения");
         tsh.addTab(new LogLayout(), "Управление");
 //        rightContentLayout.addComponent(new LegendPanel());

@@ -89,7 +89,6 @@ public class LabOneLayout extends VerticalLayout {
         VerticalLayout  tMinTMaxLayout = new VerticalLayout();
         tMinTMaxLayout.setSpacing(true);
 
-
         tablesLayout.setSpacing(true);
         tMinTMaxLayout.addComponent(tablesLayout);
 
@@ -140,15 +139,12 @@ public class LabOneLayout extends VerticalLayout {
         table.addContainerProperty("v", Double.class, 0.0);
         table.addContainerProperty("ht", Double.class, 0.0);
 
-
         tablesLayout.addComponent(table);
 
         Double h2step =  this.fMaxStep;
-
         Double v = 0.0;
         Double tv = 0.0;
         Double dfabs = (this.fMax.getF() * this.deltaFPercent ) / 100;
-
         Double tobr =  0.0;
         Double dtsys =  0.0;
         Double tper = 0.0;
@@ -157,10 +153,10 @@ public class LabOneLayout extends VerticalLayout {
         Boolean flag = true;
 
         do {
-            table.removeAllItems();
+           // table.removeAllItems();
             v = 0.0;
             tv = 0.0;
-            for (double i = 0; i < LabOneLayout.tMax; i += h2step) {
+            for (double i = 0; i < Math.PI; i += h2step) {
                 System.out.println("//////////// h2step = " + h2step);
 
                 double df1 = Math.abs(
@@ -184,43 +180,37 @@ public class LabOneLayout extends VerticalLayout {
                 System.out.println("///////////////////////////");
             }
 
-            if ( (mathFunction.getValue(tv) - mathFunction.getValue(tv - h2step)) < dfabs) {
+            if ( Math.abs((mathFunction.getValue(tv) - mathFunction.getValue(tv - h2step))) > dfabs) {
                 h2step /= 2;
                 continue;
-            }
-
-            if ( (mathFunction.getValue(tv) - mathFunction.getValue(tv - h2step)) < dfabs / 10) {
+            } else if ( Math.abs((mathFunction.getValue(tv) - mathFunction.getValue(tv - h2step))) < dfabs / 10) {
                 h2step *= 2;
                 continue;
-            }
-
-            if ( (dfabs / 10) < (mathFunction.getValue(tv) - mathFunction.getValue(tv - h2step)) ) {
-                tobr =  h2step;
-                dtsys =  tobr / 10;
-                tper = Math.PI;
-                nper = tper / dtsys;
-
-                System.out.println("######## v = " + v);
-                System.out.println("######## tobr = " + tobr);
-                System.out.println("######## dtsys = " + dtsys);
-                System.out.println("######## tper = " + tper);
-                System.out.println("######## nper = " + nper);
+            } else {
                 flag = false;
             }
-
-
-
         } while (flag);
+
+        tobr =  h2step;
+        dtsys =  tobr / 10;
+        tper = Math.PI;
+        nper = tper / dtsys;
+
+        System.out.println("######## v = " + v);
+        System.out.println("######## tobr = " + tobr);
+        System.out.println("######## dtsys = " + dtsys);
+        System.out.println("######## tper = " + tper);
+        System.out.println("######## nper = " + nper);
 
         content.addComponent(new Label("fmax = " + this.fMax.getF()));
         content.addComponent(new Label("dFPercent = " + this.deltaFPercent));
         content.addComponent(new Label("dfabs = " + dfabs));
         content.addComponent(new Label("v = " + v));
         content.addComponent(new Label("tobr = " + tobr));
+        content.addComponent(new Label("ht = " + h2step));
         content.addComponent(new Label("dtsys = " + dtsys));
         content.addComponent(new Label("tper = " + tper));
         content.addComponent(new Label("nper = " + nper));
-        content.addComponent(new Label("tDiscr = " + dfabs / fMax.getF()));
 
         return content;
     }

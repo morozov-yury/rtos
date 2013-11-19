@@ -14,6 +14,7 @@ public class LegendPanel extends VerticalLayout {
 
     public LegendPanel() {
         setWidth(100, Unit.PERCENTAGE);
+
         addStyleName("legend-panel");
 
         Table legendTeble = new Table();
@@ -68,16 +69,16 @@ public class LegendPanel extends VerticalLayout {
         label = new Label("Задача не активна");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
-        image = new Image("Информация", new ThemeResource("images/16x16/01.png"));
-        label = new Label("Информация");
+        image = new Image("Превышение To.m.", new ThemeResource("images/16x16/01.png"));
+        label = new Label("Превышение To.m.");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
-        image = new Image("Информация", new ThemeResource("images/16x16/02.png"));
-        label = new Label("Информация");
+        image = new Image("Превышение Tв.m.", new ThemeResource("images/16x16/02.png"));
+        label = new Label("Превышение Tв.m.");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
-        image = new Image("Информация", new ThemeResource("images/16x16/03.png"));
-        label = new Label("Информация");
+        image = new Image("Плановый вызов", new ThemeResource("images/16x16/03.png"));
+        label = new Label("Плановый вызов");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
         addComponent(legendTeble);

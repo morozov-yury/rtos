@@ -2,7 +2,11 @@ package un.courcework.rtos.view.component.layout;
 
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
+import com.vaadin.ui.VerticalLayout;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,36 +15,19 @@ import com.vaadin.ui.TextArea;
  * Time: 1:20
  * To change this template use File | Settings | File Templates.
  */
-public class LogLayout extends TextArea {
+public class LogLayout extends VerticalLayout {
 
     public LogLayout () {
         addStyleName("log-text-area");
         setWidth(100, Unit.PERCENTAGE);
         setHeight(100, Unit.PERCENTAGE);
         setEnabled(false);
-        setWordwrap(true);
-        //setReadOnly(true);
 
-        //setHeight(Page.getCurrent().getBrowserWindowHeight() - 645, Sizeable.Unit.PIXELS);
+        Label mauseLabel = new Label("<b>События мыши</b>", ContentMode.HTML);
+        Label keyboardLabel = new Label("<b>События клавиатуры</b>", ContentMode.HTML);
 
-        Page.getCurrent().addBrowserWindowResizeListener(new Page.BrowserWindowResizeListener() {
-            @Override
-            public void browserWindowResized(Page.BrowserWindowResizeEvent event) {
-                //setHeight(Page.getCurrent().getBrowserWindowHeight() - 650, Sizeable.Unit.PIXELS);
-            }
-        });
-
-        addMessage("--01: Задача №2 получает управление от задачи №1");
-        addMessage("--02: Задача №1 получает управление по Тп");
-        addMessage("--03: Задача №3 получает управление по таймеру");
-        addMessage("--04: Задача №2 прерывается задачей №3");
+        addComponent(mauseLabel);
+        addComponent(keyboardLabel);
     }
 
-    public void addMessage (String message) {
-        if (getValue().length() == 0) {
-            setValue(getValue() + message);
-        } else {
-            setValue(getValue() + "\n" + message);
-        }
-    }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="quiz" default="fast-deploy" basedir=".">
-	<property name="tomcat-server-home" value="C:/programs/apache-tomcat-7.0.41" />
+	<property name="tomcat-server-home" value="C:/programs/apache-tomcat-7.0.47" />
     <property name="project-dir" value="'D:/YandexDisk/Studies/5 curs/9 semester/Shevchenko/rtos'" />
 	<property name="war-name" value="ROOT"/>
 

@@ -12,7 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<vaadin.version>7.1.6</vaadin.version>
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
-        <tomcat-webapp-dir>C:/programs/apache-tomcat-7.0.41/webapps/ROOT</tomcat-webapp-dir>
+        <tomcat-webapp-dir>C:/programs/apache-tomcat-7.0.47/webapps/ROOT</tomcat-webapp-dir>
 	</properties>
 	<repositories>
 		<repository>
