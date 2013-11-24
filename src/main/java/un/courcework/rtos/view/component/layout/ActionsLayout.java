@@ -8,9 +8,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 
-public class LogLayout extends VerticalLayout {
+public class ActionsLayout extends VerticalLayout {
 
-    public LogLayout () {
+    public ActionsLayout() {
         addStyleName("log-text-area");
         setWidth(100, Unit.PERCENTAGE);
         setHeight(100, Unit.PERCENTAGE);

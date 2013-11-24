@@ -3,7 +3,7 @@ package un.courcework.rtos.view.component;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import un.courcework.rtos.model.Task;
-import un.courcework.rtos.view.component.textfieds.*;
+import un.courcework.rtos.view.component.textfieds.impl.*;
 
 import java.util.ArrayList;
 import java.util.List;

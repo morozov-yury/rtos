@@ -3,6 +3,7 @@ package un.courcework.rtos.view.component.chart;
 
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
+import com.vaadin.addon.charts.model.style.Style;
 import un.courcework.rtos.utils.MathUtils;
 import un.courcework.rtos.model.FunctionChartType;
 import un.courcework.rtos.model.MathFunction;
@@ -10,22 +11,13 @@ import un.courcework.rtos.model.MathFunction;
 public class FunctionChart extends Chart {
 
     private MathFunction mathFunction;
-    private FunctionChartType functionChartType;
     private Double length;
     private Double koef;
 
-    private Double perLine = MathUtils.round(Math.PI, 3);
+    private Double perLine = 1.0;
 
     public FunctionChart() {
         super(ChartType.SPLINE);
-    }
-
-    public FunctionChart(MathFunction mathFunction, Double length, Double koef, FunctionChartType chartType) {
-        this();
-        this.functionChartType = chartType;
-        this.length = length;
-        this.koef = koef;
-        this.mathFunction = mathFunction;
     }
 
     public FunctionChart(MathFunction mathFunction, Double length, Double koef) {
@@ -33,7 +25,6 @@ public class FunctionChart extends Chart {
         this.length = length;
         this.koef = koef;
         this.mathFunction = mathFunction;
-        this.functionChartType = FunctionChartType.ANALOG;
     }
 
 
@@ -49,52 +40,28 @@ public class FunctionChart extends Chart {
         conf.setTitle("Задача объекта");
         // The data
 
-        DataSeries series = new DataSeries();
-        series.setName("cos(2t+1)");
-        for (double i = 0.0; i < this.length; i += 0.1) {
-            if (koef != null) {
-                if (this.functionChartType == FunctionChartType.DISCRETE)    {
-                      if (mathFunction.getValue(i  * this.koef) > 0) {
-                          series.add(new DataSeriesItem(i, 1.0));
-                      } else if (mathFunction.getValue(i  * this.koef) < 0) {
-                          series.add(new DataSeriesItem(i, 0));
-                      }
-                } else {
-                    series.add(new DataSeriesItem(i, mathFunction.getValue(i  * this.koef)));
-                }
-            } else {
-                if (this.functionChartType == FunctionChartType.DISCRETE)    {
-                    if (mathFunction.getValue(i  * this.koef) > 0) {
-                        series.add(new DataSeriesItem(i, 1.0));
-                    } else if (mathFunction.getValue(i  * this.koef) < 0) {
-                        series.add(new DataSeriesItem(i, 0));
-                    }
-                } else {
-                    series.add(new DataSeriesItem(i, mathFunction.getValue(i)));
-                }
-            }
-        }
-
-        conf.addSeries(series);
+        conf.addSeries(getDataSeries());
 
         XAxis xaxis;
         xaxis = new XAxis();
         xaxis.setTitle("t");
-        xaxis.setTickInterval(perLine);
+        xaxis.setTickInterval(1);
         xaxis.setGridLineWidth(1);
         xaxis.setMax(this.length);
         xaxis.setMin(0.0);
+        Labels labels = new Labels();
+        labels.setAlign(HorizontalAlign.CENTER);
+        Style style = new Style();
+        style.setFontSize("9px");
+        labels.setStyle(style);
+        xaxis.setLabels(labels);
         conf.addxAxis(xaxis);
         // Set the Y axis title
         YAxis yaxis = new YAxis();
         yaxis.setTitle("f");
-        if (functionChartType == FunctionChartType.DISCRETE) {
-            yaxis.setMin(-0.1);
-        } else {
-            yaxis.setMin(-1.1);
-        }
+        yaxis.setMin(-1);
         yaxis.setMax(2);
-        //yaxis.setTickPixelInterval(50);
+        yaxis.setTickPixelInterval(50);
         conf.addyAxis(yaxis);
 
         conf.getLegend().setEnabled(false);
@@ -112,4 +79,18 @@ public class FunctionChart extends Chart {
     public void setPerLine(Double perLine) {
         this.perLine = perLine;
     }
+
+    public DataSeries getDataSeries () {
+        DataSeries series = new DataSeries();
+        series.setName("cos(2t+1)");
+        for (double i = 0.0; i < this.length; i += 0.1) {
+            if (koef != null) {
+                series.add(new DataSeriesItem(i, mathFunction.getValue(i  * this.koef)));
+            } else {
+                series.add(new DataSeriesItem(i, mathFunction.getValue(i)));
+            }
+        }
+        return series;
+    }
+
 }

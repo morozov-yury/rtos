@@ -16,7 +16,7 @@ public class TaskChart  extends Chart {
     private DataSeries ls;
     private String titile;
 
-    private int count;
+    private int count = 0;
 
     public TaskChart (String title) {
         super(ChartType.COLUMN);
@@ -30,13 +30,8 @@ public class TaskChart  extends Chart {
         this.tooltip = new Tooltip();
         this.plot = new PlotOptionsColumn();
         this.ls = new DataSeries();
-
         conf.getChart().setMargin(30, 10, 30, 40);
-
-
-        count = 0;
         setWidth("100%");
-
 
         conf.setTitle(this.titile);
         XAxis x = new XAxis();
@@ -45,13 +40,10 @@ public class TaskChart  extends Chart {
         x.setMax(72);
         x.setMin(0);
 
-
         Labels labels = new Labels();
-        //labels.setRotation(-90);
         labels.setAlign(HorizontalAlign.CENTER);
         Style style = new Style();
         style.setFontSize("9px");
-        //style.setFontFamily("Verdana, sans-serif");
         labels.setStyle(style);
         x.setLabels(labels);
 
@@ -78,7 +70,6 @@ public class TaskChart  extends Chart {
         tooltip.setFormatter("this.x");
         conf.setTooltip(tooltip);
 
-
         plot.setPointPadding(0.2);
         plot.setBorderWidth(1);
         plot.setAnimation(false);
@@ -96,7 +87,6 @@ public class TaskChart  extends Chart {
         dataLabels.setFormatter("this.x");
         style = new Style();
         style.setFontSize("10px");
-        //style.setFontFamily("Verdana, sans-serif");
         dataLabels.setStyle(style);
 
         plot.setDataLabels(dataLabels);

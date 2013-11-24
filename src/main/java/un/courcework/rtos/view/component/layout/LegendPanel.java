@@ -6,7 +6,7 @@ import com.vaadin.ui.*;
 public class LegendPanel extends VerticalLayout {
 
     public LegendPanel() {
-        setWidth(100, Unit.PERCENTAGE);
+        setWidth(200, Unit.PIXELS);
 
         addStyleName("legend-panel");
 
