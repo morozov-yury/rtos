@@ -1,11 +1,13 @@
 package un.courcework.rtos.core.timer.impl;
 
-import com.vaadin.ui.Notification;
 import un.courcework.rtos.core.TimerAware;
 import un.courcework.rtos.core.timer.RtosTimer;
 import un.courcework.rtos.view.RtosUI;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SecondRtosTimer implements RtosTimer {
 

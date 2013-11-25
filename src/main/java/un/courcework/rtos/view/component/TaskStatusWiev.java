@@ -2,9 +2,7 @@ package un.courcework.rtos.view.component;
 
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
 import un.courcework.rtos.model.Task;
-import un.courcework.rtos.model.TaskStatus;
 
 public class TaskStatusWiev extends Image {
 

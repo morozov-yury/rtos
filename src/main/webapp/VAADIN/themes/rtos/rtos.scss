@@ -110,7 +110,7 @@
   }
 
   .v-popupview {
-    width: 92px;
+    width: 105px;
     text-align: center !important;
     cursor: pointer;
     white-space: nowrap;
@@ -139,8 +139,21 @@
     -webkit-appearance: button;
   }
 
-  .time-panel {
+  .legend-panel .v-table-cell-content {
+    padding: 0px;
+  }
 
+  .legend-panel {
+    width: 100% !important;
+    border: none !important;
+  }
+
+  .hidden-legend-table {
+    width: 180px !important;
+  }
+
+  .legend-panel .v-scrollable {
+    border: none;
   }
 
   .rtos-timer {

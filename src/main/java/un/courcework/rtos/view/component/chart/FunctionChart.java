@@ -4,8 +4,6 @@ package un.courcework.rtos.view.component.chart;
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.model.style.Style;
-import un.courcework.rtos.utils.MathUtils;
-import un.courcework.rtos.model.FunctionChartType;
 import un.courcework.rtos.model.MathFunction;
 
 public class FunctionChart extends Chart {

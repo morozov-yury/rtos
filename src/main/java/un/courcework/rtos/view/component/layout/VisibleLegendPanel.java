@@ -34,8 +34,8 @@ public class VisibleLegendPanel extends VerticalLayout {
         label = new Label("Задача ожидает");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
-        image = new Image("Задача активна", new ThemeResource("images/16x16/43_.png"));
-        label = new Label("Задача активна");
+        image = new Image("Задача выполняется", new ThemeResource("images/16x16/43_.png"));
+        label = new Label("Задача выполняется");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
         image = new Image("Задача не активна", new ThemeResource("images/16x16/44.png"));

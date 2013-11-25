@@ -1,18 +1,21 @@
 package un.courcework.rtos.view.component.layout;
 
 import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 
 public class HiddenLegendPanel extends VerticalLayout {
 
     public HiddenLegendPanel() {
-        setWidth(200, Unit.PIXELS);
+        setWidth(220, Unit.PIXELS);
 
         addStyleName("legend-panel");
 
         Table legendTeble = new Table();
-        legendTeble.addStyleName("components-inside");
         legendTeble.addStyleName("legend-table");
+        legendTeble.addStyleName("hidden-legend-table");
         legendTeble.setSelectable(false);
         legendTeble.setImmediate(true);
         legendTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
@@ -54,8 +57,8 @@ public class HiddenLegendPanel extends VerticalLayout {
         label = new Label("Задача ожидает");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
-        image = new Image("Задача активна", new ThemeResource("images/16x16/43_.png"));
-        label = new Label("Задача активна");
+        image = new Image("Задача выполняется", new ThemeResource("images/16x16/43_.png"));
+        label = new Label("Задача выполняется");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
         image = new Image("Задача не активна", new ThemeResource("images/16x16/44.png"));

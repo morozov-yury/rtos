@@ -1,9 +1,9 @@
 package un.courcework.rtos.view.component;
 
 import com.vaadin.ui.Table;
-import un.courcework.rtos.utils.MathUtils;
 import un.courcework.rtos.model.MathFunction;
 import un.courcework.rtos.model.MathFunctionValue;
+import un.courcework.rtos.utils.MathUtils;
 
 public class MathFunctionTable extends Table {
 

@@ -3,7 +3,6 @@ package un.courcework.rtos.view.component.buttons;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.NativeButton;
-import com.vaadin.ui.Notification;
 import un.courcework.rtos.view.RtosUI;
 
 public class StartButton extends NativeButton {

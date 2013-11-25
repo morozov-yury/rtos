@@ -2,9 +2,9 @@ package un.courcework.rtos.view.component.layout;
 
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.*;
-import un.courcework.rtos.utils.MathUtils;
 import un.courcework.rtos.model.MathFunction;
 import un.courcework.rtos.model.MathFunctionValue;
+import un.courcework.rtos.utils.MathUtils;
 import un.courcework.rtos.view.RtosUI;
 import un.courcework.rtos.view.component.MathFunctionTable;
 import un.courcework.rtos.view.component.chart.FunctionChart;
