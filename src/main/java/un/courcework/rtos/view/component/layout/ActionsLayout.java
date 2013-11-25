@@ -7,6 +7,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
+import un.courcework.rtos.utils.StringUtils;
 
 public class ActionsLayout extends VerticalLayout {
 
@@ -16,11 +17,10 @@ public class ActionsLayout extends VerticalLayout {
         setHeight(100, Unit.PERCENTAGE);
         setEnabled(false);
 
-        Label mauseLabel = new Label("<b>События мыши</b>", ContentMode.HTML);
-        Label keyboardLabel = new Label("<b>События клавиатуры</b>", ContentMode.HTML);
-
-        addComponent(mauseLabel);
-        addComponent(keyboardLabel);
+        addComponent(new Label(StringUtils.makeBoldString("События мыши"), ContentMode.HTML));
+        addComponent(new Label("Правая кнопка мыши - начало интервала активности для 3й задачи", ContentMode.HTML));
+        addComponent(new Label(StringUtils.makeBoldString("События клавиатуры"), ContentMode.HTML));
+        addComponent(new Label("Клавиша 1 - начало интервала активности для 1й задачи", ContentMode.HTML));
     }
 
 }

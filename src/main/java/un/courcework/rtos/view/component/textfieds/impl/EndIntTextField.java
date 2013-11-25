@@ -10,5 +10,9 @@ public class EndIntTextField extends AbstractParamTextField {
         super(task);
         setValue(Integer.toString(task.gettEndIntActive()));
         setDescription(StringUtils.makeBoldString("Тн < Тк < 72"));
+        if (task.getId() != 3) {
+            setValue("");
+            setEnabled(false);
+        }
     }
 }

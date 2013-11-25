@@ -10,5 +10,7 @@ public class StartIntValidator extends AbstractParamTextField {
         super(task);
         setValue(Integer.toString(task.gettStartIntActive()));
         setDescription(StringUtils.makeBoldString("0 < Тн < 72"));
+        setValue("");
+        setEnabled(false);
     }
 }

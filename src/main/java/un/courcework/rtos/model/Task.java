@@ -2,6 +2,7 @@ package un.courcework.rtos.model;
 
 public class Task {
 
+    private int id;
     private String name;
     private int tStartIntActive;
     private int tEndIntActive;
@@ -15,8 +16,9 @@ public class Task {
     private TaskState taskState;
     private TaskStatus taskStatus;
 
-    public Task(String name, int tStartIntActive, int tEndIntActive, int tPlanCall, int tPeriodCall, int tVaitMax,
+    public Task(int id, String name, int tStartIntActive, int tEndIntActive, int tPlanCall, int tPeriodCall, int tVaitMax,
                 int tExecMax, int priority, int tSession, int nSession, TaskState taskState, TaskStatus taskStatus) {
+        this.id = id;
         this.name = name;
         this.tStartIntActive = tStartIntActive;
         this.tEndIntActive = tEndIntActive;
@@ -125,5 +127,13 @@ public class Task {
 
     public void setnSession(int nSession) {
         this.nSession = nSession;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

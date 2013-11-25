@@ -25,21 +25,24 @@ public class SecondRtosTimer implements RtosTimer {
         this.task = new TimerTask() {
             public void run() {
                 RtosUI.getCurrent().showTrayNotification("Timer tick " + tickCount);
-                System.out.println(tickCount);
-                for (TimerAware timerAware : tickListeners) {
-                    timerAware.timerSecondTick(tickCount);
-                    RtosUI.getCurrent().push();
-                }
+                awareListeners(tickCount);
                 tickCount++;
             }
         };
     }
 
+    private void awareListeners (int tickCount) {
+        for (TimerAware timerAware : this.tickListeners) {
+            timerAware.timerSecondTick(tickCount);
+            RtosUI.getCurrent().push();
+            System.out.println(tickCount);
+        }
+    }
+
     @Override
     public void startTimer() {
-        if (this.tickCount != 0) {
-            return;
-        }
+        initTaimer();
+        awareListeners(tickCount);
         this.timer.schedule(task, 0, 1000);
     }
 
@@ -48,6 +51,7 @@ public class SecondRtosTimer implements RtosTimer {
         this.tickCount = 0;
         this.timer.cancel();
         initTaimer();
+        awareListeners(tickCount);
     }
 
     @Override

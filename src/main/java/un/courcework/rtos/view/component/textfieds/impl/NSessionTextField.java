@@ -8,6 +8,9 @@ public class NSessionTextField extends AbstractParamTextField {
     public NSessionTextField(Task task) {
         super(task);
         setValue(Integer.toString(task.getnSession()));
-        //setDescription("N сеанса");
+        if (task.getId() != 1) {
+            setValue("");
+            setEnabled(false);
+        }
     }
 }

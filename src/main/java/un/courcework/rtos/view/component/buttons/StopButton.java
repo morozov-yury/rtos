@@ -28,7 +28,7 @@ public class StopButton extends NativeButton  {
                     TaskChart newTaskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
                     TaskChart oldtaskChart = contentLayout.getTaskChartsList().get(i);
                     contentLayout.getLeftContentLayout().replaceComponent(oldtaskChart, newTaskChart);
-                    contentLayout.getTaskChartsList().add(newTaskChart);
+                    newTaskChartList.add(newTaskChart);
                 }
                 contentLayout.setTaskChartsList(newTaskChartList);
             }

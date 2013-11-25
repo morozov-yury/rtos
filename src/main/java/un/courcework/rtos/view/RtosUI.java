@@ -85,9 +85,9 @@ public class RtosUI extends UI {
     }
 
     private void createTestTasks () {
-        this.tasks.add(new Task("1", 1, 40, 3, 5, 3, 9, 0, 5, 0,TaskState.ACTIVE, TaskStatus.WAIT));
-        this.tasks.add(new Task("2", 10, 60, 3, 4, 3, 9, 0, 5, 0, TaskState.ACTIVE, TaskStatus.WAIT));
-        this.tasks.add(new Task("3", 5, 20, 3, 6, 3, 9, 0, 5, 0, TaskState.NOT_ACTIVE, TaskStatus.WAIT));
+        this.tasks.add(new Task(1, "1", 1, 40, 3, 5, 3, 9, 0, 5, 0,TaskState.ACTIVE, TaskStatus.WAIT));
+        this.tasks.add(new Task(2, "2", 10, 60, 3, 4, 3, 9, 0, 5, 0, TaskState.ACTIVE, TaskStatus.WAIT));
+        this.tasks.add(new Task(3, "3", 5, 20, 3, 6, 3, 9, 0, 5, 0, TaskState.NOT_ACTIVE, TaskStatus.WAIT));
         renewTaskCharts();
     }
 

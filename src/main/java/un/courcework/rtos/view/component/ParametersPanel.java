@@ -107,13 +107,13 @@ public class ParametersPanel extends VerticalLayout {
         rowsArray.add(tasksNames);
         rowsArray.add(tStartIntActiveList);
         rowsArray.add(tEndIntActiveList);
-        rowsArray.add(tPlanCallList);
         rowsArray.add(tPeriodCallList);
         rowsArray.add(tVaitMaxList);
         rowsArray.add(tExecMaxList);
         rowsArray.add(priorityList);
         rowsArray.add(tSessionList);
         rowsArray.add(nSessionList);
+        rowsArray.add(tPlanCallList);
         rowsArray.add(statusList);
         rowsArray.add(stateList);
 

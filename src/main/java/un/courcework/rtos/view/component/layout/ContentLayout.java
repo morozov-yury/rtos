@@ -64,14 +64,11 @@ public class ContentLayout extends GridLayout {
         this.rightContentLayout.addComponent(new ButtonsPanel(this));
         this.rightContentLayout.addComponent(new ParametersPanel(RtosUI.getCurrent().listTasks()));
 
-        PopupView popupViewLegendPanel = new PopupView("Обозначения", new LegendPanel());
-        PopupView popupViewLogLayout = new PopupView("Дейсвия", new ActionsLayout());
-        HorizontalLayout logLegenPanel = new HorizontalLayout();
-        logLegenPanel.setSpacing(true);
-        logLegenPanel.addComponent(popupViewLegendPanel);
-        logLegenPanel.addComponent(popupViewLogLayout);
+        PopupView popupViewLegendPanel = new PopupView("Обозначения", new HiddenLegendPanel());
 
-        this.rightContentLayout.addComponent(logLegenPanel);
+        this.rightContentLayout.addComponent(popupViewLegendPanel);
+        this.rightContentLayout.addComponent(new VisibleLegendPanel());
+        this.rightContentLayout.addComponent(new ActionsLayout());
         this.rightContentLayout.setWidth(185, Unit.PIXELS);
 
         addComponent(this.leftContentLayout, 0, 0);
