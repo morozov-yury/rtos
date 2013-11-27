@@ -2,24 +2,23 @@ package un.courcework.rtos.model;
 
 public class Task {
 
-    private int id;
-    private String name;
-    private int tStartIntActive;
-    private int tEndIntActive;
-    private int tPlanCall;
-    private int tPeriodCall;
-    private int tVaitMax;
-    private int tExecMax;
-    private int priority;
-    private int tSession;
-    private int nSession;
+    private Integer id;
+    private Integer tStartIntActive;
+    private Integer tEndIntActive;
+    private Integer tPlanCall;
+    private Integer tPeriodCall;
+    private Integer tVaitMax;
+    private Integer tExecMax;
+    private Integer priority;
+    private Integer tSession;
+    private Integer nSession;
     private TaskState taskState;
     private TaskStatus taskStatus;
 
-    public Task(int id, String name, int tStartIntActive, int tEndIntActive, int tPlanCall, int tPeriodCall, int tVaitMax,
-                int tExecMax, int priority, int tSession, int nSession, TaskState taskState, TaskStatus taskStatus) {
+    public Task(Integer id, Integer tStartIntActive, Integer tEndIntActive, Integer tPlanCall,
+                Integer tPeriodCall, Integer tVaitMax, Integer tExecMax, Integer priority,
+                Integer tSession, Integer nSession, TaskState taskState, TaskStatus taskStatus) {
         this.id = id;
-        this.name = name;
         this.tStartIntActive = tStartIntActive;
         this.tEndIntActive = tEndIntActive;
         this.tPlanCall = tPlanCall;
@@ -33,75 +32,67 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-    public int gettStartIntActive() {
+    public Integer gettStartIntActive() {
         return tStartIntActive;
     }
 
-    public void settStartIntActive(int tStartIntActive) {
+    public void settStartIntActive(Integer tStartIntActive) {
         this.tStartIntActive = tStartIntActive;
     }
 
-    public int gettEndIntActive() {
+    public Integer gettEndIntActive() {
         return tEndIntActive;
     }
 
-    public void settEndIntActive(int tEndIntActive) {
+    public void settEndIntActive(Integer tEndIntActive) {
         this.tEndIntActive = tEndIntActive;
     }
 
-    public int gettPeriodCall() {
+    public Integer gettPeriodCall() {
         return tPeriodCall;
     }
 
-    public void settPeriodCall(int tPeriodCall) {
+    public void settPeriodCall(Integer tPeriodCall) {
         this.tPeriodCall = tPeriodCall;
     }
 
-    public int gettVaitMax() {
+    public Integer gettVaitMax() {
         return tVaitMax;
     }
 
-    public void settVaitMax(int tVaitMax) {
+    public void settVaitMax(Integer tVaitMax) {
         this.tVaitMax = tVaitMax;
     }
 
-    public int gettExecMax() {
+    public Integer gettExecMax() {
         return tExecMax;
     }
 
-    public void settExecMax(int tExecMax) {
+    public void settExecMax(Integer tExecMax) {
         this.tExecMax = tExecMax;
     }
 
-    public int getPriority() {
+    public Integer getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(Integer priority) {
         this.priority = priority;
     }
 
-    public int gettSession() {
+    public Integer gettSession() {
         return tSession;
     }
 
-    public void settSession(int tSession) {
+    public void settSession(Integer tSession) {
         this.tSession = tSession;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int gettPlanCall() {
+    public Integer gettPlanCall() {
         return tPlanCall;
     }
 
-    public void settPlanCall(int tPlanCall) {
+    public void settPlanCall(Integer tPlanCall) {
         this.tPlanCall = tPlanCall;
     }
 
@@ -121,19 +112,19 @@ public class Task {
         this.taskStatus = taskStatus;
     }
 
-    public int getnSession() {
+    public Integer getnSession() {
         return nSession;
     }
 
-    public void setnSession(int nSession) {
+    public void setnSession(Integer nSession) {
         this.nSession = nSession;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

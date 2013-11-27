@@ -8,7 +8,30 @@ public class TSessionTextField extends AbstractParamTextField {
 
     public TSessionTextField(Task task) {
         super(task);
-        setValue(Integer.toString(task.gettSession()));
         setDescription(StringUtils.makeBoldString("Tc < 72"));
+    }
+
+    @Override
+    public Object getTaskValue() {
+        return super.getTask().gettSession();
+    }
+
+    @Override
+    public void setTaskValue(Object value) {
+        super.getTask().settSession( Integer.valueOf(value.toString()));
+    }
+
+    @Override
+    public String getMessageError() {
+        return "Премя выполнения не может быть негативным или нулевым";
+    }
+
+    @Override
+    public boolean checkValue(Object value) {
+        Integer intValue = Integer.valueOf(value.toString());
+        if (intValue <= 0) {
+            return false;
+        }
+        return true;
     }
 }

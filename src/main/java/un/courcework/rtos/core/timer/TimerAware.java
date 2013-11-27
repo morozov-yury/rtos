@@ -1,4 +1,4 @@
-package un.courcework.rtos.core;
+package un.courcework.rtos.core.timer;
 
 public interface TimerAware {
 

@@ -20,7 +20,6 @@ public class ParametersPanel extends VerticalLayout {
         paramTeble.setSelectable(false);
         paramTeble.setImmediate(true);
         paramTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
-        //paramTeble.setRowHeaderMode(Table.RowHeaderMode.ICON_ONLY);
         paramTeble.setFooterVisible(false);
         paramTeble.setPageLength(13);
         paramTeble.setWidth(100, Unit.PERCENTAGE);
@@ -31,12 +30,12 @@ public class ParametersPanel extends VerticalLayout {
         List<Object> tasksNames = new ArrayList<Object>();
         tasksNames.add(new Label(""));
         for (Task task : tasks) {
-            paramTeble.addContainerProperty(task.getName(), Component.class, null);
+            paramTeble.addContainerProperty(task.getId(), Component.class, null);
             Label taskNameLabel = new Label(
                     "<img src='http://localhost:8080/VAADIN/themes/rtos/images/16x16/37.png'></img>"
-                            + task.getName(), ContentMode.HTML);
+                            + task.getId(), ContentMode.HTML);
             tasksNames.add(taskNameLabel);
-            paramTeble.setColumnAlignment(task.getName(), Table.Align.CENTER);
+            paramTeble.setColumnAlignment(task.getId(), Table.Align.CENTER);
         }
 
         Label label;

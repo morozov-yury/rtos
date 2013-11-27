@@ -1,7 +1,7 @@
 package un.courcework.rtos.view.component.time;
 
 import com.vaadin.ui.Label;
-import un.courcework.rtos.core.TimerAware;
+import un.courcework.rtos.core.timer.TimerAware;
 import un.courcework.rtos.view.RtosUI;
 
 import java.text.Format;

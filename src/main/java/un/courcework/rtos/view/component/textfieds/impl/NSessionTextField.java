@@ -7,10 +7,29 @@ public class NSessionTextField extends AbstractParamTextField {
 
     public NSessionTextField(Task task) {
         super(task);
-        setValue(Integer.toString(task.getnSession()));
-        if (task.getId() != 1) {
-            setValue("");
-            setEnabled(false);
+    }
+
+    @Override
+    public Object getTaskValue() {
+        return super.getTask().getnSession();
+    }
+
+    @Override
+    public void setTaskValue(Object value) {
+        super.getTask().setnSession( Integer.valueOf(value.toString()));
+    }
+
+    @Override
+    public String getMessageError() {
+        return "Номер сеанса не может быть отрицательным или нулевым";
+    }
+
+    @Override
+    public boolean checkValue(Object value) {
+        Integer intValue = Integer.valueOf(value.toString());
+        if (intValue <= 0) {
+            return false;
         }
+        return true;
     }
 }

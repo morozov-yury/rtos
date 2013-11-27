@@ -1,7 +1,5 @@
 package un.courcework.rtos.core.timer;
 
-import un.courcework.rtos.core.TimerAware;
-
 import java.util.List;
 
 public interface RtosTimer {
