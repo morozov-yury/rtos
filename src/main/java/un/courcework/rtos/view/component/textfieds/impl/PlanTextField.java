@@ -1,34 +1,28 @@
 package un.courcework.rtos.view.component.textfieds.impl;
 
+import com.vaadin.ui.Label;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.utils.StringUtils;
 import un.courcework.rtos.view.component.textfieds.AbstractParamTextField;
 
-public class PlanTextField extends AbstractParamTextField {
+public class PlanTextField extends Label {
+
+    private Task task;
 
     public PlanTextField(Task task) {
-        super(task);
-        setDescription("Тп = " + StringUtils.makeBoldString("Тп + Tп(Тф)"));
-        setEnabled(false);
+        this.task = task;
+        //super(task);
+        setDescription("Тпл = " + StringUtils.makeBoldString("Тп + Tп(Тф)"));
+        //setEnabled(false);
+        setValue(task.gettPlanCall().toString());
     }
 
-    @Override
     public Object getTaskValue() {
-        return super.getTask().gettPlanCall();
+        return this.task.gettPlanCall();
     }
 
-    @Override
     public void setTaskValue(Object value) {
-        super.getTask().settPlanCall( Integer.valueOf(value.toString()));
+        this.task.settPlanCall( Integer.valueOf(value.toString()));
     }
 
-    @Override
-    public String getMessageError() {
-        return "";
-    }
-
-    @Override
-    public boolean checkValue(Object value) {
-        return true;
-    }
 }

@@ -8,7 +8,7 @@ import com.vaadin.ui.TextField;
 import un.courcework.rtos.model.Task;
 
 public abstract class AbstractParamTextField extends TextField
-        implements FieldEvents.TextChangeListener {
+        implements FieldEvents.TextChangeListener, TextFieldRefresher  {
 
     private Task task;
 
@@ -32,13 +32,22 @@ public abstract class AbstractParamTextField extends TextField
 
     @Override
     public void textChange(FieldEvents.TextChangeEvent event) {
-        if (!checkValue (event.getText())) {
+        refresh(event.getText());
+    }
+
+    private void refresh (String value) {
+        if (!checkValue (value)) {
             setComponentError(new UserError(getMessageError()));
         } else {
             setComponentError(null);
-            setTaskValue(event.getText());
+            setTaskValue(value);
             shouldHideErrors();
         }
+    }
+
+    @Override
+    public void refreshField() {
+        refresh(getTaskValue().toString());
     }
 
     public abstract Object getTaskValue();

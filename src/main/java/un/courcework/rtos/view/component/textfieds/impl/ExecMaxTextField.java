@@ -25,13 +25,15 @@ public class ExecMaxTextField extends AbstractParamTextField {
     @Override
     public String getMessageError() {
         return "Параметр Т выполнения максимальное имет некоректное значение. " +
-                "Он должен быть в диапазоне [0;" + Dispatcher.MODELLING_TIME + "]";
+                "Он должен быть в диапазоне [0;" + super.getTask().gettPeriodCall() + "]";
     }
 
     @Override
     public boolean checkValue(Object value) {
         Integer intValue  = Integer.valueOf(value.toString());
-        if ( intValue < 0 || intValue > Dispatcher.MODELLING_TIME) {
+        if ( intValue < 0 || intValue > Dispatcher.MODELLING_TIME
+                || intValue > super.getTask().gettPeriodCall()
+                || intValue < super.getTask().gettSession()) {
             return false;
         }
         return true;

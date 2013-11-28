@@ -3,6 +3,7 @@ package un.courcework.rtos.view.component;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import un.courcework.rtos.model.Task;
+import un.courcework.rtos.view.component.textfieds.TextFieldRefresher;
 import un.courcework.rtos.view.component.textfieds.impl.*;
 
 import java.util.ArrayList;
@@ -11,31 +12,34 @@ import java.util.List;
 public class ParametersPanel extends VerticalLayout {
 
     private Table paramTeble;
+    private List<TextFieldRefresher> TextFieldRefresherList;
 
     public ParametersPanel (List<Task> tasks) {
 
-        paramTeble = new Table();
-        paramTeble.addStyleName("components-inside");
-        paramTeble.addStyleName("rtos-table");
-        paramTeble.setSelectable(false);
-        paramTeble.setImmediate(true);
-        paramTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
-        paramTeble.setFooterVisible(false);
-        paramTeble.setPageLength(13);
-        paramTeble.setWidth(100, Unit.PERCENTAGE);
+        this.TextFieldRefresherList = new ArrayList<TextFieldRefresher>();
 
-        paramTeble.addContainerProperty("", Component.class, null);
-        paramTeble.setColumnWidth("", 40);
+        this.paramTeble = new Table();
+        this.paramTeble.addStyleName("components-inside");
+        this.paramTeble.addStyleName("rtos-table");
+        this.paramTeble.setSelectable(false);
+        this.paramTeble.setImmediate(true);
+        this.paramTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
+        this.paramTeble.setFooterVisible(false);
+        this.paramTeble.setPageLength(13);
+        this.paramTeble.setWidth(100, Unit.PERCENTAGE);
+
+        this.paramTeble.addContainerProperty("", Component.class, null);
+        this.paramTeble.setColumnWidth("", 40);
 
         List<Object> tasksNames = new ArrayList<Object>();
         tasksNames.add(new Label(""));
         for (Task task : tasks) {
-            paramTeble.addContainerProperty(task.getId(), Component.class, null);
+            this.paramTeble.addContainerProperty(task.getId(), Component.class, null);
             Label taskNameLabel = new Label(
                     "<img src='http://localhost:8080/VAADIN/themes/rtos/images/16x16/37.png'></img>"
                             + task.getId(), ContentMode.HTML);
             tasksNames.add(taskNameLabel);
-            paramTeble.setColumnAlignment(task.getId(), Table.Align.CENTER);
+            this.paramTeble.setColumnAlignment(task.getId(), Table.Align.CENTER);
         }
 
         Label label;
@@ -89,15 +93,42 @@ public class ParametersPanel extends VerticalLayout {
         stateList.add(label);
 
         for (Task task : tasks) {
-            tStartIntActiveList.add(new StartIntValidator(task));
-            tEndIntActiveList.add(new EndIntTextField(task));
+            TextFieldRefresher textFieldRefresher;
+
+            textFieldRefresher = new StartIntValidator(task);
+            tStartIntActiveList.add(textFieldRefresher);
+            this.TextFieldRefresherList.add(textFieldRefresher);
+
+            textFieldRefresher = new EndIntTextField(task);
+            tEndIntActiveList.add(textFieldRefresher);
+            this.TextFieldRefresherList.add(textFieldRefresher);
+
             tPlanCallList.add(new PlanTextField(task));
-            tPeriodCallList.add(new PeriodTextField(task));
-            tVaitMaxList.add(new VaitTextField(task));
-            tExecMaxList.add(new ExecMaxTextField(task));
-            priorityList.add(new PriorityTextField(task));
-            tSessionList.add(new TSessionTextField(task));
-            nSessionList.add(new NSessionTextField(task));
+
+            textFieldRefresher = new PeriodTextField(task);
+            tPeriodCallList.add(textFieldRefresher);
+            this.TextFieldRefresherList.add(textFieldRefresher);
+
+            textFieldRefresher = new VaitTextField(task);
+            tVaitMaxList.add(textFieldRefresher);
+            this.TextFieldRefresherList.add(textFieldRefresher);
+
+            textFieldRefresher = new ExecMaxTextField(task);
+            tExecMaxList.add(textFieldRefresher);
+            this.TextFieldRefresherList.add(textFieldRefresher);
+
+            textFieldRefresher = new PriorityTextField(task);
+            priorityList.add(textFieldRefresher);
+            this.TextFieldRefresherList.add(textFieldRefresher);
+
+            textFieldRefresher = new TSessionTextField(task);
+            tSessionList.add(textFieldRefresher);
+            this.TextFieldRefresherList.add(textFieldRefresher);
+
+            textFieldRefresher = new NSessionTextField(task);
+            nSessionList.add(textFieldRefresher);
+            this.TextFieldRefresherList.add(textFieldRefresher);
+
             statusList.add(new TaskStatusWiev(task));
             stateList.add(new TaskStateWiev(task));
         }
