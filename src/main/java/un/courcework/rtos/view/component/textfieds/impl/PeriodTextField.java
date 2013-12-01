@@ -1,12 +1,13 @@
 package un.courcework.rtos.view.component.textfieds.impl;
 
 import un.courcework.rtos.model.Task;
+import un.courcework.rtos.view.component.ParametersPanel;
 import un.courcework.rtos.view.component.textfieds.AbstractParamTextField;
 
 public class PeriodTextField extends AbstractParamTextField {
 
-    public PeriodTextField(Task task) {
-        super(task);
+    public PeriodTextField(ParametersPanel parametersPanel, Task task) {
+        super(parametersPanel, task);
     }
 
     @Override

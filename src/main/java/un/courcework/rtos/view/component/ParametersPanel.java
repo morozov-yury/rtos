@@ -12,11 +12,11 @@ import java.util.List;
 public class ParametersPanel extends VerticalLayout {
 
     private Table paramTeble;
-    private List<TextFieldRefresher> TextFieldRefresherList;
+    private List<TextFieldRefresher> textFieldRefresherList;
 
     public ParametersPanel (List<Task> tasks) {
 
-        this.TextFieldRefresherList = new ArrayList<TextFieldRefresher>();
+        this.textFieldRefresherList = new ArrayList<TextFieldRefresher>();
 
         this.paramTeble = new Table();
         this.paramTeble.addStyleName("components-inside");
@@ -95,39 +95,39 @@ public class ParametersPanel extends VerticalLayout {
         for (Task task : tasks) {
             TextFieldRefresher textFieldRefresher;
 
-            textFieldRefresher = new StartIntValidator(task);
+            textFieldRefresher = new StartIntValidator(this, task);
             tStartIntActiveList.add(textFieldRefresher);
-            this.TextFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new EndIntTextField(task);
+            textFieldRefresher = new EndIntTextField(this, task);
             tEndIntActiveList.add(textFieldRefresher);
-            this.TextFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(textFieldRefresher);
 
             tPlanCallList.add(new PlanTextField(task));
 
-            textFieldRefresher = new PeriodTextField(task);
+            textFieldRefresher = new PeriodTextField(this, task);
             tPeriodCallList.add(textFieldRefresher);
-            this.TextFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new VaitTextField(task);
+            textFieldRefresher = new VaitTextField(this, task);
             tVaitMaxList.add(textFieldRefresher);
-            this.TextFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new ExecMaxTextField(task);
+            textFieldRefresher = new ExecMaxTextField(this, task);
             tExecMaxList.add(textFieldRefresher);
-            this.TextFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new PriorityTextField(task);
+            textFieldRefresher = new PriorityTextField(this, task);
             priorityList.add(textFieldRefresher);
-            this.TextFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new TSessionTextField(task);
+            textFieldRefresher = new TSessionTextField(this, task);
             tSessionList.add(textFieldRefresher);
-            this.TextFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new NSessionTextField(task);
+            textFieldRefresher = new NSessionTextField(this, task);
             nSessionList.add(textFieldRefresher);
-            this.TextFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(textFieldRefresher);
 
             statusList.add(new TaskStatusWiev(task));
             stateList.add(new TaskStateWiev(task));
@@ -152,6 +152,12 @@ public class ParametersPanel extends VerticalLayout {
         }
 
         addComponent(paramTeble);
+    }
+
+    public void refreshAllFiels () {
+        for (TextFieldRefresher textField : this.textFieldRefresherList) {
+            textField.refreshField();
+        }
     }
 
     private TextField getParamTextField () {

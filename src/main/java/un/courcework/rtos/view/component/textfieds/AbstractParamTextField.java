@@ -6,13 +6,16 @@ import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.TextField;
 import un.courcework.rtos.model.Task;
+import un.courcework.rtos.view.component.ParametersPanel;
 
 public abstract class AbstractParamTextField extends TextField
         implements FieldEvents.TextChangeListener, TextFieldRefresher  {
 
+    private ParametersPanel parametersPanel;
     private Task task;
 
-    public AbstractParamTextField(Task task) {
+    public AbstractParamTextField(ParametersPanel parametersPanel, Task task) {
+        this.parametersPanel = parametersPanel;
         this.task = task;
         setWidth(100, Unit.PERCENTAGE);
         setImmediate(true);
@@ -33,9 +36,17 @@ public abstract class AbstractParamTextField extends TextField
     @Override
     public void textChange(FieldEvents.TextChangeEvent event) {
         refresh(event.getText());
+        parametersPanel.refreshAllFiels();
+        refresh(event.getText());
     }
 
     private void refresh (String value) {
+        try {
+            Integer.valueOf(value.toString());
+        } catch (NumberFormatException e) {
+            setComponentError(new UserError(getMessageError()));
+            return;
+        }
         if (!checkValue (value)) {
             setComponentError(new UserError(getMessageError()));
         } else {
@@ -47,7 +58,10 @@ public abstract class AbstractParamTextField extends TextField
 
     @Override
     public void refreshField() {
-        refresh(getTaskValue().toString());
+        System.out.println("refreshField, value = " + getTaskValue());
+        if (getTaskValue() != null) {
+            refresh(getTaskValue().toString());
+        }
     }
 
     public abstract Object getTaskValue();
