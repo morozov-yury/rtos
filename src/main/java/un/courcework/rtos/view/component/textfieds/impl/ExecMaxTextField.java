@@ -25,8 +25,8 @@ public class ExecMaxTextField extends AbstractParamTextField {
 
     @Override
     public String getMessageError() {
-        return "Параметр Т выполнения максимальное имет некоректное значение. " +
-                "Он должен быть в диапазоне [0;" + super.getTask().gettPeriodCall() + "]";
+        return "Должен быть в диапазоне [Tc;Tп]: [" + super.getTask().gettSession() +
+                ";" + super.getTask().gettPeriodCall() + "]";
     }
 
     @Override

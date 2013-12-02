@@ -3,16 +3,27 @@ package un.courcework.rtos.model;
 public class Task {
 
     private Integer id;
+
     private Integer tStartIntActive;
+
     private Integer tEndIntActive;
+
     private Integer tPlanCall;
+
     private Integer tPeriodCall;
+
     private Integer tVaitMax;
+
     private Integer tExecMax;
+
     private Integer priority;
+
     private Integer tSession;
+
     private Integer nSession;
+
     private TaskState taskState;
+
     private TaskStatus taskStatus;
 
     public Task(Integer id, Integer tStartIntActive, Integer tEndIntActive, Integer tPlanCall,

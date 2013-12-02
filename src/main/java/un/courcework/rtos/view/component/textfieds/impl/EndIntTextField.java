@@ -25,7 +25,7 @@ public class EndIntTextField extends AbstractParamTextField {
 
     @Override
     public String getMessageError() {
-        return "Параметр Тк имет некоректное значение. Он должен быть в диапазоне [0;"
+        return "Должно быть в диапазоне [0,Tmod]: [0;"
                 + Dispatcher.MODELLING_TIME + "]";
     }
 

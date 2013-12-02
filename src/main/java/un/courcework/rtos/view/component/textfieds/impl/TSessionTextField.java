@@ -10,7 +10,6 @@ public class TSessionTextField extends AbstractParamTextField {
 
     public TSessionTextField(ParametersPanel parametersPanel, Task task) {
         super(parametersPanel, task);
-        setDescription(StringUtils.makeBoldString("Tc < 72"));
     }
 
     @Override
@@ -25,14 +24,14 @@ public class TSessionTextField extends AbstractParamTextField {
 
     @Override
     public String getMessageError() {
-        return "Премя выполнения не может быть негативным или нулевым";
+        return "Должно быть в диапазоне [1; Tв.m.]: [1;" + super.getTask().gettExecMax() + "]";
     }
 
     @Override
     public boolean checkValue(Object value) {
         Integer intValue = Integer.valueOf(value.toString());
         if (intValue <= 0 || intValue > Dispatcher.MODELLING_TIME
-                || intValue > super.getTask().gettPeriodCall()) {
+                || intValue > super.getTask().gettExecMax()) {
             return false;
         }
         return true;

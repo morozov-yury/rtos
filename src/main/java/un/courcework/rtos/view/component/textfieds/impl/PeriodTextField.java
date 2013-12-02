@@ -22,11 +22,18 @@ public class PeriodTextField extends AbstractParamTextField {
 
     @Override
     public String getMessageError() {
-        return "Неккоректное значение Тп. Оно должо быть в диапазоне [Tc; Тк-Тн]";
+        return "Должо быть больше Max(Tc,To.m.,Tв.m.), > "
+                + Math.max(super.getTask().gettSession(), Math.max(super.getTask().gettExecMax(), super.getTask().gettVaitMax())) ;
     }
 
     @Override
     public boolean checkValue(Object value) {
+        Integer intValue = Integer.valueOf(value.toString());
+        if (intValue <= super.getTask().gettSession()
+                || intValue <= super.getTask().gettExecMax()
+                || intValue <= super.getTask().gettVaitMax()) {
+            return false;
+        }
         return true;
     }
 

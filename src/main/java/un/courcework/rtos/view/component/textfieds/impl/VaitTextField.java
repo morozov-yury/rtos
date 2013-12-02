@@ -25,14 +25,15 @@ public class VaitTextField extends AbstractParamTextField {
 
     @Override
     public String getMessageError() {
-        return "Неккоректно введено Т ожидания максимальное. Оно должно быть [1;" +
-                Dispatcher.MODELLING_TIME + "]";
+        return "Должно быть [1; Tп]: [1;" +
+                super.getTask().gettPeriodCall() + "]";
     }
 
     @Override
     public boolean checkValue(Object value) {
         Integer intValue = Integer.valueOf(value.toString());
-        if (intValue < 1 || intValue > Dispatcher.MODELLING_TIME) {
+        if (intValue < 1 || intValue > Dispatcher.MODELLING_TIME
+                || intValue > super.getTask().gettPeriodCall()) {
             return false;
         }
         return true;

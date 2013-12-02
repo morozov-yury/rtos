@@ -14,7 +14,9 @@ public class PlanTextField extends Label {
         //super(task);
         setDescription("Тпл = " + StringUtils.makeBoldString("Тп + Tп(Тф)"));
         //setEnabled(false);
-        setValue(task.gettPlanCall().toString());
+        if (task.gettPlanCall() != null) {
+            setValue(task.gettPlanCall().toString());
+        }
     }
 
     public Object getTaskValue() {
