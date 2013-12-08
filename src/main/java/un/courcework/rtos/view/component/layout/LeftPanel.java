@@ -1,7 +1,9 @@
 package un.courcework.rtos.view.component.layout;
 
+import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.ui.VerticalLayout;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.utils.MathUtils;
@@ -45,6 +47,15 @@ public class LeftPanel extends VerticalLayout {
                 }
                 functionChart.setHeight(height / 4, Sizeable.Unit.PIXELS);
                 setWidth(Page.getCurrent().getBrowserWindowWidth() - 200 - 20, Sizeable.Unit.PIXELS);
+            }
+        });
+
+        this.addLayoutClickListener(new LayoutEvents.LayoutClickListener() {
+            @Override
+            public void layoutClick(LayoutEvents.LayoutClickEvent event) {
+                if (event.getButton() == MouseEventDetails.MouseButton.RIGHT) {
+                    RtosUI.getCurrent().getDispatcher().fireClickEvent();
+                }
             }
         });
 

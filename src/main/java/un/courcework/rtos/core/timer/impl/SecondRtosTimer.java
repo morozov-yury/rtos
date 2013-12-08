@@ -1,5 +1,6 @@
 package un.courcework.rtos.core.timer.impl;
 
+import un.courcework.rtos.core.dispatcher.Dispatcher;
 import un.courcework.rtos.core.timer.RtosTimer;
 import un.courcework.rtos.core.timer.TimerAware;
 
@@ -27,6 +28,9 @@ public class SecondRtosTimer implements RtosTimer {
             public void run() {
                 awareListeners(tickCount);
                 tickCount++;
+                if (tickCount > Dispatcher.MODELLING_TIME) {
+                    stopTimer();
+                }
             }
         };
     }

@@ -7,6 +7,10 @@ import com.vaadin.addon.charts.model.style.Style;
 
 public class TaskChart  extends Chart {
 
+    public static Number ZERO_VALUE = 0.0;
+    public static Number MAX_VALUE = 2.0;
+    public static Number MARK_VALUE = 0.25;
+
     private Configuration conf;
     private Tooltip tooltip = new Tooltip();
     private PlotOptionsColumn plot;
@@ -92,34 +96,26 @@ public class TaskChart  extends Chart {
         conf.setPlotOptions(plot);
 
         drawChart(conf);
-        addPoint(0);
-    }
 
-    public void addPoint (Number value) {
-        DataSeriesItem ds = new DataSeriesItem(count, value);
+        DataSeriesItem ds = new DataSeriesItem(0, 0);
         Marker marker = new Marker(true);
-        marker.setSymbol(MarkerSymbolEnum.TRIANGLE);;
         ds.setMarker(marker);
-        if (count == 2)  {
-            ds.setColor(SolidColor.GREEN);
-        }
-
-        if (count == 5)  {
-            ds.setColor(SolidColor.RED);
-            ds.setY(0.25);
-        }
-
-        if (count == 10)  {
-            ds.setColor(SolidColor.GOLD);
-        }
         ls.add(ds);
-        count++;
     }
 
-    public void removePoints () {
-        ls.clear();
-        count = 0;
+    public void addPoint (Number posotion, Number value) {
+        DataSeriesItem ds = new DataSeriesItem(posotion, value);
+        Marker marker = new Marker(true);
+        ds.setMarker(marker);
+        ls.add(ds);
     }
 
+    public void addPoint (Number posotion, Number value, SolidColor solidColor) {
+        DataSeriesItem ds = new DataSeriesItem(posotion, value);
+        Marker marker = new Marker(true);
+        ds.setMarker(marker);
+        ds.setColor(solidColor);
+        ls.add(ds);
+    }
 
 }

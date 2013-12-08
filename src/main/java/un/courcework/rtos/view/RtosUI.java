@@ -2,11 +2,13 @@ package un.courcework.rtos.view;
 
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
+import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.UI;
@@ -52,22 +54,21 @@ public class RtosUI extends UI {
         mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.NUM1, null) {
             @Override
             public void handleAction(Object sender, Object target) {
-                System.out.println("Key 1");
+                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.NUM1);
             }
         });
         mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.NUM2, null) {
             @Override
             public void handleAction(Object sender, Object target) {
-                System.out.println("Key 2 ");
+                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.NUM2);
             }
         });
         mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.NUM3, null) {
             @Override
             public void handleAction(Object sender, Object target) {
-                System.out.println("Key 3");
+                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.NUM3);
             }
         });
-
         setContent(mainLayout);
     }
 
