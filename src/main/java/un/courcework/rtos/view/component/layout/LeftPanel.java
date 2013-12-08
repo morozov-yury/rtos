@@ -22,11 +22,12 @@ public class LeftPanel extends VerticalLayout {
         this.taskChartsList = new ArrayList<TaskChart>();
         float browserWindowHeight = Page.getCurrent().getBrowserWindowHeight() - 50;
 
-        this.functionChart = new DiscreteFunctionChart(RtosUI.getCurrent().getMathFunction(), 73.0, Math.PI / 12);
+        this.functionChart = new DiscreteFunctionChart(
+                RtosUI.getCurrent().getDispatcher().getMathFunction(), 73.0, Math.PI / 12);
         this.functionChart.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
         this.functionChart.setPerLine(MathUtils.round(72.0 / 6, 2));
 
-        for (Task task : RtosUI.getCurrent().listTasks()) {
+        for (Task task : RtosUI.getCurrent().getDispatcher().getTasks()) {
             TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
             this.taskChartsList.add(taskChart);
             addComponent(taskChart);

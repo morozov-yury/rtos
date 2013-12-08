@@ -47,10 +47,10 @@ public class LabOneLayout extends VerticalLayout {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 FunctionChart chartOne = new FunctionChart(
-                        RtosUI.getCurrent().getMathFunction(), Math.PI * 6, null);
+                        RtosUI.getCurrent().getDispatcher().getMathFunction(), Math.PI * 6, null);
                 chartOne.setHeight(200, Unit.PIXELS);
                 FunctionChart chartTwo = new FunctionChart(
-                        RtosUI.getCurrent().getMathFunction(), 72.0,  Math.PI / 12);
+                        RtosUI.getCurrent().getDispatcher().getMathFunction(), 72.0,  Math.PI / 12);
                 chartTwo.setHeight(200, Unit.PIXELS);
                 chartTwo.setPerLine( MathUtils.round(72.0 / 6, 2));
                 Window window = new Window();

@@ -2,7 +2,6 @@ package un.courcework.rtos.view.component.time;
 
 import com.vaadin.ui.Label;
 import un.courcework.rtos.core.timer.TimerAware;
-import un.courcework.rtos.view.RtosUI;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -22,6 +21,6 @@ public class SimulationTimeLabel  extends Label implements TimerAware {
     @Override
     public void timerSecondTick(int second) {
         setValue(this.dateFormatter.format(new Date(second * 1000)));
-        RtosUI.getCurrent().push();
+        //RtosUI.getCurrent().push();
     }
 }

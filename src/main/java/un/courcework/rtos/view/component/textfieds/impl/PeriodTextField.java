@@ -1,5 +1,6 @@
 package un.courcework.rtos.view.component.textfieds.impl;
 
+import com.vaadin.ui.Component;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.view.component.ParametersPanel;
 import un.courcework.rtos.view.component.textfieds.AbstractParamTextField;
@@ -35,6 +36,11 @@ public class PeriodTextField extends AbstractParamTextField {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Component getTextField() {
+        return this;
     }
 
 }

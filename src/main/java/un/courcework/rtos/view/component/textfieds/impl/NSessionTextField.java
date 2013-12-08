@@ -1,5 +1,6 @@
 package un.courcework.rtos.view.component.textfieds.impl;
 
+import com.vaadin.ui.Component;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.view.component.ParametersPanel;
 import un.courcework.rtos.view.component.textfieds.AbstractParamTextField;
@@ -8,6 +9,10 @@ public class NSessionTextField extends AbstractParamTextField {
 
     public NSessionTextField(ParametersPanel parametersPanel, Task task) {
         super(parametersPanel, task);
+        if (task.getId() == 2 || task.getId() == 3) {
+            setEnabled(false);
+            addStyleName("not-disabled-field");
+        }
     }
 
     @Override
@@ -33,4 +38,10 @@ public class NSessionTextField extends AbstractParamTextField {
         }
         return true;
     }
+
+    @Override
+    public Component getTextField() {
+        return this;
+    }
+
 }

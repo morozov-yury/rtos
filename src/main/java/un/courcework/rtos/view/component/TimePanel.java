@@ -13,7 +13,7 @@ public class TimePanel extends HorizontalLayout {
         addStyleName("time-panel");
 
         SimulationTimeLabel simulationTimeLabel = new SimulationTimeLabel();
-        RtosUI.getCurrent().getSecondRtosTimer().addTickListener(simulationTimeLabel);
+        RtosUI.getCurrent().getDispatcher().getSecondRtosTimer().addTickListener(simulationTimeLabel);
         addComponent(simulationTimeLabel);
 
         SystemTimeLabel systemTimeLabel = new SystemTimeLabel();

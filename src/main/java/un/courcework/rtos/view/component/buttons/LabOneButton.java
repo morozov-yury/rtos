@@ -22,7 +22,8 @@ public class LabOneButton extends NativeButton {
                 window.setCaption("Lab 1");
                 window.setWidth(1000, Sizeable.Unit.PIXELS);
                 window.center();
-                window.setContent(new LabOneLayout(RtosUI.getCurrent().getMathFunction()));
+                window.setContent(
+                        new LabOneLayout(RtosUI.getCurrent().getDispatcher().getMathFunction()));
                 UI.getCurrent().addWindow(window);
             }
         });

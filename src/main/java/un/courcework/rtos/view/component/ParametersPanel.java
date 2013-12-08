@@ -2,7 +2,10 @@ package un.courcework.rtos.view.component;
 
 import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.VerticalLayout;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.view.component.textfieds.TextFieldRefresher;
 import un.courcework.rtos.view.component.textfieds.impl.*;
@@ -11,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParametersPanel extends VerticalLayout {
+
+    public enum ParametersPanelStatus {
+        AVAILABLE_TO_EDIT,
+        NOT_AVAILABLE_TO_EDIT,
+        ERROR;
+    }
 
     private Table paramTeble;
     private List<TextFieldRefresher> textFieldRefresherList;
@@ -24,6 +33,7 @@ public class ParametersPanel extends VerticalLayout {
         this.paramTeble = new Table();
         this.paramTeble.addStyleName("components-inside");
         this.paramTeble.addStyleName("rtos-table");
+        this.paramTeble.addStyleName("parameters-panel");
         this.paramTeble.setSelectable(false);
         this.paramTeble.setImmediate(true);
         this.paramTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
@@ -48,7 +58,8 @@ public class ParametersPanel extends VerticalLayout {
         Label label;
         List<Object> tStartIntActiveList = new ArrayList<Object>();
         label =  new Label("Tн");
-        label.setDescription("Т начала - время, когда задача после старта По может получить управление первый раз" +
+        label.setDescription("Т начала - время, когда задача после старта " +
+                "По может получить управление первый раз" +
                 "(начала интервала активности)");
         tStartIntActiveList.add(label);
 
@@ -108,7 +119,7 @@ public class ParametersPanel extends VerticalLayout {
         for (Task task : tasks) {
             TextFieldRefresher textFieldRefresher;
 
-            textFieldRefresher = new StartIntValidator(this, task);
+            textFieldRefresher = new StartIntTextField(this, task);
             tStartIntActiveList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
@@ -116,7 +127,7 @@ public class ParametersPanel extends VerticalLayout {
             tEndIntActiveList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            tPlanCallList.add(new PlanTextField(task));
+            tPlanCallList.add(new PlanTextField(this, task));
 
             textFieldRefresher = new PeriodTextField(this, task);
             tPeriodCallList.add(textFieldRefresher);
@@ -133,7 +144,7 @@ public class ParametersPanel extends VerticalLayout {
             PriorityTextField priorityTextField = new PriorityTextField(this, task);
             priorityList.add(priorityTextField);
             priorityTextFields.add(priorityTextField);
-            this.textFieldRefresherList.add(textFieldRefresher);
+            this.textFieldRefresherList.add(priorityTextField);
 
             textFieldRefresher = new TSessionTextField(this, task);
             tSessionList.add(textFieldRefresher);
@@ -189,11 +200,23 @@ public class ParametersPanel extends VerticalLayout {
         }
     }
 
-    private TextField getParamTextField () {
-        TextField textField = new TextField();
-        textField.setMaxLength(3);
-        textField.setWidth(100, Unit.PERCENTAGE);
-        return textField;
+    public void setStatus (ParametersPanelStatus parametersPanelStatus) {
+        switch (parametersPanelStatus) {
+            case AVAILABLE_TO_EDIT:
+                this.setEnabled(true);
+                for (TextFieldRefresher textFieldRefresher : textFieldRefresherList) {
+                    textFieldRefresher.getTextField().removeStyleName("not-disabled-field-editable");
+                }
+                break;
+            case NOT_AVAILABLE_TO_EDIT:
+                this.setEnabled(false);
+                for (TextFieldRefresher textFieldRefresher : textFieldRefresherList) {
+                    textFieldRefresher.getTextField().addStyleName("not-disabled-field-editable");
+                }
+                break;
+            case ERROR:
+                break;
+        }
     }
 
 }

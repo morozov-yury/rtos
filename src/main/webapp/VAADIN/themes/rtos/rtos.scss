@@ -71,8 +71,6 @@
     border: none;
   }
 
-  .log-text-area
-
   .log-text-area .v-textarea {
     background: #ffffff !important;
     padding: 5px;
@@ -167,8 +165,17 @@
     background-color: red !important;
   }
 
-  .v-textfield .v-disabled {
-    //color: #222 !important;
+  .not-disabled-field {
+    background-color: #EEEEEE !important;
+  }
+
+  .not-disabled-field-editable {
+    background-color: #EEEEEE !important;
+  }
+
+  .v-disabled {
+    opacity: 1 !important;
+    cursor: default !important;
   }
 
 }

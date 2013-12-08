@@ -12,6 +12,8 @@ import un.courcework.rtos.view.component.togglebutton.DoubleToggleButton;
 
 public class RightPanel extends VerticalLayout {
 
+    private ParametersPanel parametersPanel;
+
     public RightPanel (LeftPanel leftPanel) {
         setSpacing(true);
         setWidth(185, Unit.PIXELS);
@@ -23,12 +25,18 @@ public class RightPanel extends VerticalLayout {
         hl.addComponent(popupViewLegendPanel);
         hl.addComponent(toggleButton);
 
+        parametersPanel = new ParametersPanel(RtosUI.getCurrent().getDispatcher().getTasks());
+
         addComponent(new TimePanel());
-        addComponent(new ButtonsPanel(leftPanel));
-        addComponent(new ParametersPanel(RtosUI.getCurrent().listTasks()));
+        addComponent(new ButtonsPanel(leftPanel, this));
+        addComponent(parametersPanel);
         addComponent(hl);
         addComponent(new VisibleLegendPanel());
         addComponent(new ActionsLayout());
+    }
+
+    public ParametersPanel getParametersPanel () {
+        return this.parametersPanel;
     }
 
 }

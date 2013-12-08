@@ -1,14 +1,17 @@
 package un.courcework.rtos.view.component.textfieds.impl;
 
+import com.vaadin.ui.Component;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.utils.StringUtils;
 import un.courcework.rtos.view.component.ParametersPanel;
 import un.courcework.rtos.view.component.textfieds.AbstractParamTextField;
 
-public class StartIntValidator extends AbstractParamTextField {
+public class StartIntTextField extends AbstractParamTextField {
 
-    public StartIntValidator(ParametersPanel parametersPanel, Task task) {
+    public StartIntTextField(ParametersPanel parametersPanel, Task task) {
         super(parametersPanel, task);
+        setEnabled(false);
+        addStyleName("not-disabled-field");
         setDescription(StringUtils.makeBoldString("0 < Тн < 72"));
     }
 
@@ -31,4 +34,10 @@ public class StartIntValidator extends AbstractParamTextField {
     public boolean checkValue(Object value) {
         return true;
     }
+
+    @Override
+    public Component getTextField() {
+        return this;
+    }
+
 }
