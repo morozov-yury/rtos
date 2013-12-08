@@ -3,7 +3,6 @@ package un.courcework.rtos.view.component.textfieds.impl;
 import com.vaadin.ui.Label;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.utils.StringUtils;
-import un.courcework.rtos.view.component.textfieds.AbstractParamTextField;
 
 public class PlanTextField extends Label {
 

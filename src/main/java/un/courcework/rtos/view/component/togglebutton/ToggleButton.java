@@ -1,9 +1,9 @@
 package un.courcework.rtos.view.component.togglebutton;
 
+import com.vaadin.ui.VerticalLayout;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.vaadin.ui.VerticalLayout;
 
 public abstract class ToggleButton extends VerticalLayout {
 

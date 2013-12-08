@@ -2,7 +2,6 @@ package un.courcework.rtos.view.component;
 
 import com.vaadin.ui.HorizontalLayout;
 import un.courcework.rtos.view.component.buttons.*;
-import un.courcework.rtos.view.component.layout.ContentLayout;
 import un.courcework.rtos.view.component.layout.LeftPanel;
 
 public class ButtonsPanel extends HorizontalLayout {

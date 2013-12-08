@@ -34,7 +34,6 @@ public class LabOneLayout extends VerticalLayout {
     @Override
     public void attach() {
         super.attach();
-        System.out.println("### LabOneLayout ########################################");
         addComponent(getContent());
     }
 
@@ -104,12 +103,9 @@ public class LabOneLayout extends VerticalLayout {
             this.fMaxStep = tStep / 5;
         }
 
-        tMinTMaxLayout.addComponent(new Label("tMax = "
-                + MathUtils.round(this.fMax.getT(), 3) ));
-        tMinTMaxLayout.addComponent(new Label("fMax = "
-                + MathUtils.round(this.fMax.getF(), 3) ));
-        tMinTMaxLayout.addComponent(new Label("fMaxStep = "
-                + MathUtils.round(this.fMaxStep, 3) ));
+        tMinTMaxLayout.addComponent(new Label("tMax = " + MathUtils.round(this.fMax.getT(), 3) ));
+        tMinTMaxLayout.addComponent(new Label("fMax = " + MathUtils.round(this.fMax.getF(), 3) ));
+        tMinTMaxLayout.addComponent(new Label("fMaxStep = " + MathUtils.round(this.fMaxStep, 3) ));
 
         content.addComponent(tMinTMaxLayout);
         return content;
@@ -150,27 +146,22 @@ public class LabOneLayout extends VerticalLayout {
             v = 0.0;
             tv = 0.0;
             for (double i = 0; i < Math.PI; i += h2step) {
-                System.out.println("//////////// h2step = " + h2step);
-
-                double df1 = Math.abs(
-                        mathFunction.getValue(i + h2step) - mathFunction.getValue(i));
+                double df1 = Math.abs(mathFunction.getValue(i + h2step) - mathFunction.getValue(i));
                 double v1 = df1 / h2step;
                 if (v < v1) {
                     v = v1;
                     tv = i;
                 }
-
-                table.addItem(new Object[]{
+                table.addItem(
+                    new Object[]{
                         i,
                         mathFunction.getValue(i),
                         mathFunction.getValue(i + 1),
                         df1,
                         v1,
                         h2step
-                },
-                        new Double(i));
-
-                System.out.println("///////////////////////////");
+                    },
+                    new Double(i));
             }
 
             if ( Math.abs((mathFunction.getValue(tv) - mathFunction.getValue(tv - h2step))) > dfabs) {
@@ -188,12 +179,6 @@ public class LabOneLayout extends VerticalLayout {
         dtsys =  tobr / 10;
         tper = Math.PI;
         nper = tper / dtsys;
-
-        System.out.println("######## v = " + v);
-        System.out.println("######## tobr = " + tobr);
-        System.out.println("######## dtsys = " + dtsys);
-        System.out.println("######## tper = " + tper);
-        System.out.println("######## nper = " + nper);
 
         content.addComponent(new Label("fmax = " + this.fMax.getF()));
         content.addComponent(new Label("dFPercent = " + this.deltaFPercent));

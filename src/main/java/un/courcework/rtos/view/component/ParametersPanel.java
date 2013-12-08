@@ -1,5 +1,6 @@
 package un.courcework.rtos.view.component;
 
+import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.*;
 import un.courcework.rtos.model.Task;
@@ -13,10 +14,12 @@ public class ParametersPanel extends VerticalLayout {
 
     private Table paramTeble;
     private List<TextFieldRefresher> textFieldRefresherList;
+    private List<PriorityTextField> priorityTextFields;
 
     public ParametersPanel (List<Task> tasks) {
 
         this.textFieldRefresherList = new ArrayList<TextFieldRefresher>();
+        this.priorityTextFields = new ArrayList<PriorityTextField>();
 
         this.paramTeble = new Table();
         this.paramTeble.addStyleName("components-inside");
@@ -48,45 +51,55 @@ public class ParametersPanel extends VerticalLayout {
         label.setDescription("Т начала - время, когда задача после старта По может получить управление первый раз" +
                 "(начала интервала активности)");
         tStartIntActiveList.add(label);
+
         List<Object> tEndIntActiveList = new ArrayList<Object>();
         label  = new Label("Tк") ;
         label.setDescription("Т конца - время, когда задача после старта ПО перестает быть активной " +
                 "(конец интервала активности задачи). ");
         tEndIntActiveList.add(label);
+
         List<Object> tPlanCallList = new ArrayList<Object>();
         label =  new Label("Tпл");
         label.setDescription("Т плановое");
         tPlanCallList.add(label);
+
         List<Object> tPeriodCallList = new ArrayList<Object>();
         label  =  new Label("Tп");
         label.setDescription("Т периода - переодизация вызова задачи. Позволяет планировщику расчитывать " +
                 "очередной плановый вызов задачи ");
         tPeriodCallList.add(label);
+
         List<Object> tVaitMaxList = new ArrayList<Object>();
         label =  new Label("Tо.m.");
         label.setDescription("Т ожидания максимальное. При превышении в интерфейс пользователя выдается запрос " +
                 "\"Пропуск вызова на данном таете\" или \"Снять задачу\".");
         tVaitMaxList.add(label);
+
         List<Object> tExecMaxList = new ArrayList<Object>();
         label  =  new Label("Tв.m.");
         label.setDescription("Т выполнения максимальное, при превышении происходит пропуск следующего вызова.");
         tExecMaxList.add(label);
+
         List<Object> priorityList = new ArrayList<Object>();
         label =  new Label("П");
         label.setDescription("Приоритет задачи");
         priorityList.add(label);
+
         List<Object> tSessionList = new ArrayList<Object>();
         label =  new Label("Tс");
         label.setDescription("Т сеанса - время фактического выполнения задачи");
         tSessionList.add(label);
+
         List<Object> nSessionList = new ArrayList<Object>();
         label =  new Label("Nс");
         label.setDescription("Номер сессии");
         nSessionList.add(label);
+
         List<Object> statusList = new ArrayList<Object>();
         label  =  new Label("Status");
         label.setDescription("Статус задачи");
         statusList.add(label);
+
         List<Object> stateList = new ArrayList<Object>();
         label  =  new Label("State");
         label.setDescription("Состояние задачи");
@@ -117,8 +130,9 @@ public class ParametersPanel extends VerticalLayout {
             tExecMaxList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new PriorityTextField(this, task);
-            priorityList.add(textFieldRefresher);
+            PriorityTextField priorityTextField = new PriorityTextField(this, task);
+            priorityList.add(priorityTextField);
+            priorityTextFields.add(priorityTextField);
             this.textFieldRefresherList.add(textFieldRefresher);
 
             textFieldRefresher = new TSessionTextField(this, task);
@@ -157,6 +171,21 @@ public class ParametersPanel extends VerticalLayout {
     public void refreshAllFiels () {
         for (TextFieldRefresher textField : this.textFieldRefresherList) {
             textField.refreshField();
+        }
+        System.out.println(priorityTextFields.get(0).toFoloat());
+        System.out.println(priorityTextFields.get(1).toFoloat());
+        System.out.println(priorityTextFields.get(2).toFoloat());
+        if (priorityTextFields.get(0).toFoloat() == priorityTextFields.get(1).toFoloat()
+                || priorityTextFields.get(0).toFoloat() == priorityTextFields.get(2).toFoloat()
+                || priorityTextFields.get(2).toFoloat() == priorityTextFields.get(1).toFoloat()) {
+            System.out.println("Bom bom");
+            for (PriorityTextField field : priorityTextFields) {
+                field.setComponentError(new UserError("Одинаковые приоритеты недопустимы"));
+            }
+        } else {
+            for (PriorityTextField field : priorityTextFields) {
+                field.setComponentError(null);
+            }
         }
     }
 

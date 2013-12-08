@@ -1,7 +1,7 @@
 package un.courcework.rtos.core.timer.impl;
 
-import un.courcework.rtos.core.timer.TimerAware;
 import un.courcework.rtos.core.timer.RtosTimer;
+import un.courcework.rtos.core.timer.TimerAware;
 import un.courcework.rtos.view.RtosUI;
 
 import java.util.ArrayList;

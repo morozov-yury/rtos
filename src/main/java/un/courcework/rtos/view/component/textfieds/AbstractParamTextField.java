@@ -1,8 +1,6 @@
 package un.courcework.rtos.view.component.textfieds;
 
 import com.vaadin.event.FieldEvents;
-import com.vaadin.server.AbstractErrorMessage;
-import com.vaadin.server.ErrorMessage;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.TextField;
 import un.courcework.rtos.model.Task;
@@ -37,7 +35,7 @@ public abstract class AbstractParamTextField extends TextField
     public void textChange(FieldEvents.TextChangeEvent event) {
         refresh(event.getText());
         parametersPanel.refreshAllFiels();
-        refresh(event.getText());
+        //refresh(event.getText());
     }
 
     private void refresh (String value) {
@@ -58,7 +56,6 @@ public abstract class AbstractParamTextField extends TextField
 
     @Override
     public void refreshField() {
-        System.out.println("refreshField, value = " + getTaskValue());
         if (getTaskValue() != null) {
             refresh(getTaskValue().toString());
         }
