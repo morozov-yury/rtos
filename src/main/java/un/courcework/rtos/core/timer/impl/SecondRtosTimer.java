@@ -36,10 +36,10 @@ public class SecondRtosTimer implements RtosTimer {
     }
 
     private void awareListeners (int tickCount) {
+        System.out.println("Modelling time: " + tickCount);
         for (TimerAware timerAware : this.tickListeners) {
             timerAware.timerSecondTick(tickCount);
             //RtosUI.getCurrent().push();
-            System.out.println(tickCount);
         }
     }
 

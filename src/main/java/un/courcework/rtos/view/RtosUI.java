@@ -14,6 +14,7 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import un.courcework.rtos.core.dispatcher.Dispatcher;
+import un.courcework.rtos.core.dispatcher.performer.TaskPerformer;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.view.component.chart.TaskChart;
 import un.courcework.rtos.view.component.layout.ContentLayout;
@@ -29,6 +30,10 @@ public class RtosUI extends UI {
     private Dispatcher dispatcher;
 
     private Map<Task, TaskChart> taskChartMap;
+
+    public Thread thread = new Thread(
+            new TaskPerformer(
+                    new Task(null, null, null, null, null, null, null, null, null, null, null, null)));
 
     @Override
     protected void init(VaadinRequest request) {

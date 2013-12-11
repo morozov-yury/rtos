@@ -14,7 +14,7 @@ public class TaskChart  extends Chart {
     private Configuration conf;
     private Tooltip tooltip = new Tooltip();
     private PlotOptionsColumn plot;
-    private DataSeries ls;
+    private volatile DataSeries ls;
     private String titile;
 
     private int count = 0;
@@ -107,7 +107,12 @@ public class TaskChart  extends Chart {
         DataSeriesItem ds = new DataSeriesItem(posotion, value);
         Marker marker = new Marker(true);
         ds.setMarker(marker);
-        ls.add(ds);
+        this.getUI().getSession().getLockInstance().lock();
+        try {
+            ls.add(ds);
+        } finally {
+            this.getUI().getSession().getLockInstance().unlock();
+        }
     }
 
     public void addPoint (Number posotion, Number value, SolidColor solidColor) {

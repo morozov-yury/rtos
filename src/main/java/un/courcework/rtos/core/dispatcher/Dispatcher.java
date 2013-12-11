@@ -2,9 +2,11 @@ package un.courcework.rtos.core.dispatcher;
 
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.Notification;
+import un.courcework.rtos.core.dispatcher.action.RtosAction;
 import un.courcework.rtos.core.dispatcher.engine.Engine;
 import un.courcework.rtos.core.dispatcher.engine.impl.MultiProcEngine;
 import un.courcework.rtos.core.dispatcher.engine.impl.SingleProcEngine;
+import un.courcework.rtos.core.dispatcher.performer.TaskPerformer;
 import un.courcework.rtos.core.timer.TimerAware;
 import un.courcework.rtos.core.timer.impl.SecondRtosTimer;
 import un.courcework.rtos.model.MathFunction;
@@ -20,7 +22,7 @@ import java.util.Map;
 
 public class Dispatcher implements TimerAware {
 
-    public static final long MODELLING_TIME = 72;
+    public static final long MODELLING_TIME = 73;
 
     private DipatcherMode dipatcherMode;
 
@@ -31,6 +33,8 @@ public class Dispatcher implements TimerAware {
     private SecondRtosTimer secondRtosTimer;
 
     private List<Task> tasks;
+
+    private List<TaskPerformer> taskPerformerList;
 
     public Dispatcher () {
         this.mathFunction = new MathFunction() {
@@ -43,7 +47,20 @@ public class Dispatcher implements TimerAware {
         this.secondRtosTimer = new SecondRtosTimer();
         this.secondRtosTimer.addTickListener(this);
         createTestTasks();
-        this.engine = new SingleProcEngine(this.tasks);
+
+        this.taskPerformerList = new ArrayList<TaskPerformer>();
+        for (Task task : this.tasks) {
+            TaskPerformer taskPerformer = new TaskPerformer(task);
+            taskPerformer.addRtosAction(new RtosAction() {
+                @Override
+                public void perform(Task task, int time) {
+                    TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
+                    taskChart.addPoint(time, TaskChart.MAX_VALUE);
+                }
+            });
+            this.taskPerformerList.add(taskPerformer);
+        }
+        this.engine = new SingleProcEngine(taskPerformerList);
     }
 
     private void createTestTasks () {
@@ -88,6 +105,16 @@ public class Dispatcher implements TimerAware {
 
     @Override
     public void timerSecondTick(int second) {
+        if (second == 0) {
+            for (TaskPerformer taskPerformer : this.taskPerformerList) {
+                (new Thread(taskPerformer)).start();
+            }
+        }
+        if (second == Dispatcher.MODELLING_TIME) {
+            for (TaskPerformer taskPerformer : this.taskPerformerList) {
+                taskPerformer.stop();
+            }
+        }
         this.engine.timeTick(second);
     }
 
@@ -99,10 +126,10 @@ public class Dispatcher implements TimerAware {
         this.dipatcherMode = dipatcherMode;
         switch (dipatcherMode) {
             case SINGLE_PROCESSOR:
-                this.engine = new SingleProcEngine(this.tasks);
+                this.engine = new SingleProcEngine(this.taskPerformerList);
                 break;
             case MULTIPROCESSOR:
-                this.engine = new MultiProcEngine(this.tasks);
+                this.engine = new MultiProcEngine(this.taskPerformerList);
                 break;
         }
     }

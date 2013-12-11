@@ -1,13 +1,13 @@
 package un.courcework.rtos.core.dispatcher.engine.impl;
 
 
-import un.courcework.rtos.model.Task;
+import un.courcework.rtos.core.dispatcher.performer.TaskPerformer;
 
 import java.util.List;
 
 public class SingleProcEngine extends AbstractEngine {
 
-    public SingleProcEngine(List<Task> tasks) {
-        super(tasks);
+    public SingleProcEngine(List<TaskPerformer> taskPerformers) {
+        super(taskPerformers);
     }
 }
