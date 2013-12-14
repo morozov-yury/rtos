@@ -6,6 +6,8 @@ public interface TextFieldRefresher {
 
     public void refreshField();
 
+    public void rewriteField();
+
     public Component getTextField();
 
 }

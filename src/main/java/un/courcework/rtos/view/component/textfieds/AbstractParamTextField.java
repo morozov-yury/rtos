@@ -4,6 +4,7 @@ import com.vaadin.event.FieldEvents;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.TextField;
 import un.courcework.rtos.model.Task;
+import un.courcework.rtos.view.RtosUI;
 import un.courcework.rtos.view.component.ParametersPanel;
 
 public abstract class AbstractParamTextField extends TextField
@@ -58,6 +59,13 @@ public abstract class AbstractParamTextField extends TextField
     public void refreshField() {
         if (getTaskValue() != null) {
             refresh(getTaskValue().toString());
+        }
+    }
+
+    @Override
+    public void rewriteField() {
+        if (getTaskValue() != null) {
+            setValue(getTaskValue().toString());
         }
     }
 

@@ -13,10 +13,15 @@ public class ActionsLayout extends VerticalLayout {
         setHeight(100, Unit.PERCENTAGE);
         setEnabled(false);
 
-        addComponent(new Label(StringUtils.makeBoldString("Пр.к.м") + " - Тн для 3з.", ContentMode.HTML));
-        addComponent(new Label(StringUtils.makeBoldString("Кл.\"1\"") + " - Tн для 1з.", ContentMode.HTML));
-        addComponent(new Label(StringUtils.makeBoldString("Кл.\"2\"") + " - Tк для 1з.", ContentMode.HTML));
-        addComponent(new Label(StringUtils.makeBoldString("Кл.\"3\"") + " - Tк для 2з.", ContentMode.HTML));
+        addComponent(new Label(StringUtils.makeBoldString("Кл.\"1\"") + " - Tн для "
+                + StringUtils.makeBoldString("задачи 1"), ContentMode.HTML));
+        addComponent(new Label(StringUtils.makeBoldString("Кл.\"2\"") + " - Tк для "
+                + StringUtils.makeBoldString("задачи 1"), ContentMode.HTML));
+        addComponent(new Label(StringUtils.makeBoldString("Кл.\"3\"") + " - Tк для "
+                + StringUtils.makeBoldString("задачи 2"), ContentMode.HTML));
+        addComponent(new Label(StringUtils.makeBoldString("Пр.к.м") + " - Тн для "
+                + StringUtils.makeBoldString("задачи 3"), ContentMode.HTML));
+
     }
 
 }

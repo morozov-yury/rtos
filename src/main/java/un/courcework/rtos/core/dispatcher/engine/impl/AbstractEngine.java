@@ -1,28 +1,26 @@
 package un.courcework.rtos.core.dispatcher.engine.impl;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import un.courcework.rtos.core.dispatcher.engine.Engine;
 import un.courcework.rtos.core.dispatcher.performer.TaskPerformer;
-import un.courcework.rtos.model.Task;
-import un.courcework.rtos.view.RtosUI;
-import un.courcework.rtos.view.component.chart.TaskChart;
 
-import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractEngine implements Engine {
 
-    private List<TaskPerformer> taskPerformers;
+    private static Logger log = LoggerFactory.getLogger(AbstractEngine.class);
 
-    public AbstractEngine(List<TaskPerformer> taskPerformers) {
-        this.taskPerformers = taskPerformers;
+    private volatile Map<Integer, TaskPerformer> taskPerformersMap;
+
+    public AbstractEngine(Map<Integer, TaskPerformer> taskPerformersMap) {
+        this.taskPerformersMap = taskPerformersMap;
     }
 
     @Override
     public void timeTick(int time) {
-        //System.out.println("AbstractEngine " + time);
-        for (TaskPerformer taskPerformer : this.taskPerformers) {
-            taskPerformer.timerSecondTick(time);
-        }
+
     }
+
 }

@@ -20,7 +20,16 @@ public class SimulationTimeLabel  extends Label implements TimerAware {
 
     @Override
     public void timerSecondTick(int second) {
-        setValue(this.dateFormatter.format(new Date(second * 1000)));
+        if (second == -1){
+            setValue(this.dateFormatter.format(new Date(0)));
+        } else {
+            setValue(this.dateFormatter.format(new Date(second * 1000)));
+        }
         //RtosUI.getCurrent().push();
+    }
+
+    @Override
+    public void timerTenthOfaSecondTick() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

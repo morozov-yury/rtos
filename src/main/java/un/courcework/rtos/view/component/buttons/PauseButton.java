@@ -16,6 +16,7 @@ public class PauseButton extends NativeButton  {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 RtosUI.getCurrent().getDispatcher().getSecondRtosTimer().pauseTimer();
+                RtosUI.getCurrent().getDispatcher().getTenthOfaSecondTimer().pauseTimer();
                 parametersPanel.setStatus(ParametersPanel.ParametersPanelStatus.AVAILABLE_TO_EDIT);
             }
         });

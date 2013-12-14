@@ -16,6 +16,7 @@ public class StartButton extends NativeButton {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 RtosUI.getCurrent().getDispatcher().getSecondRtosTimer().startTimer();
+                RtosUI.getCurrent().getDispatcher().getTenthOfaSecondTimer().startTimer();
                 parametersPanel.setStatus(ParametersPanel.ParametersPanelStatus.NOT_AVAILABLE_TO_EDIT);
             }
         });

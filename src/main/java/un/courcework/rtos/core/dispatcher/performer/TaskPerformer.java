@@ -1,15 +1,20 @@
 package un.courcework.rtos.core.dispatcher.performer;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import un.courcework.rtos.core.dispatcher.action.RtosAction;
 import un.courcework.rtos.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class TaskPerformer implements Runnable {
 
-    private List<RtosAction> actionsList;
+    private static Logger log = LoggerFactory.getLogger(TaskPerformer.class);
+
+    private volatile List<RtosAction> actionsList;
 
     private Task task;
 
@@ -19,11 +24,15 @@ public class TaskPerformer implements Runnable {
 
     public TaskPerformer (Task task) {
         this.task = task;
-        this.actionsList = new ArrayList<RtosAction>();
+        this.actionsList = new CopyOnWriteArrayList<RtosAction>();
     }
 
     public  void addRtosAction (RtosAction rtosAction) {
         this.actionsList.add(rtosAction);
+    }
+
+    public  void removeRtosAction (RtosAction rtosAction) {
+        this.actionsList.remove(rtosAction);
     }
 
     @Override
@@ -64,5 +73,9 @@ public class TaskPerformer implements Runnable {
 
     public void stop () {
         this.isStopped = true;
+    }
+
+    public Task getTask() {
+        return this.task;
     }
 }

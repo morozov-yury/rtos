@@ -1,6 +1,8 @@
 package un.courcework.rtos.model;
 
 public enum TaskState {
-    ACTIVE,
-    NOT_ACTIVE;
+    WORKS,
+    READY_TO_WORK,
+    WAIT_FOR_READY,
+    STOPPED;
 }

@@ -21,7 +21,7 @@ public class HiddenLegendPanel extends VerticalLayout {
         legendTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
         //legendTeble.setRowHeaderMode(Table.RowHeaderMode.ICON_ONLY);
         legendTeble.setFooterVisible(false);
-        legendTeble.setPageLength(12);
+        legendTeble.setPageLength(15);
         legendTeble.setWidth(100, Unit.PERCENTAGE);
         legendTeble.addContainerProperty("image", Image.class, null);
         legendTeble.setColumnWidth("image", 18);
@@ -53,16 +53,28 @@ public class HiddenLegendPanel extends VerticalLayout {
         label = new Label("Задача по времени");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
-        image = new Image("Задача ожидает", new ThemeResource("images/16x16/timeRed.png"));
-        label = new Label("Задача ожидает");
-        legendTeble.addItem(new Object[] {image, label}, i++);
-
-        image = new Image("Задача выполняется", new ThemeResource("images/16x16/43_.png"));
+        image = new Image("Задача выполняется", new ThemeResource("images/16x16/05.png"));
         label = new Label("Задача выполняется");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
-        image = new Image("Задача не активна", new ThemeResource("images/16x16/44.png"));
-        label = new Label("Задача не активна");
+        image = new Image("Задача готова к работе", new ThemeResource("images/16x16/ready_to_work.png"));
+        label = new Label("Задача готова к работе");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Задача ожидает готовности", new ThemeResource("images/16x16/wait_for_ready.png"));
+        label = new Label("Задача ожидает готовности");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Задача остановлена", new ThemeResource("images/16x16/stop.gif"));
+        label = new Label("Задача остановлена");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Задача в инт. активности", new ThemeResource("images/16x16/43_.png"));
+        label = new Label("Задача в инт. активности");
+        legendTeble.addItem(new Object[] {image, label}, i++);
+
+        image = new Image("Задача вне инт. активности", new ThemeResource("images/16x16/44.png"));
+        label = new Label("Задача вне инт. активности");
         legendTeble.addItem(new Object[] {image, label}, i++);
 
         image = new Image("Превышение To.m.", new ThemeResource("images/16x16/01.png"));

@@ -1,8 +1,5 @@
 package un.courcework.rtos.core.timer.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import un.courcework.rtos.core.dispatcher.Dispatcher;
 import un.courcework.rtos.core.timer.RtosTimer;
 import un.courcework.rtos.core.timer.TimerAware;
 
@@ -11,17 +8,14 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SecondRtosTimer implements RtosTimer {
 
-    private static Logger log = LoggerFactory.getLogger(SecondRtosTimer.class);
+public class TenthOfaSecondTimer implements RtosTimer {
 
     private List<TimerAware> tickListeners;
-    private int tickCount;
     private Timer timer;
     private TimerTask task;
 
-    public SecondRtosTimer () {
-        this.tickCount = 0;
+    public TenthOfaSecondTimer () {
         this.tickListeners = new ArrayList<TimerAware>();
         initTaimer();
     }
@@ -30,37 +24,28 @@ public class SecondRtosTimer implements RtosTimer {
         this.timer = new Timer();
         this.task = new TimerTask() {
             public void run() {
-                awareListeners(tickCount);
-                tickCount++;
-                if (tickCount > Dispatcher.MODELLING_TIME) {
-                    stopTimer();
-                }
+                awareListeners();
             }
         };
     }
 
-    private void awareListeners (int tickCount) {
-        log.debug("Modelling time: " + tickCount);
+    private void awareListeners () {
         for (TimerAware timerAware : this.tickListeners) {
-            timerAware.timerSecondTick(tickCount);
-            //RtosUI.getCurrent().push();
+            timerAware.timerTenthOfaSecondTick();
         }
     }
 
     @Override
     public void startTimer() {
         initTaimer();
-        awareListeners(tickCount);
-        this.timer.schedule(task, 0, 1000);
+        this.timer.schedule(task, 0, 100);
     }
 
     @Override
     public void stopTimer() {
-        this.tickCount = -1;
-        awareListeners(tickCount);
-        this.tickCount = 0;
         this.timer.cancel();
         initTaimer();
+        awareListeners();
     }
 
     @Override
@@ -88,5 +73,4 @@ public class SecondRtosTimer implements RtosTimer {
     public void removeAllTickListener() {
         this.tickListeners.clear();
     }
-
 }

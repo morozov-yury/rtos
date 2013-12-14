@@ -30,6 +30,7 @@ public class RightPanel extends VerticalLayout {
         hl.addComponent(popupViewLegendPanel);
         hl.addComponent(toggleButton);
 
+        toggleButton.setToggleState(ToggleButton.STATE_SECOND);
         toggleButton.addStateListener(new ToggleButtonStateListener() {
             @Override
             public void stateChanged(ToggleButtonStateChangeEvent event) {
@@ -52,7 +53,7 @@ public class RightPanel extends VerticalLayout {
             }
         });
 
-        parametersPanel = new ParametersPanel(RtosUI.getCurrent().getDispatcher().getTasks());
+        parametersPanel = new ParametersPanel(RtosUI.getCurrent().getDispatcher().getTaskMap());
 
         addComponent(new TimePanel());
         addComponent(new ButtonsPanel(leftPanel, this));

@@ -2,13 +2,11 @@ package un.courcework.rtos.view;
 
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
-import com.vaadin.event.LayoutEvents;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.UI;
@@ -26,6 +24,10 @@ import java.util.Map;
 @Theme("rtos")
 @Push
 public class RtosUI extends UI {
+
+    static {
+        System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
+    }
 
     private Dispatcher dispatcher;
 
@@ -83,10 +85,10 @@ public class RtosUI extends UI {
 
     public void renewTaskCharts() {
         float browserWindowHeight = Page.getCurrent().getBrowserWindowHeight() - 50;
-        for (Task task : this.dispatcher.getTasks()) {
-            TaskChart taskChart1new = new TaskChart("Задача " + task.getId());
+        for (Map.Entry<Integer, Task> entry : this.dispatcher.getTaskMap().entrySet()) {
+            TaskChart taskChart1new = new TaskChart("Задача " + entry.getValue().getId());
             taskChart1new.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
-            this.taskChartMap.put(task, taskChart1new);
+            this.taskChartMap.put(entry.getValue(), taskChart1new);
         }
     }
 

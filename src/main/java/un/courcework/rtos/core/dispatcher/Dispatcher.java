@@ -2,6 +2,8 @@ package un.courcework.rtos.core.dispatcher;
 
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.Notification;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import un.courcework.rtos.core.dispatcher.action.RtosAction;
 import un.courcework.rtos.core.dispatcher.engine.Engine;
 import un.courcework.rtos.core.dispatcher.engine.impl.MultiProcEngine;
@@ -9,6 +11,7 @@ import un.courcework.rtos.core.dispatcher.engine.impl.SingleProcEngine;
 import un.courcework.rtos.core.dispatcher.performer.TaskPerformer;
 import un.courcework.rtos.core.timer.TimerAware;
 import un.courcework.rtos.core.timer.impl.SecondRtosTimer;
+import un.courcework.rtos.core.timer.impl.TenthOfaSecondTimer;
 import un.courcework.rtos.model.MathFunction;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.model.TaskState;
@@ -16,11 +19,13 @@ import un.courcework.rtos.model.TaskStatus;
 import un.courcework.rtos.view.RtosUI;
 import un.courcework.rtos.view.component.chart.TaskChart;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 public class Dispatcher implements TimerAware {
+
+    private static Logger log = LoggerFactory.getLogger(Dispatcher.class);
 
     public static final long MODELLING_TIME = 73;
 
@@ -32,9 +37,13 @@ public class Dispatcher implements TimerAware {
 
     private SecondRtosTimer secondRtosTimer;
 
-    private List<Task> tasks;
+    private TenthOfaSecondTimer tenthOfaSecondTimer;
 
-    private List<TaskPerformer> taskPerformerList;
+    private Map<Integer, Task> taskMap;
+
+    private Map<Integer, TaskPerformer> taskPerformersMap;
+
+    private int rtosTime = 0;
 
     public Dispatcher () {
         this.mathFunction = new MathFunction() {
@@ -46,11 +55,22 @@ public class Dispatcher implements TimerAware {
         this.dipatcherMode = DipatcherMode.SINGLE_PROCESSOR;
         this.secondRtosTimer = new SecondRtosTimer();
         this.secondRtosTimer.addTickListener(this);
+        tenthOfaSecondTimer = new TenthOfaSecondTimer();
         createTestTasks();
+        createPerformers();
 
-        this.taskPerformerList = new ArrayList<TaskPerformer>();
-        for (Task task : this.tasks) {
-            TaskPerformer taskPerformer = new TaskPerformer(task);
+        this.engine = new MultiProcEngine(taskPerformersMap);
+    }
+
+    public void restart () {
+        createTestTasks();
+        createPerformers();
+    }
+
+    private void createPerformers() {
+        this.taskPerformersMap = new ConcurrentHashMap<Integer, TaskPerformer>();
+        for (Map.Entry<Integer, Task> entry : this.taskMap.entrySet()) {
+            TaskPerformer taskPerformer = new TaskPerformer(entry.getValue());
             taskPerformer.addRtosAction(new RtosAction() {
                 @Override
                 public void perform(Task task, int time) {
@@ -58,19 +78,18 @@ public class Dispatcher implements TimerAware {
                     taskChart.addPoint(time, TaskChart.MAX_VALUE);
                 }
             });
-            this.taskPerformerList.add(taskPerformer);
+            this.taskPerformersMap.put(entry.getValue().getId(), taskPerformer);
         }
-        this.engine = new SingleProcEngine(taskPerformerList);
     }
 
     private void createTestTasks () {
-        this.tasks = new ArrayList<Task>();
-        this.tasks.add(new Task(1, null, null, null, 5, 3, 2, 1, 1, 1, TaskState.ACTIVE,
-                TaskStatus.WAIT));
-        this.tasks.add(new Task(2, null, null, null, 4, 3, 2, 2, 1, null, TaskState.ACTIVE,
-                TaskStatus.WAIT));
-        this.tasks.add(new Task(3, null, 20, null, 6, 3, 2, 3, 1, null, TaskState.NOT_ACTIVE,
-                TaskStatus.WAIT));
+        this.taskMap = new ConcurrentSkipListMap<Integer, Task>();
+        this.taskMap.put(1, new Task(1, null, null, null, 5, 3, 2, 1, 5, 1, TaskState.WAIT_FOR_READY,
+                TaskStatus.NOT_ACIVE));
+        this.taskMap.put(2, new Task(2, null, null, null, 4, 3, 2, 2, 5, null, TaskState.WAIT_FOR_READY,
+                TaskStatus.NOT_ACIVE));
+        this.taskMap.put(3, new Task(3, null, 70, null, 6, 3, 2, 3, 5, null, TaskState.WAIT_FOR_READY,
+                TaskStatus.NOT_ACIVE));
     }
 
     public MathFunction getMathFunction() {
@@ -81,41 +100,78 @@ public class Dispatcher implements TimerAware {
         return secondRtosTimer;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
+    public TenthOfaSecondTimer getTenthOfaSecondTimer() {
+        return tenthOfaSecondTimer;
+    }
+
+    public Map<Integer, Task> getTaskMap() {
+        return taskMap;
     }
 
     public void fireKeyEvent(int keyCode) {
+        log.debug("Key '1' was pressed in time {}", this.rtosTime);
         switch (keyCode) {
             case ShortcutAction.KeyCode.NUM1:
-                Notification.show("Нажата клавиша 1", Notification.Type.TRAY_NOTIFICATION);
+                if (this.taskMap.get(1).gettStartIntActive() == null) {
+                    this.taskMap.get(1).settStartIntActive(this.rtosTime + 1);
+                    log.debug("Tstart activ in task #1 was set in {}", (this.rtosTime + 1) );
+                    Notification.show("Установлено Тн для задачи 1 равное " + (this.rtosTime + 1),
+                            Notification.Type.TRAY_NOTIFICATION);
+                }
                 break;
             case ShortcutAction.KeyCode.NUM2:
-                Notification.show("Нажата клавиша 2", Notification.Type.TRAY_NOTIFICATION);
+                if (this.taskMap.get(1).gettEndIntActive() == null
+                        && this.taskMap.get(1).gettStartIntActive() != null) {
+                    this.taskMap.get(1).settEndIntActive(this.rtosTime + 1);
+                    log.debug("Tend activ in task #1 was set in {}", (this.rtosTime + 1) );
+                    Notification.show("Установлено Тк для задачи 1 равное " + (this.rtosTime + 1),
+                            Notification.Type.TRAY_NOTIFICATION);
+                }
                 break;
             case ShortcutAction.KeyCode.NUM3:
-                Notification.show("Нажата клавиша 3", Notification.Type.TRAY_NOTIFICATION);
+                if (this.taskMap.get(2).gettEndIntActive() == null
+                        && this.taskMap.get(2).gettStartIntActive() != null) {
+                    this.taskMap.get(2).settEndIntActive(this.rtosTime + 1);
+                    log.debug("Tend activ in task #2 was set in {}", (this.rtosTime + 1) );
+                    Notification.show("Установлено Тк для задачи 2 равное " + (this.rtosTime + 1),
+                            Notification.Type.TRAY_NOTIFICATION);
+                }
                 break;
         }
     }
 
     public void fireClickEvent() {
-        Notification.show("Нажата правая клавиша мыши", Notification.Type.TRAY_NOTIFICATION);
+        log.debug("Right mouse button was pressed in time {}", this.rtosTime);
+        if (this.taskMap.get(3).gettStartIntActive() == null) {
+            this.taskMap.get(3).settStartIntActive(this.rtosTime + 1);
+            log.debug("Tstart activ in task #3 was set in {}", (this.rtosTime + 1) );
+            Notification.show("Установлено Тн для задачи три равное " + (this.rtosTime + 1),
+                    Notification.Type.TRAY_NOTIFICATION);
+        }
     }
 
     @Override
     public void timerSecondTick(int second) {
+        this.rtosTime = second;
+        if (second < 0) {
+            return;
+        }
         if (second == 0) {
-            for (TaskPerformer taskPerformer : this.taskPerformerList) {
-                (new Thread(taskPerformer)).start();
+            for (Map.Entry<Integer, TaskPerformer> entry : this.taskPerformersMap.entrySet()) {
+                (new Thread(entry.getValue())).start();
             }
         }
         if (second == Dispatcher.MODELLING_TIME) {
-            for (TaskPerformer taskPerformer : this.taskPerformerList) {
-                taskPerformer.stop();
+            for (Map.Entry<Integer, TaskPerformer> entry : this.taskPerformersMap.entrySet()) {
+                entry.getValue().stop();
             }
         }
         this.engine.timeTick(second);
+    }
+
+    @Override
+    public void timerTenthOfaSecondTick() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public DipatcherMode getDipatcherMode() {
@@ -126,11 +182,15 @@ public class Dispatcher implements TimerAware {
         this.dipatcherMode = dipatcherMode;
         switch (dipatcherMode) {
             case SINGLE_PROCESSOR:
-                this.engine = new SingleProcEngine(this.taskPerformerList);
+                this.engine = new SingleProcEngine(this.taskPerformersMap);
                 break;
             case MULTIPROCESSOR:
-                this.engine = new MultiProcEngine(this.taskPerformerList);
+                this.engine = new MultiProcEngine(this.taskPerformersMap);
                 break;
         }
+    }
+
+    public long getRtosTime() {
+        return rtosTime;
     }
 }

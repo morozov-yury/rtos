@@ -65,10 +65,18 @@
 
   .log-text-area {
     border-radius: 0px;
-    font-size: 12px !important;
+    font-size: 10px !important;
     background: #ffffff !important;
     opacity: 1 !important;
     border: none;
+  }
+
+   .log-text-area .v-label {
+     font-size: 12px !important;
+   }
+
+  .log-text-area .v-slot {
+    height: 12px !important;
   }
 
   .log-text-area .v-textarea {

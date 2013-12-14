@@ -6,14 +6,19 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import un.courcework.rtos.core.timer.TimerAware;
 import un.courcework.rtos.model.Task;
+import un.courcework.rtos.view.RtosUI;
 import un.courcework.rtos.view.component.textfieds.TextFieldRefresher;
 import un.courcework.rtos.view.component.textfieds.impl.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class ParametersPanel extends VerticalLayout {
+public class ParametersPanel extends VerticalLayout implements TimerAware {
 
     public enum ParametersPanelStatus {
         AVAILABLE_TO_EDIT,
@@ -21,38 +26,59 @@ public class ParametersPanel extends VerticalLayout {
         ERROR;
     }
 
-    private Table paramTeble;
+    private static Logger log = LoggerFactory.getLogger(ParametersPanel.class);
+
+    private Map<Integer, Task> taskMap;
+
+    private Table paramTebleCurrent;
+
     private List<TextFieldRefresher> textFieldRefresherList;
+
     private List<PriorityTextField> priorityTextFields;
 
-    public ParametersPanel (List<Task> tasks) {
+    private List<TaskStatusWiev> taskStatusWievList;
 
+    private List<TaskStateWiev> taskStateWievList;
+
+    public ParametersPanel (Map<Integer, Task> taskMap) {
+        this.taskMap = taskMap;
+
+        RtosUI.getCurrent().getDispatcher().getTenthOfaSecondTimer().addTickListener(this);
+
+        paramTebleCurrent = makeParamTable();
+        addComponent(paramTebleCurrent);
+    }
+
+    private Table makeParamTable() {
         this.textFieldRefresherList = new ArrayList<TextFieldRefresher>();
         this.priorityTextFields = new ArrayList<PriorityTextField>();
+        this.taskStatusWievList = new ArrayList<TaskStatusWiev>();
+        this.taskStateWievList = new ArrayList<TaskStateWiev>();
+        this.taskMap = RtosUI.getCurrent().getDispatcher().getTaskMap();
 
-        this.paramTeble = new Table();
-        this.paramTeble.addStyleName("components-inside");
-        this.paramTeble.addStyleName("rtos-table");
-        this.paramTeble.addStyleName("parameters-panel");
-        this.paramTeble.setSelectable(false);
-        this.paramTeble.setImmediate(true);
-        this.paramTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
-        this.paramTeble.setFooterVisible(false);
-        this.paramTeble.setPageLength(13);
-        this.paramTeble.setWidth(100, Unit.PERCENTAGE);
+        Table paramTeble = new Table();
+        paramTeble.addStyleName("components-inside");
+        paramTeble.addStyleName("rtos-table");
+        paramTeble.addStyleName("parameters-panel");
+        paramTeble.setSelectable(false);
+        paramTeble.setImmediate(true);
+        paramTeble.setColumnHeaderMode(Table.ColumnHeaderMode.HIDDEN);
+        paramTeble.setFooterVisible(false);
+        paramTeble.setPageLength(13);
+        paramTeble.setWidth(100, Unit.PERCENTAGE);
 
-        this.paramTeble.addContainerProperty("", Component.class, null);
-        this.paramTeble.setColumnWidth("", 40);
+        paramTeble.addContainerProperty("", Component.class, null);
+        paramTeble.setColumnWidth("", 40);
 
         List<Object> tasksNames = new ArrayList<Object>();
         tasksNames.add(new Label(""));
-        for (Task task : tasks) {
-            this.paramTeble.addContainerProperty(task.getId(), Component.class, null);
+        for (Map.Entry<Integer, Task> entry : taskMap.entrySet()) {
+            paramTeble.addContainerProperty(entry.getKey(), Component.class, null);
             Label taskNameLabel = new Label(
                     "<img src='http://localhost:8080/VAADIN/themes/rtos/images/16x16/37.png'></img>"
-                            + task.getId(), ContentMode.HTML);
+                            + entry.getKey(), ContentMode.HTML);
             tasksNames.add(taskNameLabel);
-            this.paramTeble.setColumnAlignment(task.getId(), Table.Align.CENTER);
+            paramTeble.setColumnAlignment(entry.getKey(), Table.Align.CENTER);
         }
 
         Label label;
@@ -116,46 +142,51 @@ public class ParametersPanel extends VerticalLayout {
         label.setDescription("Состояние задачи");
         stateList.add(label);
 
-        for (Task task : tasks) {
+        for (Map.Entry<Integer, Task> entry : taskMap.entrySet()) {
             TextFieldRefresher textFieldRefresher;
 
-            textFieldRefresher = new StartIntTextField(this, task);
+            textFieldRefresher = new StartIntTextField(this, entry.getValue());
             tStartIntActiveList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new EndIntTextField(this, task);
+            textFieldRefresher = new EndIntTextField(this, entry.getValue());
             tEndIntActiveList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            tPlanCallList.add(new PlanTextField(this, task));
+            tPlanCallList.add(new PlanTextField(this, entry.getValue()));
 
-            textFieldRefresher = new PeriodTextField(this, task);
+            textFieldRefresher = new PeriodTextField(this, entry.getValue());
             tPeriodCallList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new VaitTextField(this, task);
+            textFieldRefresher = new VaitTextField(this, entry.getValue());
             tVaitMaxList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new ExecMaxTextField(this, task);
+            textFieldRefresher = new ExecMaxTextField(this, entry.getValue());
             tExecMaxList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            PriorityTextField priorityTextField = new PriorityTextField(this, task);
+            PriorityTextField priorityTextField = new PriorityTextField(this, entry.getValue());
             priorityList.add(priorityTextField);
             priorityTextFields.add(priorityTextField);
             this.textFieldRefresherList.add(priorityTextField);
 
-            textFieldRefresher = new TSessionTextField(this, task);
+            textFieldRefresher = new TSessionTextField(this, entry.getValue());
             tSessionList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            textFieldRefresher = new NSessionTextField(this, task);
+            textFieldRefresher = new NSessionTextField(this, entry.getValue());
             nSessionList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            statusList.add(new TaskStatusWiev(task));
-            stateList.add(new TaskStateWiev(task));
+            TaskStatusWiev taskStatusWiev = new TaskStatusWiev(entry.getValue());
+            statusList.add(taskStatusWiev);
+            this.taskStatusWievList.add(taskStatusWiev);
+
+            TaskStateWiev taskStateWiev = new TaskStateWiev(entry.getValue());
+            stateList.add(taskStateWiev);
+            this.taskStateWievList.add(taskStateWiev);
         }
 
         List<List<Object>> rowsArray = new ArrayList<List<Object>>();
@@ -175,21 +206,24 @@ public class ParametersPanel extends VerticalLayout {
         for (List<Object> row : rowsArray) {
             paramTeble.addItem(row.toArray(), row.hashCode());
         }
-
-        addComponent(paramTeble);
+        return paramTeble;
     }
+
+    public void renew () {
+        log.debug("Renew parameters panel");
+        Table table = makeParamTable();
+        replaceComponent(this.paramTebleCurrent, table);
+        this.paramTebleCurrent = table;
+    }
+
 
     public void refreshAllFiels () {
         for (TextFieldRefresher textField : this.textFieldRefresherList) {
             textField.refreshField();
         }
-        System.out.println(priorityTextFields.get(0).toFoloat());
-        System.out.println(priorityTextFields.get(1).toFoloat());
-        System.out.println(priorityTextFields.get(2).toFoloat());
         if (priorityTextFields.get(0).toFoloat() == priorityTextFields.get(1).toFoloat()
                 || priorityTextFields.get(0).toFoloat() == priorityTextFields.get(2).toFoloat()
                 || priorityTextFields.get(2).toFoloat() == priorityTextFields.get(1).toFoloat()) {
-            System.out.println("Bom bom");
             for (PriorityTextField field : priorityTextFields) {
                 field.setComponentError(new UserError("Одинаковые приоритеты недопустимы"));
             }
@@ -198,6 +232,7 @@ public class ParametersPanel extends VerticalLayout {
                 field.setComponentError(null);
             }
         }
+
     }
 
     public void setStatus (ParametersPanelStatus parametersPanelStatus) {
@@ -217,6 +252,25 @@ public class ParametersPanel extends VerticalLayout {
             case ERROR:
                 break;
         }
+    }
+
+    @Override
+    public void timerSecondTick(int second) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void timerTenthOfaSecondTick() {
+        for (TextFieldRefresher textField : this.textFieldRefresherList) {
+            textField.rewriteField();
+        }
+        for (TaskStateWiev taskStateWiev : this.taskStateWievList) {
+            taskStateWiev.refresh();
+        }
+        for (TaskStatusWiev taskStatusWievList : this.taskStatusWievList) {
+            taskStatusWievList.refresh();
+        }
+
     }
 
 }

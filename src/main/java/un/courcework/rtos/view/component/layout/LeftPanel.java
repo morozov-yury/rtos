@@ -13,6 +13,7 @@ import un.courcework.rtos.view.component.chart.TaskChart;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LeftPanel extends VerticalLayout {
 
@@ -29,8 +30,8 @@ public class LeftPanel extends VerticalLayout {
         this.functionChart.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
         this.functionChart.setPerLine(MathUtils.round(72.0 / 6, 2));
 
-        for (Task task : RtosUI.getCurrent().getDispatcher().getTasks()) {
-            TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
+        for (Map.Entry<Integer, Task> entry : RtosUI.getCurrent().getDispatcher().getTaskMap().entrySet()) {
+            TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(entry.getValue());
             this.taskChartsList.add(taskChart);
             addComponent(taskChart);
         }

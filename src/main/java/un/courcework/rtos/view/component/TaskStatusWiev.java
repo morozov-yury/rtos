@@ -11,10 +11,18 @@ public class TaskStatusWiev extends Image {
     public TaskStatusWiev(Task task) {
         this.task = task;
         addStyleName("task-state-image");
+        refresh();
+    }
+
+    public void refresh () {
         switch (this.task.getTaskStatus()) {
-            case WAIT:
-                setSource(new ThemeResource("images/16x16/timeRed.png"));
-                setDescription("Задача ожидает");
+            case ACTIVE:
+                setSource(new ThemeResource("images/16x16/43_.png"));
+                setDescription("Задача в интервале активности");
+                break;
+            case NOT_ACIVE:
+                setSource(new ThemeResource("images/16x16/44.png"));
+                setDescription("Задача вне интервала активности");
                 break;
         }
     }

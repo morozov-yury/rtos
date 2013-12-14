@@ -31,7 +31,6 @@ public class PriorityTextField extends AbstractParamTextField {
     @Override
     public boolean checkValue(Object value) {
         Integer intValue = Integer.valueOf(value.toString());
-        System.out.println(super.getTask().getId() + " " + error);
         if (intValue < 0 && !error) {
             return false;
         }

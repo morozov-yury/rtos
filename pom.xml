@@ -14,11 +14,16 @@
 		<vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
         <tomcat-webapp-dir>C:/programs/apache-tomcat-7.0.47/webapps/ROOT</tomcat-webapp-dir>
 	</properties>
+
 	<repositories>
 		<repository>
 			<id>vaadin-addons</id>
 			<url>http://maven.vaadin.com/vaadin-addons</url>
 		</repository>
+        <repository>
+            <id>Central repository</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
 		<repository>
 			<id>vaadin-snapshots</id>
 			<url>http://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
@@ -30,6 +35,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
 	<pluginRepositories>
 		<pluginRepository>
 			<id>vaadin-snapshots</id>
@@ -42,6 +48,7 @@
 			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.vaadin</groupId>
@@ -86,6 +93,24 @@
             <artifactId>vaadin-push</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+
     </dependencies>
 
 	<build>

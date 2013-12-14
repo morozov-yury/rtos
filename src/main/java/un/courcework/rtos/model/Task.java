@@ -26,6 +26,8 @@ public class Task {
 
     private TaskStatus taskStatus;
 
+    private Integer countOfStarts;
+
     public Task(Integer id, Integer tStartIntActive, Integer tEndIntActive, Integer tPlanCall,
                 Integer tPeriodCall, Integer tVaitMax, Integer tExecMax, Integer priority,
                 Integer tSession, Integer nSession, TaskState taskState, TaskStatus taskStatus) {
@@ -41,6 +43,7 @@ public class Task {
         this.nSession = nSession;
         this.taskState = taskState;
         this.taskStatus = taskStatus;
+        this.countOfStarts = 0;
     }
 
     public Integer gettStartIntActive() {
@@ -137,5 +140,13 @@ public class Task {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCountOfStarts() {
+        return countOfStarts;
+    }
+
+    public void setCountOfStarts(Integer countOfStarts) {
+        this.countOfStarts = countOfStarts;
     }
 }
