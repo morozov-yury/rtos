@@ -4,12 +4,17 @@ import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
 import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.addon.charts.model.style.Style;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TaskChart  extends Chart {
 
-    public static Number ZERO_VALUE = 0.0;
-    public static Number MAX_VALUE = 2.0;
-    public static Number MARK_VALUE = 0.25;
+    private static Logger log = LoggerFactory.getLogger(TaskChart.class);
+
+    public static double ZERO_VALUE = 0.0;
+    public static double MAX_VALUE = 2.0;
+    public static double TASK_VALUE = 1.5;
+    public static double MARK_VALUE = 0.5;
 
     private Configuration conf;
     private Tooltip tooltip = new Tooltip();
@@ -116,11 +121,18 @@ public class TaskChart  extends Chart {
     }
 
     public void addPoint (Number posotion, Number value, SolidColor solidColor) {
+        if (posotion.intValue() < 0) {
+            return;
+        }
         DataSeriesItem ds = new DataSeriesItem(posotion, value);
         Marker marker = new Marker(true);
         ds.setMarker(marker);
         ds.setColor(solidColor);
-        ls.add(ds);
+        try {
+            ls.add(ds);
+        } catch (java.lang.IllegalStateException e) {
+            log.error("IllegalStateException", e);
+        }
     }
 
 }

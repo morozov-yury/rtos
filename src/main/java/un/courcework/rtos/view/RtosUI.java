@@ -11,6 +11,8 @@ import com.vaadin.shared.communication.PushMode;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import un.courcework.rtos.core.dispatcher.Dispatcher;
 import un.courcework.rtos.core.dispatcher.performer.TaskPerformer;
 import un.courcework.rtos.model.Task;
@@ -28,6 +30,8 @@ public class RtosUI extends UI {
     static {
         System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, "DEBUG");
     }
+
+    private static Logger log = LoggerFactory.getLogger(RtosUI.class);
 
     private Dispatcher dispatcher;
 
@@ -58,22 +62,22 @@ public class RtosUI extends UI {
         mainLayout.setColumnExpandRatio(1, 0);
         mainLayout.setColumnExpandRatio(2, 1);
 
-        mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.NUM1, null) {
+        mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.Q, null) {
             @Override
             public void handleAction(Object sender, Object target) {
-                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.NUM1);
+                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.Q);
             }
         });
-        mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.NUM2, null) {
+        mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.W, null) {
             @Override
             public void handleAction(Object sender, Object target) {
-                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.NUM2);
+                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.W);
             }
         });
-        mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.NUM3, null) {
+        mainLayout.addShortcutListener(new ShortcutListener("sad", ShortcutAction.KeyCode.E, null) {
             @Override
             public void handleAction(Object sender, Object target) {
-                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.NUM3);
+                dispatcher.fireKeyEvent(ShortcutAction.KeyCode.E);
             }
         });
         setContent(mainLayout);

@@ -75,20 +75,29 @@ public class Dispatcher implements TimerAware {
                 @Override
                 public void perform(Task task, int time) {
                     TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
-                    taskChart.addPoint(time, TaskChart.MAX_VALUE);
+                    taskChart.addPoint(time, TaskChart.TASK_VALUE);
                 }
             });
+            if (entry.getValue().getId() == 3) {
+                taskPerformer.addRtosAction(new RtosAction() {
+                    @Override
+                    public void perform(Task task, int time) {
+
+                    }
+                });
+
+            }
             this.taskPerformersMap.put(entry.getValue().getId(), taskPerformer);
         }
     }
 
     private void createTestTasks () {
         this.taskMap = new ConcurrentSkipListMap<Integer, Task>();
-        this.taskMap.put(1, new Task(1, null, null, null, 5, 3, 2, 1, 5, 1, TaskState.WAIT_FOR_READY,
+        this.taskMap.put(1, new Task(1, null, null, null, 10, 3, 5, 1, 3, 1, TaskState.WAIT_FOR_READY,
                 TaskStatus.NOT_ACIVE));
-        this.taskMap.put(2, new Task(2, null, null, null, 4, 3, 2, 2, 5, null, TaskState.WAIT_FOR_READY,
+        this.taskMap.put(2, new Task(2, null, null, null, 6, 3, 4, 2, 3, null, TaskState.WAIT_FOR_READY,
                 TaskStatus.NOT_ACIVE));
-        this.taskMap.put(3, new Task(3, null, 70, null, 6, 3, 2, 3, 5, null, TaskState.WAIT_FOR_READY,
+        this.taskMap.put(3, new Task(3, null, 70, null, 6, 3, 4, 3, 3, null, TaskState.WAIT_FOR_READY,
                 TaskStatus.NOT_ACIVE));
     }
 
@@ -109,9 +118,8 @@ public class Dispatcher implements TimerAware {
     }
 
     public void fireKeyEvent(int keyCode) {
-        log.debug("Key '1' was pressed in time {}", this.rtosTime);
         switch (keyCode) {
-            case ShortcutAction.KeyCode.NUM1:
+            case ShortcutAction.KeyCode.Q:
                 if (this.taskMap.get(1).gettStartIntActive() == null) {
                     this.taskMap.get(1).settStartIntActive(this.rtosTime + 1);
                     log.debug("Tstart activ in task #1 was set in {}", (this.rtosTime + 1) );
@@ -119,7 +127,7 @@ public class Dispatcher implements TimerAware {
                             Notification.Type.TRAY_NOTIFICATION);
                 }
                 break;
-            case ShortcutAction.KeyCode.NUM2:
+            case ShortcutAction.KeyCode.W:
                 if (this.taskMap.get(1).gettEndIntActive() == null
                         && this.taskMap.get(1).gettStartIntActive() != null) {
                     this.taskMap.get(1).settEndIntActive(this.rtosTime + 1);
@@ -128,7 +136,7 @@ public class Dispatcher implements TimerAware {
                             Notification.Type.TRAY_NOTIFICATION);
                 }
                 break;
-            case ShortcutAction.KeyCode.NUM3:
+            case ShortcutAction.KeyCode.E:
                 if (this.taskMap.get(2).gettEndIntActive() == null
                         && this.taskMap.get(2).gettStartIntActive() != null) {
                     this.taskMap.get(2).settEndIntActive(this.rtosTime + 1);

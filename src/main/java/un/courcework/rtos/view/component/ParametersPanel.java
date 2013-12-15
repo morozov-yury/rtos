@@ -40,6 +40,8 @@ public class ParametersPanel extends VerticalLayout implements TimerAware {
 
     private List<TaskStateWiev> taskStateWievList;
 
+    private List<PlanTextField> taskPlanTextFieldList;
+
     public ParametersPanel (Map<Integer, Task> taskMap) {
         this.taskMap = taskMap;
 
@@ -54,6 +56,7 @@ public class ParametersPanel extends VerticalLayout implements TimerAware {
         this.priorityTextFields = new ArrayList<PriorityTextField>();
         this.taskStatusWievList = new ArrayList<TaskStatusWiev>();
         this.taskStateWievList = new ArrayList<TaskStateWiev>();
+        this.taskPlanTextFieldList = new ArrayList<PlanTextField>();
         this.taskMap = RtosUI.getCurrent().getDispatcher().getTaskMap();
 
         Table paramTeble = new Table();
@@ -153,7 +156,9 @@ public class ParametersPanel extends VerticalLayout implements TimerAware {
             tEndIntActiveList.add(textFieldRefresher);
             this.textFieldRefresherList.add(textFieldRefresher);
 
-            tPlanCallList.add(new PlanTextField(this, entry.getValue()));
+            PlanTextField planTextField = new PlanTextField(this, entry.getValue());
+            this.taskPlanTextFieldList.add(planTextField);
+            tPlanCallList.add(planTextField);
 
             textFieldRefresher = new PeriodTextField(this, entry.getValue());
             tPeriodCallList.add(textFieldRefresher);
@@ -269,6 +274,9 @@ public class ParametersPanel extends VerticalLayout implements TimerAware {
         }
         for (TaskStatusWiev taskStatusWievList : this.taskStatusWievList) {
             taskStatusWievList.refresh();
+        }
+        for (PlanTextField planTextField : this.taskPlanTextFieldList) {
+            planTextField.refresh();
         }
 
     }

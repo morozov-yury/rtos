@@ -1,5 +1,6 @@
 package un.courcework.rtos.view.component.textfieds.impl;
 
+import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Component;
 import un.courcework.rtos.model.Task;
 import un.courcework.rtos.view.component.ParametersPanel;
@@ -7,8 +8,11 @@ import un.courcework.rtos.view.component.textfieds.AbstractParamTextField;
 
 public class PlanTextField extends AbstractParamTextField {
 
+    private Task task;
+
     public PlanTextField(ParametersPanel parametersPanel, Task task) {
         super(parametersPanel, task);
+        this.task = task;
         setEnabled(false);
         addStyleName("not-disabled-field");
     }
@@ -36,6 +40,12 @@ public class PlanTextField extends AbstractParamTextField {
     @Override
     public Component getTextField() {
         return this;
+    }
+
+    public void refresh () {
+        if (task.gettPlanCall() != null) {
+            setValue(task.gettPlanCall().toString());
+        }
     }
 
 }
