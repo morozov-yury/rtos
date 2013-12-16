@@ -97,7 +97,7 @@ public class Dispatcher implements TimerAware {
                 TaskStatus.NOT_ACIVE));
         this.taskMap.put(2, new Task(2, null, null, null, 6, 3, 4, 2, 3, null, TaskState.WAIT_FOR_READY,
                 TaskStatus.NOT_ACIVE));
-        this.taskMap.put(3, new Task(3, null, 70, null, 6, 3, 4, 3, 3, null, TaskState.WAIT_FOR_READY,
+        this.taskMap.put(3, new Task(3, null, 70, null, 6, 3, 5, 3, 3, null, TaskState.WAIT_FOR_READY,
                 TaskStatus.NOT_ACIVE));
     }
 

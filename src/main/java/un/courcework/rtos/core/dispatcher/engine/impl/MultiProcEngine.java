@@ -36,6 +36,14 @@ public class MultiProcEngine extends AbstractEngine {
                     }
                     switch (task.getTaskState()) {
                         case WORKS:
+                            if ((time  - task.gettPlanCall()) > task.gettExecMax()) {
+                                drawtExexMax(task.gettPlanCall() + task.gettExecMax(), task);
+                                task.setTaskState(TaskState.WAIT_FOR_READY);
+                                task.settPlanCall(task.gettPlanCall() + task.gettPeriodCall());
+                                task.settPlanCall(task.gettPlanCall() + task.gettPeriodCall());
+                                drawtPlan(time, task);
+                                continue;
+                            }
                             if (time == task.gettPlanCall() + task.gettSession()) {
                                 log.debug("Task {} закончила работать", task.getId());
                                 task.setTaskState(TaskState.WAIT_FOR_READY);

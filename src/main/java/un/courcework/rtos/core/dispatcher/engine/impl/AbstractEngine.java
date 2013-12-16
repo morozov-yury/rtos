@@ -34,4 +34,9 @@ public abstract class AbstractEngine implements Engine {
         taskChart.addPoint(task.gettPlanCall(), TaskChart.MARK_VALUE, SolidColor.BLUE);
     }
 
+    protected void drawtExexMax(int time, Task task) {
+        TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
+        taskChart.addPoint(time, TaskChart.TASK_VALUE, SolidColor.RED);
+    }
+
 }
