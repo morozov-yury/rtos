@@ -120,18 +120,19 @@ public class TaskChart  extends Chart {
         }
     }
 
-    public void addPoint (Number posotion, Number value, SolidColor solidColor) {
-        if (posotion.intValue() < 0) {
+    public synchronized void addPoint (Number position, Number value, SolidColor solidColor) {
+        if (position.intValue() < 0) {
             return;
         }
-        DataSeriesItem ds = new DataSeriesItem(posotion, value);
+        DataSeriesItem ds = new DataSeriesItem(position, value);
         Marker marker = new Marker(true);
         ds.setMarker(marker);
         ds.setColor(solidColor);
+        this.getUI().getSession().getLockInstance().lock();
         try {
             ls.add(ds);
-        } catch (java.lang.IllegalStateException e) {
-            log.error("IllegalStateException", e);
+        } finally {
+            this.getUI().getSession().getLockInstance().unlock();
         }
     }
 

@@ -33,13 +33,13 @@ public abstract class AbstractParamTextField extends TextField
     }
 
     @Override
-    public void textChange(FieldEvents.TextChangeEvent event) {
+    public synchronized void textChange(FieldEvents.TextChangeEvent event) {
         refresh(event.getText());
         parametersPanel.refreshAllFiels();
         //refresh(event.getText());
     }
 
-    private void refresh (String value) {
+    private synchronized void refresh (String value) {
         try {
             Integer.valueOf(value.toString());
         } catch (NumberFormatException e) {
@@ -56,16 +56,21 @@ public abstract class AbstractParamTextField extends TextField
     }
 
     @Override
-    public void refreshField() {
+    public synchronized void refreshField() {
         if (getTaskValue() != null) {
             refresh(getTaskValue().toString());
         }
     }
 
     @Override
-    public void rewriteField() {
+    public synchronized void rewriteField() {
         if (getTaskValue() != null) {
-            setValue(getTaskValue().toString());
+            this.getUI().getSession().getLockInstance().lock();
+            try {
+                setValue(getTaskValue().toString());
+            } finally {
+                this.getUI().getSession().getLockInstance().unlock();
+            }
         }
     }
 

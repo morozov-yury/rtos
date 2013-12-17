@@ -26,7 +26,9 @@ public class Task {
 
     private TaskStatus taskStatus;
 
-    private Integer countOfStarts;
+    private Integer worksTime;
+
+    private Integer execCount;
 
     public Task(Integer id, Integer tStartIntActive, Integer tEndIntActive, Integer tPlanCall,
                 Integer tPeriodCall, Integer tVaitMax, Integer tExecMax, Integer priority,
@@ -43,7 +45,8 @@ public class Task {
         this.nSession = nSession;
         this.taskState = taskState;
         this.taskStatus = taskStatus;
-        this.countOfStarts = 0;
+        this.worksTime = 0;
+        this.execCount = 0;
     }
 
     public Integer gettStartIntActive() {
@@ -142,11 +145,19 @@ public class Task {
         this.id = id;
     }
 
-    public Integer getCountOfStarts() {
-        return countOfStarts;
+    public Integer getWorksTime() {
+        return worksTime;
     }
 
-    public void setCountOfStarts(Integer countOfStarts) {
-        this.countOfStarts = countOfStarts;
+    public void setWorksTime(Integer worksTime) {
+        this.worksTime = worksTime;
+    }
+
+    public Integer getExecCount() {
+        return execCount;
+    }
+
+    public void setExecCount(Integer execCount) {
+        this.execCount = execCount;
     }
 }

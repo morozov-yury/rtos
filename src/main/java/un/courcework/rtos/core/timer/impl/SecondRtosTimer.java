@@ -50,7 +50,7 @@ public class SecondRtosTimer implements RtosTimer {
     @Override
     public void startTimer() {
         initTaimer();
-        awareListeners(tickCount);
+        //awareListeners(tickCount);
         this.timer.schedule(task, 0, 1000);
     }
 

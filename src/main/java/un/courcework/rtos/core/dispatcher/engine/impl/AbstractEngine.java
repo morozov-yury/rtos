@@ -18,25 +18,27 @@ public abstract class AbstractEngine implements Engine {
 
     private volatile Map<Integer, TaskPerformer> taskPerformersMap;
 
+    public synchronized static void drawtPlan(int time, Task task) {
+        TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
+        taskChart.addPoint(task.gettPlanCall(), TaskChart.MARK_VALUE, SolidColor.BLUE);
+    }
+
+    public synchronized static void drawtExexMax(int time, Task task) {
+        TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
+        taskChart.addPoint(time, TaskChart.TASK_VALUE, SolidColor.RED);
+    }
+
     public AbstractEngine(Map<Integer, TaskPerformer> taskPerformersMap) {
         this.taskPerformersMap = taskPerformersMap;
     }
 
     @Override
-    public void timeTick(int time) {
+    public synchronized void timeTick(int time) {
         for (Map.Entry<Task, TaskChart> entry : RtosUI.getCurrent().getTaskChartMap().entrySet()) {
             entry.getValue().addPoint(time, TaskChart.MAX_VALUE, new SolidColor(226, 226, 226));
         }
     }
 
-    protected void drawtPlan(int time, Task task) {
-        TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
-        taskChart.addPoint(task.gettPlanCall(), TaskChart.MARK_VALUE, SolidColor.BLUE);
-    }
 
-    protected void drawtExexMax(int time, Task task) {
-        TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
-        taskChart.addPoint(time, TaskChart.TASK_VALUE, SolidColor.RED);
-    }
 
 }

@@ -1,5 +1,7 @@
 package un.courcework.rtos.core.timer.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import un.courcework.rtos.core.timer.RtosTimer;
 import un.courcework.rtos.core.timer.TimerAware;
 
@@ -10,6 +12,8 @@ import java.util.TimerTask;
 
 
 public class TenthOfaSecondTimer implements RtosTimer {
+
+    private static Logger log = LoggerFactory.getLogger(TenthOfaSecondTimer.class);
 
     private List<TimerAware> tickListeners;
     private Timer timer;
@@ -56,6 +60,7 @@ public class TenthOfaSecondTimer implements RtosTimer {
 
     @Override
     public void addTickListener(TimerAware timerAware) {
+        log.debug("Added TimerAware listener from {}", timerAware.getClass());
         this.tickListeners.add(timerAware);
     }
 

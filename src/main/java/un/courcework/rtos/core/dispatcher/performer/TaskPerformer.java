@@ -16,11 +16,7 @@ public class TaskPerformer implements Runnable {
 
     private volatile List<RtosAction> actionsList;
 
-    private Task task;
-
-    private volatile Integer newTick = null;
-
-    private volatile  boolean isStopped = false;
+    private volatile Task task;
 
     public TaskPerformer (Task task) {
         this.task = task;
@@ -31,48 +27,20 @@ public class TaskPerformer implements Runnable {
         this.actionsList.add(rtosAction);
     }
 
-    public  void removeRtosAction (RtosAction rtosAction) {
-        this.actionsList.remove(rtosAction);
-    }
-
     @Override
     public void run() {
-        //System.out.println("TaskPerformer run, task " + this.task.getId());
-        while (true) {
-            //System.out.println("while task " + this.task.getId());
-            if (this.isStopped) {
-                waitFor(0);
-            }
-            if (this.newTick != null) {
-//                System.out.println("TaskPerformer run, task " + this.task.getId()
-//                        + ", tick " + this.newTick);
-                for (RtosAction rtosAction : this.actionsList) {
-                    rtosAction.perform(this.task, this.newTick);
+        synchronized (this) {
+            while (true) {
+                try {
+                    this.wait();
+                    for (RtosAction rtosAction : this.actionsList) {
+                        rtosAction.perform(this.task, null);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                this.newTick = null;
             }
-            waitFor(100);
         }
-    }
-
-    private void waitFor(long timeout) {
-        try {
-            synchronized (this) {
-                this.wait(timeout);
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void timerSecondTick(int second) {
-//        System.out.println("TaskPerformer timerSecondTick, task " + this.task.getId()
-//                + ", tick " + this.newTick);
-        this.newTick = new Integer(second);
-    }
-
-    public void stop () {
-        this.isStopped = true;
     }
 
     public Task getTask() {
