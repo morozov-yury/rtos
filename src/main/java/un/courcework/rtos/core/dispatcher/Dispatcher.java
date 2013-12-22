@@ -63,7 +63,7 @@ public class Dispatcher implements TimerAware, Serializable {
         createTestTasks();
         createPerformers();
 
-        this.engine = new MultiProcEngine(taskPerformersMap);
+        this.engine = new SingleProcEngine(taskPerformersMap);
     }
 
     public void restart () {
@@ -83,38 +83,33 @@ public class Dispatcher implements TimerAware, Serializable {
                     taskChart.addPoint(rtosTime, TaskChart.TASK_VALUE);
                 }
             });
-            if (entry.getValue().getId() == 3) {
-                taskPerformer.addRtosAction(new RtosAction() {
-                    @Override
-                    public void perform(Task task, Integer time) {
-//                        log.debug("Задача 3: проверка на сброс счетчика выполнения WorksTime == Session " +
-//                                "{} == {}",task.getWorksTime(), task.gettSession());
-//                        if (task.getWorksTime() == task.gettSession()) {
-//                            task.settSession(task.gettSession() + 1);
-//                            log.debug("Задача 3: увеличила время сенса до {}", task.gettSession());
-//                            task.setWorksTime(0);
-//                            log.debug("Задача 3: сбросила счетчик времени выполнения в 0");
-//                            task.setTaskState(TaskState.WAIT_FOR_READY);
-//                            log.debug("Задача 3: установила себя в WAIT_FOR_READY");
-//                        }
-                    }
-                });
-            }
             if (entry.getValue().getId() == 1) {
                 taskPerformer.addRtosAction(new RtosAction() {
                     @Override
                     public void perform(Task task, Integer time) {
                         log.debug("Задача 1: проверка на завершение {} {}", task.getWorksTime(), task.gettSession());
                         if (task.getWorksTime() == task.gettSession()) {
-                            task.setExecCount(task.getExecCount() + 1);
                             log.debug("Задача 1: задача проработала {} раз", task.getExecCount());
                             log.debug("Задача 1: увеличила кол-во завершенных запусков");
+                            task.setExecCount(task.getExecCount()  + 1);
                             if (task.getExecCount() == task.getnSession()) {
                                 taskMap.get(2).settStartIntActive(rtosTime + 1);
+                                taskMap.get(2).settPlanCall(rtosTime + 1);
+                                taskMap.get(2).setTaskStatus(TaskStatus.ACTIVE);
                                 log.debug("Задача 1: устанавливает интервал активности для задачи 2");
                                 taskPerformersMap.remove(this);
                             }
                         }
+                    }
+                });
+            }
+            if (entry.getValue().getId() == 2) {
+                taskPerformer.addRtosAction(new RtosAction() {
+                    @Override
+                    public void perform(Task task, Integer time) {
+                        log.debug("Задача 2: рисует связь с объектом");
+                        RtosUI.getCurrent().getFunctionChart()
+                                .addPoint(rtosTime, mathFunction.getValue( ((double) rtosTime) *  Math.PI / 12 ));
                     }
                 });
             }
@@ -209,7 +204,7 @@ public class Dispatcher implements TimerAware, Serializable {
         if (task.getTaskState() != TaskState.WORKS) {
             return;
         }
-        log.debug("Задача 3: проверка на превышение времени выполнения {} > {}", task.getWorksTime(), task.gettExecMax());
+        //log.debug("Задача 3: проверка на превышение времени выполнения {} > {}", task.getWorksTime(), task.gettExecMax());
         if (task.getWorksTime() > task.gettExecMax()) {
             task.setTaskState(TaskState.WAIT_FOR_READY);
             log.debug("Задача 3: превысила время вполнения, установлена в WAIT_FOR_READY");

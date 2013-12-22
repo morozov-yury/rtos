@@ -17,9 +17,9 @@ import java.util.Map;
 
 public class LeftPanel extends VerticalLayout {
 
-    private DiscreteFunctionChart functionChart;
-
     private List<TaskChart> taskChartsList;
+
+    private DiscreteFunctionChart functionChart;
 
     public LeftPanel() {
         this.taskChartsList = new ArrayList<TaskChart>();
@@ -29,6 +29,8 @@ public class LeftPanel extends VerticalLayout {
                 RtosUI.getCurrent().getDispatcher().getMathFunction(), 73.0, Math.PI / 12);
         this.functionChart.setHeight(browserWindowHeight / 4, Sizeable.Unit.PIXELS);
         this.functionChart.setPerLine(MathUtils.round(72.0 / 6, 2));
+
+        RtosUI.getCurrent().setFunctionChart(functionChart);
 
         for (Map.Entry<Integer, Task> entry : RtosUI.getCurrent().getDispatcher().getTaskMap().entrySet()) {
             TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(entry.getValue());
@@ -46,7 +48,7 @@ public class LeftPanel extends VerticalLayout {
                 for (TaskChart taskChart : taskChartsList) {
                     taskChart.setHeight(height / 4, Sizeable.Unit.PIXELS);
                 }
-                functionChart.setHeight(height / 4, Sizeable.Unit.PIXELS);
+                RtosUI.getCurrent().getFunctionChart().setHeight(height / 4, Sizeable.Unit.PIXELS);
                 setWidth(Page.getCurrent().getBrowserWindowWidth() - 200 - 20, Sizeable.Unit.PIXELS);
             }
         });
@@ -68,5 +70,13 @@ public class LeftPanel extends VerticalLayout {
 
     public void setTaskChartsList(List<TaskChart> taskChartsList) {
         this.taskChartsList = taskChartsList;
+    }
+
+    public DiscreteFunctionChart getFunctionChart () {
+        return this.functionChart;
+    }
+
+    public void setFunctionChart (DiscreteFunctionChart discreteFunctionChart) {
+        this.functionChart = discreteFunctionChart;
     }
 }

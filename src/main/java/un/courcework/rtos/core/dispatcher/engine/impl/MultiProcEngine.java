@@ -41,11 +41,7 @@ public class MultiProcEngine extends AbstractEngine {
                         case WORKS:
                             if (time == task.gettPlanCall() + task.gettSession()) {
                                 log.debug("Задача {}: закончила работать", task.getId());
-                                task.setTaskState(TaskState.WAIT_FOR_READY);
-                                if (task.getId() == 3) {
-                                    task.settSession(task.gettSession() + 1);
-                                }
-                                task.setWorksTime(0);
+                                taskPerformer.stop(time);
                                 task.settPlanCall(task.gettPlanCall() + task.gettPeriodCall());
                                 drawtPlan(time, task);
                                 continue;
@@ -60,8 +56,7 @@ public class MultiProcEngine extends AbstractEngine {
                         case WAIT_FOR_READY:
                             if (task.gettPlanCall() == time) {
                                 log.debug("Задача {}: начала работать", task.getId());
-                                task.setTaskState(TaskState.WORKS);
-                                task.settPlanCall(time);
+                                taskPerformer.start(time);
                                 wakeUpTask (taskPerformer);
                             }
                             break;
@@ -72,7 +67,7 @@ public class MultiProcEngine extends AbstractEngine {
                 case NOT_ACIVE:
                     if (task.gettStartIntActive() != null && task.gettStartIntActive() == time) {
                         task.setTaskStatus(TaskStatus.ACTIVE);
-                        task.setTaskState(TaskState.WORKS);
+                        taskPerformer.start(time);
                         task.settPlanCall(time);
                         log.debug("Задача {}: наступил интервал активности", task.getId());
                         TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
@@ -84,10 +79,5 @@ public class MultiProcEngine extends AbstractEngine {
         }
     }
 
-    public synchronized void wakeUpTask(TaskPerformer taskPerformer) {
-        synchronized (taskPerformer) {
-            taskPerformer.notify();
-        }
-    }
 
 }

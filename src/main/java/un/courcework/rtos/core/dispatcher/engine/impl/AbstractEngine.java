@@ -39,6 +39,9 @@ public abstract class AbstractEngine implements Engine {
         }
     }
 
-
-
+    public synchronized void wakeUpTask(TaskPerformer taskPerformer) {
+        synchronized (taskPerformer) {
+            taskPerformer.notify();
+        }
+    }
 }

@@ -12,7 +12,7 @@ public class Task {
 
     private Integer tPeriodCall;
 
-    private Integer tVaitMax;
+    private Integer tWaitMax;
 
     private Integer tExecMax;
 
@@ -30,15 +30,21 @@ public class Task {
 
     private Integer execCount;
 
+    private Integer lastSrartTime;
+
+    private Integer lastStopTime;
+
+    private Integer tWait;
+
     public Task(Integer id, Integer tStartIntActive, Integer tEndIntActive, Integer tPlanCall,
-                Integer tPeriodCall, Integer tVaitMax, Integer tExecMax, Integer priority,
+                Integer tPeriodCall, Integer tWaitMax, Integer tExecMax, Integer priority,
                 Integer tSession, Integer nSession, TaskState taskState, TaskStatus taskStatus) {
         this.id = id;
         this.tStartIntActive = tStartIntActive;
         this.tEndIntActive = tEndIntActive;
         this.tPlanCall = tPlanCall;
         this.tPeriodCall = tPeriodCall;
-        this.tVaitMax = tVaitMax;
+        this.tWaitMax = tWaitMax;
         this.tExecMax = tExecMax;
         this.priority = priority;
         this.tSession = tSession;
@@ -47,6 +53,9 @@ public class Task {
         this.taskStatus = taskStatus;
         this.worksTime = 0;
         this.execCount = 0;
+        this.lastSrartTime = -1;
+        this.lastStopTime = -1;
+        this.tWait = 0;
     }
 
     public Integer gettStartIntActive() {
@@ -73,12 +82,12 @@ public class Task {
         this.tPeriodCall = tPeriodCall;
     }
 
-    public Integer gettVaitMax() {
-        return tVaitMax;
+    public Integer gettWaitMax() {
+        return tWaitMax;
     }
 
-    public void settVaitMax(Integer tVaitMax) {
-        this.tVaitMax = tVaitMax;
+    public void settWaitMax(Integer tWaitMax) {
+        this.tWaitMax = tWaitMax;
     }
 
     public Integer gettExecMax() {
@@ -159,5 +168,29 @@ public class Task {
 
     public void setExecCount(Integer execCount) {
         this.execCount = execCount;
+    }
+
+    public Integer getLastSrartTime() {
+        return lastSrartTime;
+    }
+
+    public void setLastSrartTime(Integer lastSrartTime) {
+        this.lastSrartTime = lastSrartTime;
+    }
+
+    public Integer getLastStopTime() {
+        return lastStopTime;
+    }
+
+    public void setLastStopTime(Integer lastStopTime) {
+        this.lastStopTime = lastStopTime;
+    }
+
+    public Integer gettWait() {
+        return tWait;
+    }
+
+    public void settWait(Integer tWait) {
+        this.tWait = tWait;
     }
 }

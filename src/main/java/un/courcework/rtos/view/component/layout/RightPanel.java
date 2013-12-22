@@ -30,7 +30,7 @@ public class RightPanel extends VerticalLayout {
         hl.addComponent(popupViewLegendPanel);
         hl.addComponent(toggleButton);
 
-        toggleButton.setToggleState(ToggleButton.STATE_SECOND);
+        toggleButton.setToggleState(ToggleButton.STATE_FIRST);
         toggleButton.addStateListener(new ToggleButtonStateListener() {
             @Override
             public void stateChanged(ToggleButtonStateChangeEvent event) {

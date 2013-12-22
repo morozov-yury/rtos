@@ -3,7 +3,9 @@ package un.courcework.rtos.view.component.chart;
 
 import com.vaadin.addon.charts.Chart;
 import com.vaadin.addon.charts.model.*;
+import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.addon.charts.model.style.Style;
+import com.vaadin.shared.ui.colorpicker.Color;
 import un.courcework.rtos.model.MathFunction;
 
 public class FunctionChart extends Chart {
@@ -14,8 +16,10 @@ public class FunctionChart extends Chart {
 
     private Double perLine = 1.0;
 
+    DataSeries series;
+
     public FunctionChart() {
-        super(ChartType.SPLINE);
+        super(ChartType.LINE);
     }
 
     public FunctionChart(MathFunction mathFunction, Double length, Double koef) {
@@ -39,6 +43,13 @@ public class FunctionChart extends Chart {
         // The data
 
         conf.addSeries(getDataSeries());
+
+        this.series = new DataSeries();
+        PlotOptionsLine po = new PlotOptionsLine();
+        po.setColor(SolidColor.RED);
+        po.setLineWidth(2);
+        this.series.setPlotOptions(po);
+        conf.addSeries(this.series);
 
         XAxis xaxis;
         xaxis = new XAxis();
@@ -64,7 +75,7 @@ public class FunctionChart extends Chart {
 
         conf.getLegend().setEnabled(false);
 
-        PlotOptionsSpline plotOptions = new PlotOptionsSpline();
+        PlotOptionsLine plotOptions = new PlotOptionsLine();
         plotOptions.setMarker(new Marker(false));
 
         plotOptions.setAnimation(false);
@@ -89,6 +100,19 @@ public class FunctionChart extends Chart {
             }
         }
         return series;
+    }
+
+    public synchronized void addPoint (int position, double value) {
+        this.getUI().getSession().getLockInstance().lock();
+        try {
+            if (value <= 0) {
+                series.add(new DataSeriesItem(position, 0.0));
+            } else {
+                series.add(new DataSeriesItem(position, 1.0));
+            }
+        } finally {
+            this.getUI().getSession().getLockInstance().unlock();
+        }
     }
 
 }

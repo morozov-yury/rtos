@@ -23,7 +23,7 @@ public class StopButton extends NativeButton  {
             public void buttonClick(Button.ClickEvent event) {
                 RtosUI.getCurrent().getDispatcher().getSecondRtosTimer().stopTimer();
                 RtosUI.getCurrent().getDispatcher().getTenthOfaSecondTimer().stopTimer();
-                RtosUI.getCurrent().renewTaskCharts();
+                RtosUI.getCurrent().renewCharts();
                 List<TaskChart> newTaskChartList = new ArrayList<TaskChart>();
                 for (int i = 0; i < RtosUI.getCurrent().getDispatcher().getTaskMap().size(); i++) {
                     Task task = RtosUI.getCurrent().getDispatcher().getTaskMap().get(i + 1);
@@ -32,6 +32,8 @@ public class StopButton extends NativeButton  {
                     leftPanel.replaceComponent(oldtaskChart, newTaskChart);
                     newTaskChartList.add(newTaskChart);
                 }
+                leftPanel.replaceComponent(leftPanel.getFunctionChart(), RtosUI.getCurrent().getFunctionChart());
+                leftPanel.setFunctionChart(RtosUI.getCurrent().getFunctionChart());
                 leftPanel.setTaskChartsList(newTaskChartList);
                 parametersPanel.setStatus(ParametersPanel.ParametersPanelStatus.AVAILABLE_TO_EDIT);
                 RtosUI.getCurrent().getDispatcher().restart();
