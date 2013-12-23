@@ -77,7 +77,14 @@ public class SingleProcEngine extends AbstractEngine {
                                     @Override
                                     public void skip() {
                                         taskPerformerQueue.remove(taskPerformer);
-                                        task.settPlanCall(task.gettPlanCall() + task.gettPeriodCall());
+                                        int nextPlanCall = task.gettPlanCall() + task.gettPeriodCall();
+
+                                        while (nextPlanCall < RtosUI.getCurrent().getDispatcher().getRtosTime()) {
+                                            nextPlanCall = task.gettPlanCall() + task.gettPeriodCall();
+                                            task.settPlanCall(nextPlanCall);
+                                        }
+                                        nextPlanCall = task.gettPlanCall() + task.gettPeriodCall();
+                                        task.settPlanCall(nextPlanCall);
                                         drawtPlan(time, task);
                                         task.settWait(0);
                                         task.setTaskState(TaskState.WAIT_FOR_READY);
@@ -95,6 +102,9 @@ public class SingleProcEngine extends AbstractEngine {
                                         taskChart.addPoint(time, TaskChart.MAX_VALUE, SolidColor.PERU);
                                     }
                                 };
+
+                                TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
+                                taskChart.addPoint(time, TaskChart.TASK_VALUE, SolidColor.RED);
 
                                 RtosUI.getCurrent().addWindow(requestWindow);
 

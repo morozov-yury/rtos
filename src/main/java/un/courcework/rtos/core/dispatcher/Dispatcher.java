@@ -1,6 +1,5 @@
 package un.courcework.rtos.core.dispatcher;
 
-import com.vaadin.addon.charts.model.style.SolidColor;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.ui.Notification;
 import org.slf4j.Logger;
@@ -47,6 +46,8 @@ public class Dispatcher implements TimerAware, Serializable {
     private volatile Map<Integer, TaskPerformer> taskPerformersMap;
 
     private int rtosTime = 0;
+
+    private int startTc = 0;
 
     public Dispatcher () {
         this.mathFunction = new MathFunction() {
@@ -194,6 +195,7 @@ public class Dispatcher implements TimerAware, Serializable {
             for (Map.Entry<Integer, TaskPerformer> entry : this.taskPerformersMap.entrySet()) {
                 (new Thread(entry.getValue())).start();
             }
+            startTc = this.taskMap.get(3).gettSession();
         }
         this.engine.timeTick(second);
     }
@@ -211,8 +213,10 @@ public class Dispatcher implements TimerAware, Serializable {
             task.settPlanCall(task.gettPlanCall() + task.gettPeriodCall());
             task.settPlanCall(task.gettPlanCall() + task.gettPeriodCall());
             log.debug("Задача 3: пропускает один плановый вызов");
-            task.settSession(1);
-            log.debug("Задача 3: сбрасывает время сеанса до 1");
+
+            task.settSession(startTc);
+            log.debug("Задача 3: сбрасывает время сеанса до " + startTc);
+
             task.setWorksTime(0);
             log.debug("Задача 3: сбрасывает время выполнения");
             AbstractEngine.drawtExexMax(this.rtosTime, task);
