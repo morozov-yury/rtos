@@ -5,4 +5,6 @@ public interface Engine {
 
     public void timeTick (int time);
 
+    public void releaseSystem ();
+
 }

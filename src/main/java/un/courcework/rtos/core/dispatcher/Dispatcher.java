@@ -122,9 +122,9 @@ public class Dispatcher implements TimerAware, Serializable {
         this.taskMap = new ConcurrentSkipListMap<Integer, Task>();
         this.taskMap.put(1, new Task(1, null, null, null, 10, 3, 5, 1, 3, 1, TaskState.WAIT_FOR_READY,
                 TaskStatus.NOT_ACIVE));
-        this.taskMap.put(2, new Task(2, null, null, null, 6, 3, 4, 2, 3, null, TaskState.WAIT_FOR_READY,
+        this.taskMap.put(2, new Task(2, null, null, null, 8, 3, 4, 2, 3, null, TaskState.WAIT_FOR_READY,
                 TaskStatus.NOT_ACIVE));
-        this.taskMap.put(3, new Task(3, null, 70, null, 6, 3, 4, 3, 1, null, TaskState.WAIT_FOR_READY,
+        this.taskMap.put(3, new Task(3, null, 70, null, 6, 3, 4, 3, 4, null, TaskState.WAIT_FOR_READY,
                 TaskStatus.NOT_ACIVE));
     }
 
@@ -216,6 +216,9 @@ public class Dispatcher implements TimerAware, Serializable {
 
             task.settSession(startTc);
             log.debug("Задача 3: сбрасывает время сеанса до " + startTc);
+
+            this.engine.releaseSystem();
+            log.debug("Задача {}: овободила систему систему", task.getId());
 
             task.setWorksTime(0);
             log.debug("Задача 3: сбрасывает время выполнения");

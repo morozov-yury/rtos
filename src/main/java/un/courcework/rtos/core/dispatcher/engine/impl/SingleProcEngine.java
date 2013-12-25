@@ -55,6 +55,7 @@ public class SingleProcEngine extends AbstractEngine {
                                 task.settPlanCall(task.gettPlanCall() + task.gettPeriodCall());
                                 drawtPlan(time, task);
                                 this.systemFree = true;
+                                log.debug("Задача {}: овободила систему систему", taskPerformer.getTask().getId());
                                 continue;
                             }
                             if (time <= task.gettPlanCall() + task.gettSession()) {
@@ -79,9 +80,17 @@ public class SingleProcEngine extends AbstractEngine {
                                         taskPerformerQueue.remove(taskPerformer);
                                         int nextPlanCall = task.gettPlanCall() + task.gettPeriodCall();
 
-                                        while (nextPlanCall < RtosUI.getCurrent().getDispatcher().getRtosTime()) {
+                                        while (nextPlanCall < RtosUI.getCurrent().getDispatcher().getRtosTime() + 1) {
                                             nextPlanCall = task.gettPlanCall() + task.gettPeriodCall();
                                             task.settPlanCall(nextPlanCall);
+                                            TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
+                                            taskChart.addPoint(task.gettPlanCall(), TaskChart.MARK_VALUE, SolidColor.DARKGRAY);
+                                        }
+                                        if (task.getId() == 1) {
+                                            nextPlanCall = task.gettPlanCall() + task.gettPeriodCall();
+                                            task.settPlanCall(nextPlanCall);
+                                            TaskChart taskChart = RtosUI.getCurrent().getTaskChartMap().get(task);
+                                            taskChart.addPoint(task.gettPlanCall(), TaskChart.MARK_VALUE, SolidColor.DARKGRAY);
                                         }
                                         nextPlanCall = task.gettPlanCall() + task.gettPeriodCall();
                                         task.settPlanCall(nextPlanCall);
@@ -149,12 +158,15 @@ public class SingleProcEngine extends AbstractEngine {
             if (taskPerformer != null) {
                 log.debug("Задача {}: начала работать", taskPerformer.getTask().getId());
                 this.systemFree = false;
+                log.debug("Задача {}: заняла систему", taskPerformer.getTask().getId());
                 taskPerformer.start(time);
                 taskPerformer.getTask().settPlanCall(time);
                 taskPerformer.getTask().settWait(0);
                 log.debug("Задача {}: сбросила время ожидания", taskPerformer.getTask().getId());
                 wakeUpTask (taskPerformer);
             }
+        } else {
+            log.debug("Система занята, на запуск ожидают {} задач(и)", this.taskPerformerQueue.size());
         }
     }
 
@@ -183,6 +195,11 @@ public class SingleProcEngine extends AbstractEngine {
             this.taskPerformerQueue.remove(taskPriorityPerformer);
         }
         return taskPriorityPerformer;
+    }
+
+    @Override
+    public void releaseSystem() {
+        this.systemFree = true;
     }
 
 }
