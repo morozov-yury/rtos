@@ -1,12 +1,1 @@
-rtos
-====
-фвыфыв
-фыв
-фыв
-qweqweqweqweqwe
-
-123123123
-1231231
-123123
-
-RTOS
+Real-time system, developed in within the course project.
